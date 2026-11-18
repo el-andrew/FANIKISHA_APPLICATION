@@ -1,0 +1,129 @@
+// Fanikisha data model.
+//
+// Money is stored as whole Tanzanian shillings in BIGINT columns. TZS has no
+// minor unit in everyday use, and integers avoid floating-point rounding.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  /// Always stored lower-cased.
+  email        String   @unique
+  /// E.164 format, e.g. +255712345678.
+  phone        String?  @unique
+  fullName     String   @map("full_name")
+  businessName String?  @map("business_name")
+  /// scrypt hash produced by @nestjs/authentication's PasswordHasher.
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  goals    Goal[]
+  deposits Deposit[]
+
+  @@map("users")
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+
+  @@map("goal_status")
+}
+
+model Goal {
+  id           String     @id @default(uuid()) @db.Uuid
+  userId       String     @map("user_id") @db.Uuid
+  name         String
+  category     String?
+  targetAmount BigInt     @map("target_amount")
+  /// Running total of allocations. The allocations table is the source of truth.
+  savedAmount  BigInt     @default(0) @map("saved_amount")
+  /// 1 (low) to 5 (high).
+  priority     Int
+  startDate    DateTime   @map("start_date") @db.Date
+  targetDate   DateTime   @map("target_date") @db.Date
+  status       GoalStatus @default(ACTIVE)
+  completedAt  DateTime?  @map("completed_at")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  allocations Allocation[]
+
+  @@index([userId, status])
+  @@map("goals")
+}
+
+model Deposit {
+  id                String   @id @default(uuid()) @db.Uuid
+  userId            String   @map("user_id") @db.Uuid
+  amount            BigInt
+  /// The part of the deposit no active goal needed (all goals full, or none exist).
+  unallocatedAmount BigInt   @map("unallocated_amount")
+  note              String?
+  /// Sent by the client so a retried request never records the deposit twice.
+  idempotencyKey    String   @map("idempotency_key")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  allocations Allocation[]
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, createdAt])
+  @@map("deposits")
+}
+
+model Allocation {
+  id        String @id @default(uuid()) @db.Uuid
+  depositId String @map("deposit_id") @db.Uuid
+  goalId    String @map("goal_id") @db.Uuid
+  amount    BigInt
+
+  deposit Deposit @relation(fields: [depositId], references: [id], onDelete: Cascade)
+  goal    Goal    @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@unique([depositId, goalId])
+  @@index([goalId])
+  @@map("allocations")
+}
+
+/// Refresh tokens issued by @nestjs/authentication's TokenService.
+/// No foreign key to users: the store follows the package's storage contract,
+/// which treats user ids as opaque. Expired families are deleted on each save.
+model RefreshToken {
+  /// SHA-256 of the token; the token itself is never stored.
+  id              String    @id
+  familyId        String    @map("family_id")
+  userId          String    @map("user_id")
+  createdAt       DateTime  @map("created_at")
+  expiresAt       DateTime  @map("expires_at")
+  familyExpiresAt DateTime  @map("family_expires_at")
+  usedAt          DateTime? @map("used_at")
+  claims          Json?
+
+  @@index([familyId])
+  @@index([userId])
+  @@index([familyExpiresAt])
+  @@map("refresh_tokens")
+}
+
+/// Revoked refresh-token families. A separate table so that a revocation also
+/// covers tokens of the family saved after it (a refresh that lost a race).
+model RevokedRefreshTokenFamily {
+  familyId  String   @id @map("family_id")
+  revokedAt DateTime @default(now()) @map("revoked_at")
+
+  @@index([revokedAt])
+  @@map("revoked_refresh_token_families")
+}
