@@ -78,6 +78,7 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | GET / POST | `/v1/goals` | List (`?status=ACTIVE`) or create goals |
 | GET / PATCH / DELETE | `/v1/goals/:id` | Read, update or archive a goal |
 | POST | `/v1/savings/deposits` | Record a deposit (needs `Idempotency-Key`) |
+| POST | `/v1/savings/deposits/preview` | How a deposit would be split, saves nothing |
 | GET | `/v1/savings/deposits` | Deposit history (`?limit=20&cursor=…`) |
 | GET | `/v1/savings/deposits/:id` | One deposit with its split |
 | GET | `/v1/savings/summary` | Totals for the dashboard |

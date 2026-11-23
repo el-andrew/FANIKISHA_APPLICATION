@@ -4,6 +4,8 @@ import {
   Controller,
   Get,
   Headers,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Query,
@@ -15,8 +17,10 @@ import {
   depositIdSchema,
   idempotencyKeySchema,
   listDepositsQuerySchema,
+  previewDepositSchema,
   type CreateDepositInput,
   type ListDepositsQuery,
+  type PreviewDepositInput,
 } from './savings.schemas.js';
 import { SavingsService } from './savings.service.js';
 
@@ -42,6 +46,16 @@ export class SavingsController {
       );
     }
     return this.savings.createDeposit(user.id, key.data, body);
+  }
+
+  /** How a deposit would be split, without saving it. */
+  @Post('deposits/preview')
+  @HttpCode(HttpStatus.OK)
+  previewDeposit(
+    @CurrentUser() user: AuthUser,
+    @Body({ schema: previewDepositSchema }) body: PreviewDepositInput,
+  ) {
+    return this.savings.previewDeposit(user.id, body.amount);
   }
 
   @Get('deposits')

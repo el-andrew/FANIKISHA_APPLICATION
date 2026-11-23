@@ -20,18 +20,22 @@ calculated balances on the phone.
       user-isolation cases
 - [x] CI on GitHub Actions
 
-## Phase 2: Mobile app rebuild
+## Phase 2: Mobile app rebuild (in progress)
 
-- [ ] New Flutter app in `mobile/` (latest stable Flutter, Material 3)
-- [ ] Riverpod for state, go_router for navigation, typed API client with
-      automatic token refresh, refresh token in secure storage
-- [ ] Screens: welcome, sign up, log in, dashboard, goals, goal detail,
-      record deposit, history, profile
-- [ ] Deposit preview: show how money will be split before confirming
-      (needs a `POST /v1/savings/deposits/preview` endpoint)
-- [ ] Brand theme (Fanikisha green, Poppins), English and Swahili
-- [ ] Widget and integration tests
-- [ ] Remove the 2022 app (`lib/`, `backend/`, Firebase config)
+- [x] New Flutter app in `mobile/` (Flutter 3.44, Material 3)
+- [x] Riverpod for state, go_router for navigation, API client with automatic
+      token refresh, tokens in the Android Keystore / iOS Keychain
+- [x] Screens: welcome, sign up, log in, dashboard, goals, goal detail,
+      new/edit goal, save money, history, profile, edit profile, password
+- [x] Deposit preview: `POST /v1/savings/deposits/preview` shows the split
+      before confirming
+- [x] Brand theme (Fanikisha green, Poppins), light and dark, English and Kiswahili
+- [x] Unit and widget tests, plus an integration test that drives the real app
+      against the real API (with optional screenshots)
+- [ ] Kiswahili text reviewed by a native speaker
+- [ ] App icon and splash screen from the logo
+- [ ] Remove the 2022 app (`lib/`, `backend/`, Firebase config) and move the
+      new app to the repository root, or keep `mobile/` and delete the old one
 
 ## Phase 3: Features for business owners
 

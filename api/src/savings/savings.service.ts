@@ -7,7 +7,12 @@ import { businessToday } from '../common/dates.js';
 import { toAmount } from '../common/money.js';
 import { isUniqueViolation } from '../common/prisma-errors.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { allocateDeposit, daysUntil } from './allocation.js';
+import type { Goal } from '../generated/prisma/client.js';
+import {
+  allocateDeposit,
+  daysUntil,
+  type AllocationResult,
+} from './allocation.js';
 import {
   depositInclude,
   toDepositDto,
@@ -17,6 +22,8 @@ import type {
   CreateDepositInput,
   ListDepositsQuery,
 } from './savings.schemas.js';
+
+export type DepositPreviewDto = Omit<DepositDto, 'id' | 'note' | 'createdAt'>;
 
 export interface SavingsSummary {
   totalDeposited: number;
@@ -54,18 +61,9 @@ export class SavingsService {
           orderBy: { createdAt: 'asc' },
         });
 
-        const today = businessToday();
-        const { allocations, unallocated } = allocateDeposit(
+        const { allocations, unallocated } = planAllocation(
           input.amount,
-          goals.map((goal) => ({
-            id: goal.id,
-            priority: goal.priority,
-            remaining: Math.max(
-              0,
-              toAmount(goal.targetAmount - goal.savedAmount),
-            ),
-            daysLeft: daysUntil(goal.targetDate, today),
-          })),
+          goals,
         );
 
         const deposit = await tx.deposit.create({
@@ -109,6 +107,30 @@ export class SavingsService {
       }
       throw error;
     }
+  }
+
+  /**
+   * Shows how a deposit would be split right now, without saving anything.
+   * The real split can differ if goals change before the deposit is made.
+   */
+  async previewDeposit(
+    userId: string,
+    amount: number,
+  ): Promise<DepositPreviewDto> {
+    const goals = await this.prisma.goal.findMany({
+      where: { userId, status: 'ACTIVE' },
+      orderBy: { createdAt: 'asc' },
+    });
+    const { allocations, unallocated } = planAllocation(amount, goals);
+    return {
+      amount,
+      unallocatedAmount: unallocated,
+      allocations: allocations.map((a) => ({
+        goalId: a.goalId,
+        goalName: goals.find((g) => g.id === a.goalId)!.name,
+        amount: a.amount,
+      })),
+    };
   }
 
   async listDeposits(
@@ -187,4 +209,18 @@ export class SavingsService {
     }
     return toDepositDto(existing);
   }
+}
+
+/** Runs the allocation algorithm on a user's active goals. */
+function planAllocation(amount: number, goals: Goal[]): AllocationResult {
+  const today = businessToday();
+  return allocateDeposit(
+    amount,
+    goals.map((goal) => ({
+      id: goal.id,
+      priority: goal.priority,
+      remaining: Math.max(0, toAmount(goal.targetAmount - goal.savedAmount)),
+      daysLeft: daysUntil(goal.targetDate, today),
+    })),
+  );
 }

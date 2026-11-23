@@ -327,6 +327,28 @@ describe('deposits', () => {
     expect(rent.body.savedAmount).toBe(50_000);
   });
 
+  it('previews a split without saving anything', async () => {
+    const user = await registerUser(app);
+    const goal = await createGoal(user, 'Rent', 300_000, 5, 30);
+
+    const preview = await http()
+      .post('/v1/savings/deposits/preview')
+      .set(auth(user))
+      .send({ amount: 40_000 })
+      .expect(200);
+    expect(preview.body).toEqual({
+      amount: 40_000,
+      unallocatedAmount: 0,
+      allocations: [{ goalId: goal, goalName: 'Rent', amount: 40_000 }],
+    });
+
+    const summary = await http()
+      .get('/v1/savings/summary')
+      .set(auth(user))
+      .expect(200);
+    expect(summary.body.depositCount).toBe(0);
+  });
+
   it('records a retried request only once', async () => {
     const user = await registerUser(app);
     await createGoal(user, 'Rent', 300_000, 3, 30);

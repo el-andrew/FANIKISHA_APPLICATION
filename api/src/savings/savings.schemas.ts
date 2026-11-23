@@ -7,6 +7,9 @@ export const createDepositSchema = z.object({
 });
 export type CreateDepositInput = z.infer<typeof createDepositSchema>;
 
+export const previewDepositSchema = z.object({ amount: amountSchema });
+export type PreviewDepositInput = z.infer<typeof previewDepositSchema>;
+
 /**
  * Sent as the `Idempotency-Key` header, normally a UUID the app generates
  * once per deposit and reuses on retries.
