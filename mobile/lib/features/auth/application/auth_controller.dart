@@ -39,7 +39,7 @@ class AuthController extends Notifier<AuthState> {
     final subscription = ref
         .watch(apiClientProvider)
         .sessionExpired
-        .listen((_) => state = const SignedOut(sessionExpired: true));
+        .listen((_) => unawaited(_signOut(sessionExpired: true)));
     ref.onDispose(subscription.cancel);
     unawaited(Future.microtask(restore));
     return const AuthLoading();
@@ -64,10 +64,11 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<void> login({required String email, required String password}) async {
-    final user = await ref
-        .read(authRepositoryProvider)
-        .login(email: email, password: password);
-    state = SignedIn(user);
+    await _signIn(
+      await ref
+          .read(authRepositoryProvider)
+          .login(email: email, password: password),
+    );
   }
 
   Future<void> register({
@@ -86,7 +87,7 @@ class AuthController extends Notifier<AuthState> {
           phone: phone,
           businessName: businessName,
         );
-    state = SignedIn(user);
+    await _signIn(user);
   }
 
   Future<void> resetPassword({
@@ -97,21 +98,32 @@ class AuthController extends Notifier<AuthState> {
     final user = await ref
         .read(authRepositoryProvider)
         .resetPassword(email: email, code: code, newPassword: newPassword);
-    state = SignedIn(user);
+    await _signIn(user);
   }
 
   Future<void> deleteAccount({required String password}) async {
     await ref.read(authRepositoryProvider).deleteAccount(password: password);
-    state = const SignedOut();
+    await _signOut();
   }
 
   Future<void> logout() async {
     await ref.read(authRepositoryProvider).logout();
-    state = const SignedOut();
+    await _signOut();
   }
 
   /// After the profile was edited.
   void updateUser(User user) => state = SignedIn(user);
+
+  /// The offline cache only ever holds the signed-in account's data.
+  Future<void> _signIn(User user) async {
+    await ref.read(offlineCacheProvider).claimFor(user.id);
+    state = SignedIn(user);
+  }
+
+  Future<void> _signOut({bool sessionExpired = false}) async {
+    await ref.read(offlineCacheProvider).clear();
+    state = SignedOut(sessionExpired: sessionExpired);
+  }
 }
 
 final authControllerProvider = NotifierProvider<AuthController, AuthState>(

@@ -51,7 +51,7 @@ class AuthRepository {
   Future<bool> hasSession() async => await _tokens.read() != null;
 
   Future<User> currentUser() async =>
-      User.fromJson(await _api.getMap('/v1/me'));
+      User.fromJson(await _api.getMap('/v1/me', cacheKey: 'me'));
 
   /// Saves the whole profile. A null business name or phone clears it.
   Future<User> updateProfile({

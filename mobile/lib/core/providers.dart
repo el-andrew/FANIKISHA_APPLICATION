@@ -5,6 +5,7 @@ import '../features/auth/data/auth_repository.dart';
 import '../features/goals/data/goals_repository.dart';
 import '../features/savings/data/savings_repository.dart';
 import 'api/api_client.dart';
+import 'api/offline_cache.dart';
 import 'api/token_storage.dart';
 import 'config.dart';
 
@@ -19,10 +20,15 @@ final tokenStorageProvider = Provider<TokenStorage>(
 
 final apiBaseUrlProvider = Provider<String>((ref) => AppConfig.apiBaseUrl);
 
+final offlineCacheProvider = Provider<OfflineCache>(
+  (ref) => OfflineCache(ref.watch(sharedPreferencesProvider)),
+);
+
 final apiClientProvider = Provider<ApiClient>((ref) {
   final client = ApiClient(
     baseUrl: ref.watch(apiBaseUrlProvider),
     tokens: ref.watch(tokenStorageProvider),
+    cache: ref.watch(offlineCacheProvider),
   );
   ref.onDispose(client.dispose);
   return client;

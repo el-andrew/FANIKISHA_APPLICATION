@@ -546,4 +546,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountDone => 'Your account has been deleted.';
+
+  @override
+  String offlineSavedToday(String time) {
+    return 'You\'re offline. Showing what was saved at $time.';
+  }
+
+  @override
+  String offlineSavedEarlier(String date) {
+    return 'You\'re offline. Showing what was saved on $date.';
+  }
 }

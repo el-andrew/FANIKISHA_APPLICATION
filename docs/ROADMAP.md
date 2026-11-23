@@ -53,7 +53,8 @@ Needed before the app can go on the Play Store.
       Tanzania's Personal Data Protection Act), linked from sign-up and the
       profile
 - [ ] Android release signing with a release key kept outside the repository
-- [ ] Offline viewing: cache the dashboard, goals and history
+- [x] Offline viewing: the dashboard, goals, recent history and profile are
+      saved on the phone and shown, with a banner, when offline
 
 ## Phase 3: Features for business owners
 

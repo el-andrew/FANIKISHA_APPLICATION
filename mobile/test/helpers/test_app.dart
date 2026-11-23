@@ -10,28 +10,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'fake_api.dart';
 
 /// Starts the whole app against [api], signed in when [tokens] is given.
+/// Pass the [storage] a previous launch returned to keep its session.
 Future<MemoryTokenStorage> pumpApp(
   WidgetTester tester,
   FakeApi api, {
   TokenPair? tokens,
   String locale = 'en',
+  MemoryTokenStorage? storage,
+  bool keepPreferences = false,
 }) async {
   await initializeDateFormatting();
-  SharedPreferences.setMockInitialValues({'locale': locale});
+  // keepPreferences: a second launch, finding what the first one saved.
+  if (!keepPreferences) {
+    SharedPreferences.setMockInitialValues({'locale': locale});
+  }
   final preferences = await SharedPreferences.getInstance();
-  final storage = MemoryTokenStorage();
-  if (tokens != null) await storage.save(tokens);
+  final tokenStorage = storage ?? MemoryTokenStorage();
+  if (tokens != null) await tokenStorage.save(tokens);
 
   await tester.pumpWidget(
     ProviderScope(
       retry: (_, _) => null,
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
-        tokenStorageProvider.overrideWithValue(storage),
+        tokenStorageProvider.overrideWithValue(tokenStorage),
         apiClientProvider.overrideWith(
           (ref) => ApiClient(
             baseUrl: 'http://fanikisha.test',
-            tokens: storage,
+            tokens: tokenStorage,
+            cache: ref.watch(offlineCacheProvider),
             adapter: api,
           ),
         ),
@@ -40,5 +47,5 @@ Future<MemoryTokenStorage> pumpApp(
     ),
   );
   await tester.pumpAndSettle();
-  return storage;
+  return tokenStorage;
 }

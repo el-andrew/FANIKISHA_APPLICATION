@@ -19,6 +19,8 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 - Phone number verification by SMS code, with a reminder on the dashboard
   until it's done.
 - Account deletion from the profile, confirmed with the password.
+- Works offline for viewing: the last loaded dashboard, goals and history are
+  shown with an "offline" banner. Saved data is cleared when signing out.
 - English and Kiswahili, light and dark themes.
 
 ## How it's built

@@ -551,4 +551,14 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get deleteAccountDone => 'Akaunti yako imefutwa.';
+
+  @override
+  String offlineSavedToday(String time) {
+    return 'Huna mtandao. Unaona taarifa zilizohifadhiwa saa $time.';
+  }
+
+  @override
+  String offlineSavedEarlier(String date) {
+    return 'Huna mtandao. Unaona taarifa zilizohifadhiwa tarehe $date.';
+  }
 }

@@ -157,5 +157,7 @@
   "deleteAccountBody": "Hii itafuta kabisa akaunti yako, malengo yako na historia yako ya akiba, na kukutoa kwenye vifaa vyote. Haiwezi kurudishwa.",
   "deleteAccountPassword": "Weka nenosiri lako kuthibitisha",
   "deleteAccountSubmit": "Futa akaunti yangu",
-  "deleteAccountDone": "Akaunti yako imefutwa."
+  "deleteAccountDone": "Akaunti yako imefutwa.",
+  "offlineSavedToday": "Huna mtandao. Unaona taarifa zilizohifadhiwa saa {time}.",
+  "offlineSavedEarlier": "Huna mtandao. Unaona taarifa zilizohifadhiwa tarehe {date}."
 }

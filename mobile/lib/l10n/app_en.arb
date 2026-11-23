@@ -265,5 +265,21 @@
   "deleteAccountBody": "This permanently deletes your account, your goals and your savings history, and signs you out on every device. It can't be undone.",
   "deleteAccountPassword": "Enter your password to confirm",
   "deleteAccountSubmit": "Delete my account",
-  "deleteAccountDone": "Your account has been deleted."
+  "deleteAccountDone": "Your account has been deleted.",
+  "offlineSavedToday": "You're offline. Showing what was saved at {time}.",
+  "@offlineSavedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineSavedEarlier": "You're offline. Showing what was saved on {date}.",
+  "@offlineSavedEarlier": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

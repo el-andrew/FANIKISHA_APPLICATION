@@ -11,12 +11,13 @@ class GoalsRepository {
     final items = await _api.getList(
       '/v1/goals',
       query: {if (status != null) 'status': status.apiValue},
+      cacheKey: 'goals:${status?.apiValue ?? 'ALL'}',
     );
     return items.map(Goal.fromJson).toList();
   }
 
   Future<Goal> get(String id) async =>
-      Goal.fromJson(await _api.getMap('/v1/goals/$id'));
+      Goal.fromJson(await _api.getMap('/v1/goals/$id', cacheKey: 'goal:$id'));
 
   Future<Goal> create({
     required String name,

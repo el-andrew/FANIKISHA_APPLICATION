@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'api_exception.dart';
+import 'offline_cache.dart';
 import 'token_storage.dart';
 
 /// HTTP client for the Fanikisha API.
@@ -11,10 +12,15 @@ import 'token_storage.dart';
 /// 401, it exchanges the refresh token for a new pair once (however many
 /// requests failed at the same moment) and retries. If the refresh token is
 /// refused too, the tokens are cleared and [sessionExpired] fires.
+///
+/// GET requests given a `cacheKey` save their answer in [OfflineCache]; when
+/// the network is unreachable they return the saved answer instead, and
+/// [offline] says how old it is.
 class ApiClient {
   ApiClient({
     required String baseUrl,
     required this._tokens,
+    this._cache,
     HttpClientAdapter? adapter,
   }) : _dio = Dio(
          BaseOptions(
@@ -30,22 +36,30 @@ class ApiClient {
 
   final Dio _dio;
   final TokenStorage _tokens;
+  final OfflineCache? _cache;
   final _sessionExpired = StreamController<void>.broadcast();
+  final _offline = StreamController<DateTime?>.broadcast();
   Future<bool>? _refreshing;
 
   /// Fires when the user must sign in again.
   Stream<void> get sessionExpired => _sessionExpired.stream;
 
+  /// When a request was answered from the offline cache: the time that data
+  /// was saved. `null` once the API answers again.
+  Stream<DateTime?> get offline => _offline.stream;
+
   Future<Map<String, dynamic>> getMap(
     String path, {
     Map<String, Object?>? query,
-  }) async => _asMap(await _send('GET', path, query: query));
+    String? cacheKey,
+  }) async => _asMap(await _get(path, query, cacheKey));
 
   Future<List<Map<String, dynamic>>> getList(
     String path, {
     Map<String, Object?>? query,
+    String? cacheKey,
   }) async {
-    final data = await _send('GET', path, query: query);
+    final data = await _get(path, query, cacheKey);
     return (data as List<Object?>).cast<Map<String, dynamic>>();
   }
 
@@ -81,7 +95,29 @@ class ApiClient {
 
   void dispose() {
     _sessionExpired.close();
+    _offline.close();
     _dio.close();
+  }
+
+  Future<Object?> _get(
+    String path,
+    Map<String, Object?>? query,
+    String? cacheKey,
+  ) async {
+    final cache = _cache;
+    try {
+      final data = await _send('GET', path, query: query);
+      if (cache != null && cacheKey != null) await cache.put(cacheKey, data);
+      _offline.add(null);
+      return data;
+    } on ApiException catch (error) {
+      final saved = error.kind == ApiErrorKind.network && cacheKey != null
+          ? cache?.get(cacheKey)
+          : null;
+      if (saved == null) rethrow;
+      _offline.add(saved.savedAt);
+      return saved.data;
+    }
   }
 
   Future<Object?> _send(

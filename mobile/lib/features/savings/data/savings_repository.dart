@@ -6,8 +6,9 @@ class SavingsRepository {
 
   final ApiClient _api;
 
-  Future<SavingsSummary> summary() async =>
-      SavingsSummary.fromJson(await _api.getMap('/v1/savings/summary'));
+  Future<SavingsSummary> summary() async => SavingsSummary.fromJson(
+    await _api.getMap('/v1/savings/summary', cacheKey: 'summary'),
+  );
 
   Future<DepositSplit> preview(int amount) async => DepositSplit.fromJson(
     await _api.postMap(
@@ -35,6 +36,8 @@ class SavingsRepository {
         await _api.getMap(
           '/v1/savings/deposits',
           query: {'limit': limit, 'cursor': ?cursor},
+          // The first page is kept for offline viewing; later pages are not.
+          cacheKey: cursor == null ? 'deposits:first' : null,
         ),
       );
 }

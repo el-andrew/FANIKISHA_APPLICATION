@@ -1045,6 +1045,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your account has been deleted.'**
   String get deleteAccountDone;
+
+  /// No description provided for @offlineSavedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Showing what was saved at {time}.'**
+  String offlineSavedToday(String time);
+
+  /// No description provided for @offlineSavedEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Showing what was saved on {date}.'**
+  String offlineSavedEarlier(String date);
 }
 
 class _AppLocalizationsDelegate
