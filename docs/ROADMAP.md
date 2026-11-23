@@ -34,8 +34,8 @@ calculated balances on the phone.
       against the real API (with optional screenshots)
 - [ ] Kiswahili text reviewed by a native speaker
 - [ ] App icon and splash screen from the logo
-- [ ] Remove the 2022 app (`lib/`, `backend/`, Firebase config) and move the
-      new app to the repository root, or keep `mobile/` and delete the old one
+- [x] Remove the 2022 app (`lib/`, `backend/`, Firebase config); the original
+      code remains in the git history (commit `0ee59b3`)
 
 ## Phase 3: Features for business owners
 
