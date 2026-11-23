@@ -38,6 +38,20 @@ calculated balances on the phone.
 - [x] Remove the 2022 app (`lib/`, `backend/`, Firebase config); the original
       code remains in the git history (commit `0ee59b3`)
 
+## Release essentials
+
+Needed before the app can go on the Play Store.
+
+- [x] Forgot password: reset with an SMS code sent to the account's verified
+      phone number
+- [ ] Account deletion in the app (Google Play requirement), removing the
+      user's data; plus a web page to request deletion
+- [ ] Privacy policy and terms of service (drafts, to be checked against
+      Tanzania's Personal Data Protection Act), linked from sign-up and the
+      profile
+- [ ] Android release signing with a release key kept outside the repository
+- [ ] Offline viewing: cache the dashboard, goals and history
+
 ## Phase 3: Features for business owners
 
 - [ ] Daily sales and expense log
@@ -47,6 +61,10 @@ calculated balances on the phone.
 
 ## Phase 4: Mobile money
 
+- [ ] Decide the money model: Fanikisha holding savings (likely needs a
+      Bank of Tanzania licence or a licensed partner) or users keeping money
+      in their own mobile-money or bank accounts while Fanikisha records and
+      confirms transfers
 - [x] SMS provider: [Beem](https://docs.beem.africa), using its SMS API
       (`POST https://apisms.beem.africa/v1/send`, Basic auth with the API key
       and secret, numbers as `255…` without the `+`). Fanikisha generates and

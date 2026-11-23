@@ -70,7 +70,7 @@ class _VerifyPhoneScreenState extends ConsumerState<VerifyPhoneScreen> {
           final wait = (error.details['retryAfterSeconds'] as num?)?.toInt();
           if (wait != null) _startCountdown(Duration(seconds: wait));
       }
-      setState(() => _error = describePhoneError(error, l10n));
+      setState(() => _error = describeCodeError(error, l10n));
     } catch (error) {
       if (mounted) setState(() => _error = describeError(error, l10n));
     } finally {
@@ -91,7 +91,7 @@ class _VerifyPhoneScreenState extends ConsumerState<VerifyPhoneScreen> {
     } on ApiException catch (error) {
       if (!mounted) return;
       setState(() {
-        _error = describePhoneError(error, l10n);
+        _error = describeCodeError(error, l10n);
         _code.clear();
       });
     } catch (error) {
@@ -185,20 +185,3 @@ class _VerifyPhoneScreenState extends ConsumerState<VerifyPhoneScreen> {
     );
   }
 }
-
-/// A verification error in the app's language.
-String describePhoneError(ApiException error, AppLocalizations l10n) =>
-    switch (error.errorCode) {
-      'no_phone' => l10n.phoneErrorNoPhone,
-      'resend_too_soon' => l10n.phoneErrorResendTooSoon(
-        (error.details['retryAfterSeconds'] as num?)?.toInt() ?? 60,
-      ),
-      'daily_limit' => l10n.phoneErrorDailyLimit,
-      'sms_failed' => l10n.phoneErrorSmsFailed,
-      'code_expired' => l10n.phoneErrorCodeExpired,
-      'code_incorrect' => l10n.phoneErrorCodeIncorrect(
-        (error.details['triesLeft'] as num?)?.toInt() ?? 1,
-      ),
-      'too_many_attempts' => l10n.phoneErrorTooManyAttempts,
-      _ => describeError(error, l10n),
-    };

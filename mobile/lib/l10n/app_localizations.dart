@@ -955,6 +955,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Too many wrong codes. Send a new one.'**
   String get phoneErrorTooManyAttempts;
+
+  /// No description provided for @forgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPasswordLink;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your account\'s email. We\'ll text a code to the phone number you verified on it.'**
+  String get forgotPasswordIntro;
+
+  /// No description provided for @forgotPasswordSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get forgotPasswordSend;
+
+  /// No description provided for @forgotPasswordSent.
+  ///
+  /// In en, this message translates to:
+  /// **'If {email} has an account with a verified phone number, we\'ve texted a code to that number.'**
+  String forgotPasswordSent(String email);
+
+  /// No description provided for @forgotPasswordNoPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified phone number on your account? Then it can\'t be reset by SMS yet.'**
+  String get forgotPasswordNoPhone;
+
+  /// No description provided for @forgotPasswordSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get forgotPasswordSubmit;
+
+  /// No description provided for @forgotPasswordOtherEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get forgotPasswordOtherEmail;
 }
 
 class _AppLocalizationsDelegate

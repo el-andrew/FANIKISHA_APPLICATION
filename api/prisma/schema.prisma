@@ -29,9 +29,9 @@ model User {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  goals              Goal[]
-  deposits           Deposit[]
-  phoneVerifications PhoneVerification[]
+  goals    Goal[]
+  deposits Deposit[]
+  smsCodes SmsCode[]
 
   @@map("users")
 }
@@ -131,24 +131,33 @@ model RevokedRefreshTokenFamily {
   @@map("revoked_refresh_token_families")
 }
 
-/// One SMS code sent to confirm a user's phone number.
-model PhoneVerification {
-  id         String    @id @default(uuid()) @db.Uuid
-  userId     String    @map("user_id") @db.Uuid
+enum SmsCodePurpose {
+  VERIFY_PHONE
+  RESET_PASSWORD
+
+  @@map("sms_code_purpose")
+}
+
+/// A one-time code sent by SMS: to confirm a phone number, or to reset a
+/// forgotten password.
+model SmsCode {
+  id         String         @id @default(uuid()) @db.Uuid
+  userId     String         @map("user_id") @db.Uuid
+  purpose    SmsCodePurpose
   /// The number the code was sent to (E.164).
   phone      String
   /// HMAC-SHA256 of the code, keyed with a server secret: a leaked database
   /// does not reveal codes, and 6-digit codes cannot be brute-forced offline.
-  codeHash   String    @map("code_hash")
-  attempts   Int       @default(0)
-  expiresAt  DateTime  @map("expires_at")
+  codeHash   String         @map("code_hash")
+  attempts   Int            @default(0)
+  expiresAt  DateTime       @map("expires_at")
   /// Set when the code was entered correctly, or replaced by a newer one.
-  consumedAt DateTime? @map("consumed_at")
-  createdAt  DateTime  @default(now()) @map("created_at")
+  consumedAt DateTime?      @map("consumed_at")
+  createdAt  DateTime       @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId, createdAt])
-  @@index([phone, createdAt])
-  @@map("phone_verifications")
+  @@index([userId, purpose, createdAt])
+  @@index([phone, purpose, createdAt])
+  @@map("sms_codes")
 }

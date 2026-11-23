@@ -501,4 +501,32 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get phoneErrorTooManyAttempts =>
       'Umekosea mara nyingi mno. Omba namba mpya.';
+
+  @override
+  String get forgotPasswordLink => 'Umesahau nenosiri?';
+
+  @override
+  String get forgotPasswordTitle => 'Badilisha nenosiri lako';
+
+  @override
+  String get forgotPasswordIntro =>
+      'Weka barua pepe ya akaunti yako. Tutatuma namba kwa SMS kwenda namba ya simu uliyoithibitisha.';
+
+  @override
+  String get forgotPasswordSend => 'Tuma namba';
+
+  @override
+  String forgotPasswordSent(String email) {
+    return 'Kama $email ina akaunti yenye namba ya simu iliyothibitishwa, tumetuma namba kwa SMS kwenda namba hiyo.';
+  }
+
+  @override
+  String get forgotPasswordNoPhone =>
+      'Akaunti yako haina namba ya simu iliyothibitishwa? Basi haiwezi kubadilishwa nenosiri kwa SMS kwa sasa.';
+
+  @override
+  String get forgotPasswordSubmit => 'Badilisha nenosiri';
+
+  @override
+  String get forgotPasswordOtherEmail => 'Tumia barua pepe nyingine';
 }

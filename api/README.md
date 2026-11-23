@@ -16,6 +16,9 @@ its deadline.
 - **Deposits:** split automatically across active goals. A goal never receives
   more than it needs; the excess is kept as general savings. Retries with the
   same `Idempotency-Key` are recorded once.
+- **Forgot password:** a code texted to the account's verified phone number
+  resets the password and signs out every other device. The request answers
+  the same way whether or not the account exists.
 - **Summary:** totals for a dashboard.
 - **Phone verification:** a 6-digit code by SMS through [Beem](https://beem.africa).
   Codes are stored as keyed hashes, expire after 10 minutes and allow 5
@@ -79,6 +82,8 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | POST | `/v1/auth/login` | Returns user and tokens |
 | POST | `/v1/auth/refresh` | Exchange a refresh token for a new pair |
 | POST | `/v1/auth/logout` | Revoke a refresh token |
+| POST | `/v1/auth/password-reset` | Text a reset code to the account's verified phone (`{"email", "language"}`); always 202 |
+| POST | `/v1/auth/password-reset/confirm` | Set a new password with the code (`{"email", "code", "newPassword"}`); signs out other devices, returns tokens |
 | GET / PATCH | `/v1/me` | Read or update the profile |
 | POST | `/v1/me/password` | Change password, signs out everywhere |
 | POST | `/v1/me/phone/verification` | Text a 6-digit code to the profile's phone (`{"language": "en" \| "sw"}`) |

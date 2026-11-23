@@ -76,6 +76,28 @@ class AuthRepository {
     await login(email: email, password: newPassword);
   }
 
+  /// Asks for a password-reset code by SMS. The API answers the same way
+  /// whether or not the account exists.
+  Future<void> requestPasswordReset({
+    required String email,
+    required String language,
+  }) => _api.postVoid(
+    '/v1/auth/password-reset',
+    body: {'email': email, 'language': language},
+    authenticated: false,
+  );
+
+  /// Sets a new password with the texted code, and signs in.
+  Future<User> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) => _signIn('/v1/auth/password-reset/confirm', {
+    'email': email,
+    'code': code,
+    'newPassword': newPassword,
+  });
+
   /// Texts a verification code to the user's phone, in [language].
   Future<PhoneCodeSent> sendPhoneCode({required String language}) async =>
       PhoneCodeSent.fromJson(

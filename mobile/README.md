@@ -10,6 +10,7 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 ## What it does
 
 - Sign up and log in; the session survives restarts and renews itself.
+- Forgot password: reset with a code texted to the verified phone number.
 - Dashboard with total savings and progress on active goals.
 - Goals: create, edit, archive; each shows the daily amount needed to finish on time.
 - Save money: shows how the amount will be split between goals before you

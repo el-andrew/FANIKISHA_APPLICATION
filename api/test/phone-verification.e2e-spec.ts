@@ -44,7 +44,7 @@ const confirm = (user: TestUser, code: string) =>
 /** Lets the next code be requested without waiting out the cooldown. */
 async function skipCooldown() {
   await app.get(PrismaService)
-    .$executeRaw`UPDATE phone_verifications SET created_at = created_at - interval '2 minutes'`;
+    .$executeRaw`UPDATE sms_codes SET created_at = created_at - interval '2 minutes'`;
 }
 
 describe('phone verification', () => {
@@ -85,9 +85,7 @@ describe('phone verification', () => {
   it('never stores the code itself', async () => {
     const user = await registerUser(app, { phone: PHONE });
     await sendCode(user).expect(202);
-    const row = await app
-      .get(PrismaService)
-      .phoneVerification.findFirstOrThrow();
+    const row = await app.get(PrismaService).smsCode.findFirstOrThrow();
     expect(row.codeHash).not.toContain(sms.lastCode(PHONE));
     expect(row.codeHash).toMatch(/^[0-9a-f]{64}$/);
   });
@@ -107,9 +105,7 @@ describe('phone verification', () => {
 
     // Even the right code is refused now: a new one is needed.
     await confirm(user, right).expect(429);
-    const row = await app
-      .get(PrismaService)
-      .phoneVerification.findFirstOrThrow();
+    const row = await app.get(PrismaService).smsCode.findFirstOrThrow();
     expect(row.attempts).toBe(5);
   });
 
@@ -130,7 +126,7 @@ describe('phone verification', () => {
     await sendCode(user).expect(202);
     // Through Prisma, which stores UTC like the app does (the test database
     // may run in another time zone, so SQL's now() would not match).
-    await app.get(PrismaService).phoneVerification.updateMany({
+    await app.get(PrismaService).smsCode.updateMany({
       data: { expiresAt: new Date(Date.now() - 1000) },
     });
     await confirm(user, sms.lastCode(PHONE)).expect(400);
@@ -171,7 +167,7 @@ describe('phone verification', () => {
     const user = await registerUser(app, { phone: PHONE });
     sms.failNext = true;
     await sendCode(user).expect(503);
-    expect(await app.get(PrismaService).phoneVerification.count()).toBe(0);
+    expect(await app.get(PrismaService).smsCode.count()).toBe(0);
     await sendCode(user).expect(202);
   });
 

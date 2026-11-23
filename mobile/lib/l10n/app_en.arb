@@ -243,5 +243,20 @@
       }
     }
   },
-  "phoneErrorTooManyAttempts": "Too many wrong codes. Send a new one."
+  "phoneErrorTooManyAttempts": "Too many wrong codes. Send a new one.",
+  "forgotPasswordLink": "Forgot password?",
+  "forgotPasswordTitle": "Reset your password",
+  "forgotPasswordIntro": "Enter your account's email. We'll text a code to the phone number you verified on it.",
+  "forgotPasswordSend": "Send code",
+  "forgotPasswordSent": "If {email} has an account with a verified phone number, we've texted a code to that number.",
+  "@forgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotPasswordNoPhone": "No verified phone number on your account? Then it can't be reset by SMS yet.",
+  "forgotPasswordSubmit": "Reset password",
+  "forgotPasswordOtherEmail": "Use a different email"
 }

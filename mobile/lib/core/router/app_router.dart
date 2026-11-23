@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/application/auth_controller.dart';
+import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
@@ -19,7 +20,7 @@ import '../../features/savings/presentation/deposit_screen.dart';
 import '../../features/savings/presentation/history_screen.dart';
 import 'home_shell.dart';
 
-const _publicRoutes = {'/welcome', '/login', '/register'};
+const _publicRoutes = {'/welcome', '/login', '/register', '/forgot-password'};
 
 /// Where a user in [auth] may be, given they asked for [location].
 @visibleForTesting
@@ -51,6 +52,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/welcome', builder: (_, _) => const WelcomeScreen()),
       GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
       GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (_, _) => const ForgotPasswordScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => HomeShell(shell: shell),
         branches: [

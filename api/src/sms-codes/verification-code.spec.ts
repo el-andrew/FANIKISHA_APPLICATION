@@ -1,4 +1,4 @@
-import { CodeHasher, generateCode, smsText } from './verification-code.js';
+import { CodeHasher, generateCode, smsTexts } from './verification-code.js';
 
 describe('verification codes', () => {
   it('are six digits, including leading zeros', () => {
@@ -17,8 +17,14 @@ describe('verification codes', () => {
     expect(other.matches('id-1', '123456', hash)).toBe(false);
   });
 
-  it('writes the SMS in the requested language', () => {
-    expect(smsText('012345', 'en')).toContain('012345');
-    expect(smsText('012345', 'sw')).toMatch(/^Namba yako .*012345/);
+  it('writes each SMS in the requested language', () => {
+    expect(smsTexts.verifyPhone('012345', 'en')).toContain('012345');
+    expect(smsTexts.verifyPhone('012345', 'sw')).toMatch(
+      /^Namba yako .*012345/,
+    );
+    expect(smsTexts.resetPassword('012345', 'en')).toMatch(
+      /password reset code is 012345/,
+    );
+    expect(smsTexts.resetPassword('012345', 'sw')).toMatch(/nenosiri .*012345/);
   });
 });

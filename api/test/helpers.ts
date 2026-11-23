@@ -49,7 +49,7 @@ export async function resetDatabase(app: INestApplication): Promise<void> {
   await app
     .get(PrismaService)
     .$executeRawUnsafe(
-      `TRUNCATE users, goals, deposits, allocations, phone_verifications, refresh_tokens, revoked_refresh_token_families CASCADE`,
+      `TRUNCATE users, goals, deposits, allocations, sms_codes, refresh_tokens, revoked_refresh_token_families CASCADE`,
     );
 }
 

@@ -17,6 +17,7 @@ void main() {
     expect(redirectFor(const SignedOut(), '/goals/abc'), '/welcome');
     expect(redirectFor(const SignedOut(), '/login'), isNull);
     expect(redirectFor(const SignedOut(), '/register'), isNull);
+    expect(redirectFor(const SignedOut(), '/forgot-password'), isNull);
   });
 
   test('keeps signed-in users out of the sign-in screens', () {

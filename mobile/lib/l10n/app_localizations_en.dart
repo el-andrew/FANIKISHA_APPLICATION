@@ -496,4 +496,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get phoneErrorTooManyAttempts =>
       'Too many wrong codes. Send a new one.';
+
+  @override
+  String get forgotPasswordLink => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Reset your password';
+
+  @override
+  String get forgotPasswordIntro =>
+      'Enter your account\'s email. We\'ll text a code to the phone number you verified on it.';
+
+  @override
+  String get forgotPasswordSend => 'Send code';
+
+  @override
+  String forgotPasswordSent(String email) {
+    return 'If $email has an account with a verified phone number, we\'ve texted a code to that number.';
+  }
+
+  @override
+  String get forgotPasswordNoPhone =>
+      'No verified phone number on your account? Then it can\'t be reset by SMS yet.';
+
+  @override
+  String get forgotPasswordSubmit => 'Reset password';
+
+  @override
+  String get forgotPasswordOtherEmail => 'Use a different email';
 }

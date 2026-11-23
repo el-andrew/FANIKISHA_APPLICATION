@@ -34,8 +34,16 @@ export class CodeHasher {
   }
 }
 
-export function smsText(code: string, language: 'en' | 'sw'): string {
-  return language === 'sw'
-    ? `Namba yako ya uthibitisho ya Fanikisha ni ${code}. Itaisha baada ya dakika 10. Usimpe mtu yeyote namba hii.`
-    : `Your Fanikisha verification code is ${code}. It expires in 10 minutes. Never share this code.`;
-}
+export type SmsLanguage = 'en' | 'sw';
+
+/** The text of each kind of code message. */
+export const smsTexts = {
+  verifyPhone: (code: string, language: SmsLanguage) =>
+    language === 'sw'
+      ? `Namba yako ya uthibitisho ya Fanikisha ni ${code}. Itaisha baada ya dakika 10. Usimpe mtu yeyote namba hii.`
+      : `Your Fanikisha verification code is ${code}. It expires in 10 minutes. Never share this code.`,
+  resetPassword: (code: string, language: SmsLanguage) =>
+    language === 'sw'
+      ? `Namba yako ya kubadilisha nenosiri la Fanikisha ni ${code}. Itaisha baada ya dakika 10. Kama hukuomba kubadilisha nenosiri, puuza ujumbe huu.`
+      : `Your Fanikisha password reset code is ${code}. It expires in 10 minutes. If you didn't ask to reset your password, ignore this message.`,
+};
