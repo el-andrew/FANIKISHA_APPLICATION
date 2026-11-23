@@ -35,6 +35,51 @@ Future<void> capture(WidgetTester tester, String name) async {
     ..writeAsBytesSync(png!.buffer.asUint8List());
 }
 
+/// The text in [field], ignoring thousands separators (amount fields).
+String _textIn(WidgetTester tester, Finder field) => tester
+    .widget<EditableText>(
+      find.descendant(of: field, matching: find.byType(EditableText)),
+    )
+    .controller
+    .text
+    .replaceAll(',', '');
+
+/// Types [value] into [field] and checks it arrived.
+///
+/// On a loaded desktop test machine, simulated typing occasionally loses a
+/// field's text when focus moves on, so this retries. The app itself never
+/// clears a field, so three failed tries still fail the test.
+Future<void> typeInto(WidgetTester tester, Finder field, String value) async {
+  for (var attempt = 0; attempt < 3; attempt++) {
+    await tester.ensureVisible(field);
+    await tester.pumpAndSettle();
+    await tester.enterText(field, value);
+    await tester.pumpAndSettle();
+    if (_textIn(tester, field) == value) return;
+  }
+  throw TestFailure('Could not type "$value" into $field');
+}
+
+/// Fills a form, then re-checks every field before the caller submits.
+Future<void> fillForm(WidgetTester tester, Map<Finder, String> values) async {
+  for (final MapEntry(key: field, :value) in values.entries) {
+    await typeInto(tester, field, value);
+  }
+  for (var round = 0; round < 3; round++) {
+    var lost = false;
+    for (final MapEntry(key: field, :value) in values.entries) {
+      await tester.ensureVisible(field);
+      await tester.pumpAndSettle();
+      if (_textIn(tester, field) != value) {
+        lost = true;
+        await typeInto(tester, field, value);
+      }
+    }
+    if (!lost) return;
+  }
+  throw TestFailure('Form fields kept losing their text');
+}
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -49,6 +94,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       if (finder.evaluate().isNotEmpty) return;
     }
+    await capture(tester, 'timed-out');
     throw TestFailure('Timed out waiting for $finder');
   }
 
@@ -64,6 +110,12 @@ void main() {
     tester,
   ) async {
     // A phone-sized screen (412 x 892 logical pixels).
+    // Integration tests leave the platform's text input connected; on Linux
+    // it can echo a stale (empty) value back into a field when focus moves.
+    // Route text input through the test instead.
+    tester.testTextInput.register();
+    addTearDown(tester.testTextInput.unregister);
+
     tester.view.physicalSize = const Size(1236, 2676);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
@@ -93,17 +145,14 @@ void main() {
     await capture(tester, '01-welcome');
     await tapText(tester, 'Create an account');
     await waitFor(tester, find.text('Create your account'));
-    Future<void> fill(String label, String value) async {
-      final field = find.widgetWithText(TextFormField, label);
-      await tester.ensureVisible(field);
-      await tester.enterText(field, value);
-    }
-
-    await fill('Full name', 'Neema Mollel');
-    await fill('Business name (optional)', 'Neema Fresh Juice');
-    await fill('Email', email);
-    await fill('Password', 'juice stall 2026');
-    await fill('Confirm password', 'juice stall 2026');
+    Finder field(String label) => find.widgetWithText(TextFormField, label);
+    await fillForm(tester, {
+      field('Full name'): 'Neema Mollel',
+      field('Business name (optional)'): 'Neema Fresh Juice',
+      field('Email'): email,
+      field('Password'): 'juice stall 2026',
+      field('Confirm password'): 'juice stall 2026',
+    });
     await capture(tester, '02-register');
     await tapText(tester, 'Create account');
 
@@ -115,14 +164,10 @@ void main() {
     // Create a goal.
     await tapText(tester, 'Create a goal');
     await waitFor(tester, find.text('What are you saving for?'));
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'What are you saving for?'),
-      'Blender',
-    );
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'Target amount'),
-      '450000',
-    );
+    await fillForm(tester, {
+      field('What are you saving for?'): 'Blender',
+      field('Target amount'): '450000',
+    });
     await tester.tap(find.widgetWithText(TextFormField, 'Target date'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('OK'));
@@ -141,7 +186,7 @@ void main() {
     // Save money and check the split.
     await tapText(tester, 'Save money');
     await waitFor(tester, find.text('How it will be shared'));
-    await tester.enterText(find.byType(TextFormField).first, '45000');
+    await fillForm(tester, {find.byType(TextFormField).first: '45000'});
     await waitFor(tester, find.text('Save TZS 45,000'));
     await waitFor(tester, find.text('Blender'));
     await capture(tester, '06-save-preview');

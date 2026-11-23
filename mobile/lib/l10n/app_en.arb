@@ -1,25 +1,20 @@
 {
   "@@locale": "en",
-
   "appName": "Fanikisha",
   "tagline": "Level up your saving habit",
-
   "actionRetry": "Try again",
   "actionCancel": "Cancel",
   "actionDone": "Done",
   "actionLogOut": "Log out",
-
   "errorNetwork": "Can't reach Fanikisha. Check your internet connection and try again.",
   "errorServer": "Something went wrong on our side. Please try again in a moment.",
   "errorSessionExpired": "Your session has ended. Please log in again.",
   "errorUnknown": "Something went wrong. Please try again.",
   "fieldRequired": "Required",
-
   "welcomeHeadline": "Save for what your business needs next",
   "welcomeBody": "Set goals for stock, equipment or rent. Each time you save, Fanikisha shares the money between your goals so the most urgent ones fill first.",
   "welcomeCreateAccount": "Create an account",
   "welcomeLogIn": "I already have an account",
-
   "emailLabel": "Email",
   "emailInvalid": "Enter a valid email address",
   "passwordLabel": "Password",
@@ -34,54 +29,85 @@
   "phoneLabel": "Phone number (optional)",
   "phoneHelper": "International format, e.g. +255712345678",
   "phoneInvalid": "Use international format, e.g. +255712345678",
-
   "loginTitle": "Welcome back",
   "loginButton": "Log in",
   "loginWrongCredentials": "Incorrect email or password",
   "loginNoAccount": "New to Fanikisha?",
   "loginCreateAccount": "Create an account",
-
   "registerTitle": "Create your account",
   "registerButton": "Create account",
   "registerHaveAccount": "Already have an account?",
   "registerLogIn": "Log in",
-
   "splashRestoreFailed": "We couldn't load your account.",
-
   "navHome": "Home",
   "navGoals": "Goals",
   "navHistory": "History",
   "navProfile": "Profile",
-
   "dashboardGreeting": "Hello, {name}",
-  "@dashboardGreeting": { "placeholders": { "name": { "type": "String" } } },
+  "@dashboardGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "dashboardTotalSaved": "Total saved",
   "dashboardGeneralSavings": "General savings: {amount}",
-  "@dashboardGeneralSavings": { "placeholders": { "amount": { "type": "String" } } },
+  "@dashboardGeneralSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "dashboardDepositCount": "{count, plural, =0{No deposits yet} =1{1 deposit} other{{count} deposits}}",
-  "@dashboardDepositCount": { "placeholders": { "count": { "type": "int" } } },
+  "@dashboardDepositCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardSaveMoney": "Save money",
   "dashboardActiveGoals": "Active goals",
   "dashboardSeeAll": "See all",
   "dashboardNoGoalsTitle": "No goals yet",
   "dashboardNoGoalsBody": "Create a goal, such as new stock or equipment, and Fanikisha will help you save for it.",
   "dashboardCreateGoal": "Create a goal",
-
   "goalDailyTarget": "Save {amount} a day to finish on time",
-  "@goalDailyTarget": { "placeholders": { "amount": { "type": "String" } } },
+  "@goalDailyTarget": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "goalDaysLeft": "{count, plural, =1{1 day left} other{{count} days left}}",
-  "@goalDaysLeft": { "placeholders": { "count": { "type": "int" } } },
+  "@goalDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "goalSavedOf": "{saved} of {target}",
-  "@goalSavedOf": { "placeholders": { "saved": { "type": "String" }, "target": { "type": "String" } } },
+  "@goalSavedOf": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
   "goalStatusCompleted": "Completed",
   "goalStatusArchived": "Archived",
-
   "priority1": "Low",
   "priority2": "Fairly low",
   "priority3": "Medium",
   "priority4": "High",
   "priority5": "Very high",
-
   "goalsTitle": "Goals",
   "goalsFilterActive": "Active",
   "goalsFilterCompleted": "Completed",
@@ -90,7 +116,6 @@
   "goalsEmptyCompleted": "No completed goals yet. Keep saving!",
   "goalsEmptyArchived": "No archived goals.",
   "goalsNew": "New goal",
-
   "goalDetailSaved": "Saved",
   "goalDetailTarget": "Target",
   "goalDetailRemaining": "Still needed",
@@ -102,9 +127,14 @@
   "goalArchive": "Archive goal",
   "goalArchiveConfirmTitle": "Archive this goal?",
   "goalArchiveConfirmBody": "It will stop receiving new savings. The {amount} already saved stays recorded.",
-  "@goalArchiveConfirmBody": { "placeholders": { "amount": { "type": "String" } } },
+  "@goalArchiveConfirmBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "goalArchiveConfirmButton": "Archive",
-
   "goalFormNewTitle": "New goal",
   "goalFormEditTitle": "Edit goal",
   "goalNameLabel": "What are you saving for?",
@@ -119,7 +149,6 @@
   "goalPriorityHelper": "More important goals get a bigger share of each deposit.",
   "goalFormCreate": "Create goal",
   "goalFormSave": "Save changes",
-
   "depositTitle": "Save money",
   "depositAmountLabel": "Amount",
   "depositNoteLabel": "Note (optional)",
@@ -129,14 +158,24 @@
   "depositPreviewNoGoals": "You have no active goals, so this will go to general savings.",
   "generalSavings": "General savings",
   "depositSubmit": "Save {amount}",
-  "@depositSubmit": { "placeholders": { "amount": { "type": "String" } } },
+  "@depositSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "depositSuccessTitle": "Saved!",
   "depositSuccessBody": "{amount} has been added to your savings.",
-  "@depositSuccessBody": { "placeholders": { "amount": { "type": "String" } } },
-
+  "@depositSuccessBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "historyTitle": "History",
   "historyEmpty": "No savings yet. Your deposits will appear here.",
-
   "profileTitle": "Profile",
   "profileEdit": "Edit profile",
   "profileSave": "Save profile",
@@ -150,5 +189,59 @@
   "changePasswordDone": "Password changed. Your other devices have been logged out.",
   "languageSystem": "Same as device",
   "languageEnglish": "English",
-  "languageSwahili": "Kiswahili"
+  "languageSwahili": "Kiswahili",
+  "verifyPhoneTitle": "Verify phone number",
+  "verifyPhoneSending": "Sending a code to {phone}…",
+  "@verifyPhoneSending": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyPhoneSentTo": "We sent a 6-digit code to {phone}.",
+  "@verifyPhoneSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyPhoneCodeLabel": "Verification code",
+  "verifyPhoneSubmit": "Verify",
+  "verifyPhoneResend": "Send a new code",
+  "verifyPhoneResendIn": "Send a new code in {seconds}s",
+  "@verifyPhoneResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyPhoneDone": "Phone number verified",
+  "phoneVerified": "Verified",
+  "verifyPhoneBannerTitle": "Verify your phone number",
+  "verifyPhoneBannerBody": "You'll need it to save with mobile money.",
+  "verifyPhoneAction": "Verify now",
+  "phoneErrorNoPhone": "Add a phone number to your profile first.",
+  "phoneErrorResendTooSoon": "Please wait {seconds} seconds before asking for a new code.",
+  "@phoneErrorResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneErrorDailyLimit": "Too many codes today. Please try again tomorrow.",
+  "phoneErrorSmsFailed": "We couldn't send the SMS. Please try again later.",
+  "phoneErrorCodeExpired": "This code has expired. Send a new one.",
+  "phoneErrorCodeIncorrect": "{count, plural, =1{That code is not correct. 1 try left.} other{That code is not correct. {count} tries left.}}",
+  "@phoneErrorCodeIncorrect": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneErrorTooManyAttempts": "Too many wrong codes. Send a new one."
 }

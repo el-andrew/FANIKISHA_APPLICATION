@@ -76,9 +76,46 @@ class AuthRepository {
     await login(email: email, password: newPassword);
   }
 
+  /// Texts a verification code to the user's phone, in [language].
+  Future<PhoneCodeSent> sendPhoneCode({required String language}) async =>
+      PhoneCodeSent.fromJson(
+        await _api.postMap(
+          '/v1/me/phone/verification',
+          body: {'language': language},
+        ),
+      );
+
+  /// Checks the code; returns the user with the phone marked verified.
+  Future<User> confirmPhoneCode(String code) async => User.fromJson(
+    await _api.postMap(
+      '/v1/me/phone/verification/confirm',
+      body: {'code': code},
+    ),
+  );
+
   Future<User> _signIn(String path, Map<String, Object?> body) async {
     final json = await _api.postMap(path, body: body, authenticated: false);
     await _tokens.save(TokenPair.fromJson(json));
     return User.fromJson(json['user'] as Map<String, dynamic>);
   }
+}
+
+class PhoneCodeSent {
+  const PhoneCodeSent({
+    required this.phone,
+    required this.expiresAt,
+    required this.resendAvailableAt,
+  });
+
+  factory PhoneCodeSent.fromJson(Map<String, dynamic> json) => PhoneCodeSent(
+    phone: json['phone'] as String,
+    expiresAt: DateTime.parse(json['expiresAt'] as String),
+    resendAvailableAt: DateTime.parse(json['resendAvailableAt'] as String),
+  );
+
+  final String phone;
+  final DateTime expiresAt;
+
+  /// When a new code may be requested.
+  final DateTime resendAvailableAt;
 }

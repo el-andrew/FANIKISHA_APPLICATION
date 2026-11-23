@@ -841,6 +841,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Kiswahili'**
   String get languageSwahili;
+
+  /// No description provided for @verifyPhoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify phone number'**
+  String get verifyPhoneTitle;
+
+  /// No description provided for @verifyPhoneSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending a code to {phone}…'**
+  String verifyPhoneSending(String phone);
+
+  /// No description provided for @verifyPhoneSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to {phone}.'**
+  String verifyPhoneSentTo(String phone);
+
+  /// No description provided for @verifyPhoneCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get verifyPhoneCodeLabel;
+
+  /// No description provided for @verifyPhoneSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verifyPhoneSubmit;
+
+  /// No description provided for @verifyPhoneResend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code'**
+  String get verifyPhoneResend;
+
+  /// No description provided for @verifyPhoneResendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code in {seconds}s'**
+  String verifyPhoneResendIn(int seconds);
+
+  /// No description provided for @verifyPhoneDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number verified'**
+  String get verifyPhoneDone;
+
+  /// No description provided for @phoneVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get phoneVerified;
+
+  /// No description provided for @verifyPhoneBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your phone number'**
+  String get verifyPhoneBannerTitle;
+
+  /// No description provided for @verifyPhoneBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll need it to save with mobile money.'**
+  String get verifyPhoneBannerBody;
+
+  /// No description provided for @verifyPhoneAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify now'**
+  String get verifyPhoneAction;
+
+  /// No description provided for @phoneErrorNoPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a phone number to your profile first.'**
+  String get phoneErrorNoPhone;
+
+  /// No description provided for @phoneErrorResendTooSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait {seconds} seconds before asking for a new code.'**
+  String phoneErrorResendTooSoon(int seconds);
+
+  /// No description provided for @phoneErrorDailyLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many codes today. Please try again tomorrow.'**
+  String get phoneErrorDailyLimit;
+
+  /// No description provided for @phoneErrorSmsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t send the SMS. Please try again later.'**
+  String get phoneErrorSmsFailed;
+
+  /// No description provided for @phoneErrorCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This code has expired. Send a new one.'**
+  String get phoneErrorCodeExpired;
+
+  /// No description provided for @phoneErrorCodeIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{That code is not correct. 1 try left.} other{That code is not correct. {count} tries left.}}'**
+  String phoneErrorCodeIncorrect(int count);
+
+  /// No description provided for @phoneErrorTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong codes. Send a new one.'**
+  String get phoneErrorTooManyAttempts;
 }
 
 class _AppLocalizationsDelegate

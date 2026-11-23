@@ -15,6 +15,8 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 - Save money: shows how the amount will be split between goals before you
   confirm. A deposit retried after a dropped connection is recorded once.
 - Deposit history with each deposit's split.
+- Phone number verification by SMS code, with a reminder on the dashboard
+  until it's done.
 - English and Kiswahili, light and dark themes.
 
 ## How it's built

@@ -32,9 +32,19 @@ export class UsersService {
     input: UpdateProfileInput,
   ): Promise<UserDto> {
     try {
-      const user = await this.prisma.user.update({
-        where: { id: userId },
-        data: input,
+      const user = await this.prisma.$transaction(async (tx) => {
+        const current = await tx.user.findUnique({ where: { id: userId } });
+        if (!current) throw new NotFoundException('User not found');
+        // A new (or removed) number has to be verified again.
+        const phoneChanged =
+          input.phone !== undefined && input.phone !== current.phone;
+        return tx.user.update({
+          where: { id: userId },
+          data: {
+            ...input,
+            ...(phoneChanged ? { phoneVerifiedAt: null } : {}),
+          },
+        });
       });
       return toUserDto(user);
     } catch (error) {

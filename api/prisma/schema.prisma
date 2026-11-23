@@ -15,20 +15,23 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
+  id              String    @id @default(uuid()) @db.Uuid
   /// Always stored lower-cased.
-  email        String   @unique
+  email           String    @unique
   /// E.164 format, e.g. +255712345678.
-  phone        String?  @unique
-  fullName     String   @map("full_name")
-  businessName String?  @map("business_name")
+  phone           String?   @unique
+  /// When `phone` was confirmed with an SMS code. Cleared when it changes.
+  phoneVerifiedAt DateTime? @map("phone_verified_at")
+  fullName        String    @map("full_name")
+  businessName    String?   @map("business_name")
   /// scrypt hash produced by @nestjs/authentication's PasswordHasher.
-  passwordHash String   @map("password_hash")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  passwordHash    String    @map("password_hash")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  goals    Goal[]
-  deposits Deposit[]
+  goals              Goal[]
+  deposits           Deposit[]
+  phoneVerifications PhoneVerification[]
 
   @@map("users")
 }
@@ -126,4 +129,26 @@ model RevokedRefreshTokenFamily {
 
   @@index([revokedAt])
   @@map("revoked_refresh_token_families")
+}
+
+/// One SMS code sent to confirm a user's phone number.
+model PhoneVerification {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @map("user_id") @db.Uuid
+  /// The number the code was sent to (E.164).
+  phone      String
+  /// HMAC-SHA256 of the code, keyed with a server secret: a leaked database
+  /// does not reveal codes, and 6-digit codes cannot be brute-forced offline.
+  codeHash   String    @map("code_hash")
+  attempts   Int       @default(0)
+  expiresAt  DateTime  @map("expires_at")
+  /// Set when the code was entered correctly, or replaced by a newer one.
+  consumedAt DateTime? @map("consumed_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([phone, createdAt])
+  @@map("phone_verifications")
 }

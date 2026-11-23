@@ -419,4 +419,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageSwahili => 'Kiswahili';
+
+  @override
+  String get verifyPhoneTitle => 'Verify phone number';
+
+  @override
+  String verifyPhoneSending(String phone) {
+    return 'Sending a code to $phone…';
+  }
+
+  @override
+  String verifyPhoneSentTo(String phone) {
+    return 'We sent a 6-digit code to $phone.';
+  }
+
+  @override
+  String get verifyPhoneCodeLabel => 'Verification code';
+
+  @override
+  String get verifyPhoneSubmit => 'Verify';
+
+  @override
+  String get verifyPhoneResend => 'Send a new code';
+
+  @override
+  String verifyPhoneResendIn(int seconds) {
+    return 'Send a new code in ${seconds}s';
+  }
+
+  @override
+  String get verifyPhoneDone => 'Phone number verified';
+
+  @override
+  String get phoneVerified => 'Verified';
+
+  @override
+  String get verifyPhoneBannerTitle => 'Verify your phone number';
+
+  @override
+  String get verifyPhoneBannerBody =>
+      'You\'ll need it to save with mobile money.';
+
+  @override
+  String get verifyPhoneAction => 'Verify now';
+
+  @override
+  String get phoneErrorNoPhone => 'Add a phone number to your profile first.';
+
+  @override
+  String phoneErrorResendTooSoon(int seconds) {
+    return 'Please wait $seconds seconds before asking for a new code.';
+  }
+
+  @override
+  String get phoneErrorDailyLimit =>
+      'Too many codes today. Please try again tomorrow.';
+
+  @override
+  String get phoneErrorSmsFailed =>
+      'We couldn\'t send the SMS. Please try again later.';
+
+  @override
+  String get phoneErrorCodeExpired => 'This code has expired. Send a new one.';
+
+  @override
+  String phoneErrorCodeIncorrect(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'That code is not correct. $count tries left.',
+      one: 'That code is not correct. 1 try left.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get phoneErrorTooManyAttempts =>
+      'Too many wrong codes. Send a new one.';
 }

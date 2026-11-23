@@ -17,6 +17,12 @@ its deadline.
   more than it needs; the excess is kept as general savings. Retries with the
   same `Idempotency-Key` are recorded once.
 - **Summary:** totals for a dashboard.
+- **Phone verification:** a 6-digit code by SMS through [Beem](https://beem.africa).
+  Codes are stored as keyed hashes, expire after 10 minutes and allow 5
+  tries; at most one code a minute and five a day per account and per number.
+  Changing the phone number clears its verified status. Errors carry a
+  machine-readable `code` (e.g. `code_incorrect` with `triesLeft`) so the app
+  can show them in the user's language.
 
 ## How a deposit is split
 
@@ -75,6 +81,8 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | POST | `/v1/auth/logout` | Revoke a refresh token |
 | GET / PATCH | `/v1/me` | Read or update the profile |
 | POST | `/v1/me/password` | Change password, signs out everywhere |
+| POST | `/v1/me/phone/verification` | Text a 6-digit code to the profile's phone (`{"language": "en" \| "sw"}`) |
+| POST | `/v1/me/phone/verification/confirm` | Check the code (`{"code": "123456"}`); marks the phone verified |
 | GET / POST | `/v1/goals` | List (`?status=ACTIVE`) or create goals |
 | GET / PATCH / DELETE | `/v1/goals/:id` | Read, update or archive a goal |
 | POST | `/v1/savings/deposits` | Record a deposit (needs `Idempotency-Key`) |

@@ -5,11 +5,40 @@ import type { App } from 'supertest/types.js';
 import { AppModule } from '../src/app.module.js';
 import { configureApp } from '../src/app.setup.js';
 import { PrismaService } from '../src/prisma/prisma.service.js';
+import { SMS_SENDER, type SmsSender } from '../src/sms/sms-sender.js';
 
-export async function createTestApp(): Promise<INestApplication<App>> {
+/** Records messages instead of sending them; tests read codes from it. */
+export class FakeSms implements SmsSender {
+  readonly sent: { phone: string; message: string }[] = [];
+  failNext = false;
+
+  send(phone: string, message: string): Promise<void> {
+    if (this.failNext) {
+      this.failNext = false;
+      return Promise.reject(new Error('provider down'));
+    }
+    this.sent.push({ phone, message });
+    return Promise.resolve();
+  }
+
+  /** The code in the latest message to [phone]. */
+  lastCode(phone: string): string {
+    const message = this.sent.filter((m) => m.phone === phone).at(-1)?.message;
+    const code = message?.match(/\b(\d{6})\b/)?.[1];
+    if (!code) throw new Error(`No code was sent to ${phone}`);
+    return code;
+  }
+}
+
+export async function createTestApp(
+  sms: SmsSender = new FakeSms(),
+): Promise<INestApplication<App>> {
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
-  }).compile();
+  })
+    .overrideProvider(SMS_SENDER)
+    .useValue(sms)
+    .compile();
   const app = moduleRef.createNestApplication<INestApplication<App>>();
   configureApp(app);
   await app.init();
@@ -20,7 +49,7 @@ export async function resetDatabase(app: INestApplication): Promise<void> {
   await app
     .get(PrismaService)
     .$executeRawUnsafe(
-      `TRUNCATE users, goals, deposits, allocations, refresh_tokens, revoked_refresh_token_families CASCADE`,
+      `TRUNCATE users, goals, deposits, allocations, phone_verifications, refresh_tokens, revoked_refresh_token_families CASCADE`,
     );
 }
 

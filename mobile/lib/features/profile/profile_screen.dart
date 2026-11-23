@@ -55,8 +55,38 @@ class ProfileScreen extends ConsumerWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
+          if (user.phoneVerified)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.verified,
+                    size: 18,
+                    color: theme.colorScheme.primary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    l10n.phoneVerified,
+                    style: TextStyle(color: theme.colorScheme.primary),
+                  ),
+                ],
+              ),
+            ),
           const SizedBox(height: 24),
           const Divider(),
+          if (user.needsPhoneVerification)
+            ListTile(
+              leading: Icon(
+                Icons.sms_outlined,
+                color: theme.colorScheme.tertiary,
+              ),
+              title: Text(l10n.verifyPhoneTitle),
+              subtitle: Text(l10n.verifyPhoneBannerBody),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/profile/verify-phone'),
+            ),
           ListTile(
             leading: const Icon(Icons.edit_outlined),
             title: Text(l10n.profileEdit),

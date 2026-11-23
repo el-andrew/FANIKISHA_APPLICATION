@@ -16,7 +16,13 @@ enum ApiErrorKind {
 }
 
 class ApiException implements Exception {
-  const ApiException(this.kind, {this.statusCode, this.messages = const []});
+  const ApiException(
+    this.kind, {
+    this.statusCode,
+    this.messages = const [],
+    this.errorCode,
+    this.details = const {},
+  });
 
   factory ApiException.fromDio(DioException error) {
     final response = error.response;
@@ -27,10 +33,13 @@ class ApiException implements Exception {
     if (status >= 500) {
       return ApiException(ApiErrorKind.server, statusCode: status);
     }
+    final body = response.data;
     return ApiException(
       ApiErrorKind.rejected,
       statusCode: status,
-      messages: _messagesFrom(response.data),
+      messages: _messagesFrom(body),
+      errorCode: body is Map ? body['code'] as String? : null,
+      details: body is Map ? Map<String, Object?>.from(body) : const {},
     );
   }
 
@@ -39,6 +48,12 @@ class ApiException implements Exception {
 
   /// Server messages, e.g. `amount: Too small: expected number to be >0`.
   final List<String> messages;
+
+  /// A machine-readable reason, when the API gives one (e.g. `code_incorrect`).
+  final String? errorCode;
+
+  /// The whole error body, for extra fields such as `triesLeft`.
+  final Map<String, Object?> details;
 
   /// The message for one field, without its `field: ` prefix.
   String? messageFor(String field) {

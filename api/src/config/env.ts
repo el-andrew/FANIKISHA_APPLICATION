@@ -1,18 +1,56 @@
 import { z } from 'zod';
 
-/** Environment variables the API needs. Startup fails if any is missing or invalid. */
-export const envSchema = z.object({
-  NODE_ENV: z
-    .enum(['development', 'test', 'production'])
-    .default('development'),
-  PORT: z.coerce.number().int().positive().default(3000),
-  DATABASE_URL: z.url(),
-  JWT_SECRET: z.string().refine((s) => Buffer.byteLength(s, 'utf8') >= 32, {
-    message: 'must be at least 32 bytes',
-  }),
-  JWT_ISSUER: z.string().min(1).default('fanikisha-api'),
-  JWT_AUDIENCE: z.string().min(1).default('fanikisha-mobile'),
+const secret = z.string().refine((s) => Buffer.byteLength(s, 'utf8') >= 32, {
+  message: 'must be at least 32 bytes',
 });
+
+/** Environment variables the API needs. Startup fails if any is missing or invalid. */
+export const envSchema = z
+  .object({
+    NODE_ENV: z
+      .enum(['development', 'test', 'production'])
+      .default('development'),
+    PORT: z.coerce.number().int().positive().default(3000),
+    DATABASE_URL: z.url(),
+    JWT_SECRET: secret,
+    JWT_ISSUER: z.string().min(1).default('fanikisha-api'),
+    JWT_AUDIENCE: z.string().min(1).default('fanikisha-mobile'),
+
+    /**
+     * How SMS messages are sent: `beem` for real messages, `log` to print
+     * them to the server log during development.
+     */
+    SMS_PROVIDER: z.enum(['beem', 'log']).default('log'),
+    BEEM_API_KEY: z.string().min(1).optional(),
+    BEEM_SECRET_KEY: z.string().min(1).optional(),
+    /** A sender ID registered and activated on the Beem account (max 11 characters). */
+    BEEM_SENDER_ID: z.string().min(1).max(11).optional(),
+    BEEM_API_URL: z.url().default('https://apisms.beem.africa/v1/send'),
+  })
+  .superRefine((env, ctx) => {
+    if (env.NODE_ENV === 'production' && env.SMS_PROVIDER !== 'beem') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['SMS_PROVIDER'],
+        message: 'must be "beem" in production (the log provider prints codes)',
+      });
+    }
+    if (env.SMS_PROVIDER === 'beem') {
+      for (const key of [
+        'BEEM_API_KEY',
+        'BEEM_SECRET_KEY',
+        'BEEM_SENDER_ID',
+      ] as const) {
+        if (!env[key]) {
+          ctx.addIssue({
+            code: 'custom',
+            path: [key],
+            message: 'is required when SMS_PROVIDER is "beem"',
+          });
+        }
+      }
+    }
+  });
 
 export type Env = z.infer<typeof envSchema>;
 

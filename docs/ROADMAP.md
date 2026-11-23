@@ -58,8 +58,10 @@ calculated balances on the phone.
   - top up SMS credit (prepaid)
   - create the API key and secret, kept only in the API's environment
   - ask Beem for staging (`dev-sms.beem.africa`) credentials, if any
-- [ ] Phone verification through the API, before a number can be linked to
-      mobile money (replaces the 2022 app's Firebase phone check):
+- [x] Phone verification through the API, before a number can be linked to
+      mobile money (replaces the 2022 app's Firebase phone check). Built and
+      tested with a fake sender; the first live Beem message waits on the
+      account set-up above:
   - the API sends one-time codes through an `SmsSender` interface
     (`BeemSmsSender` in production), and tests use a fake that sends nothing
   - codes are stored hashed, expire after a few minutes, and allow a limited

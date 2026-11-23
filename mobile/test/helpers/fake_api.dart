@@ -65,10 +65,12 @@ Map<String, Object?> userJson({
   String id = 'user-1',
   String fullName = 'Asha Mwakyusa',
   String? businessName = 'Asha Duka',
+  bool phoneVerified = true,
 }) => {
   'id': id,
   'email': 'asha@example.com',
   'phone': '+255712345678',
+  'phoneVerified': phoneVerified,
   'fullName': fullName,
   'businessName': businessName,
   'createdAt': '2026-11-01T08:00:00.000Z',

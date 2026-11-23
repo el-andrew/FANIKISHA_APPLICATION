@@ -422,4 +422,83 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get languageSwahili => 'Kiswahili';
+
+  @override
+  String get verifyPhoneTitle => 'Thibitisha namba ya simu';
+
+  @override
+  String verifyPhoneSending(String phone) {
+    return 'Tunatuma namba ya uthibitisho kwenda $phone…';
+  }
+
+  @override
+  String verifyPhoneSentTo(String phone) {
+    return 'Tumetuma namba ya tarakimu 6 kwenda $phone.';
+  }
+
+  @override
+  String get verifyPhoneCodeLabel => 'Namba ya uthibitisho';
+
+  @override
+  String get verifyPhoneSubmit => 'Thibitisha';
+
+  @override
+  String get verifyPhoneResend => 'Tuma namba mpya';
+
+  @override
+  String verifyPhoneResendIn(int seconds) {
+    return 'Tuma namba mpya baada ya sekunde $seconds';
+  }
+
+  @override
+  String get verifyPhoneDone => 'Namba ya simu imethibitishwa';
+
+  @override
+  String get phoneVerified => 'Imethibitishwa';
+
+  @override
+  String get verifyPhoneBannerTitle => 'Thibitisha namba yako ya simu';
+
+  @override
+  String get verifyPhoneBannerBody =>
+      'Utaihitaji ili kuweka akiba kwa pesa za simu.';
+
+  @override
+  String get verifyPhoneAction => 'Thibitisha sasa';
+
+  @override
+  String get phoneErrorNoPhone =>
+      'Kwanza ongeza namba ya simu kwenye wasifu wako.';
+
+  @override
+  String phoneErrorResendTooSoon(int seconds) {
+    return 'Tafadhali subiri sekunde $seconds kabla ya kuomba namba mpya.';
+  }
+
+  @override
+  String get phoneErrorDailyLimit =>
+      'Umeomba namba nyingi mno leo. Tafadhali jaribu tena kesho.';
+
+  @override
+  String get phoneErrorSmsFailed =>
+      'Tumeshindwa kutuma SMS. Tafadhali jaribu tena baadaye.';
+
+  @override
+  String get phoneErrorCodeExpired =>
+      'Muda wa namba hii umekwisha. Omba namba mpya.';
+
+  @override
+  String phoneErrorCodeIncorrect(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Namba si sahihi. Zimebaki nafasi $count.',
+      one: 'Namba si sahihi. Imebaki nafasi 1.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get phoneErrorTooManyAttempts =>
+      'Umekosea mara nyingi mno. Omba namba mpya.';
 }

@@ -95,6 +95,37 @@ void main() {
     expect(api.requestsTo('POST', '/v1/auth/register'), isEmpty);
   });
 
+  testWidgets('signing up opens the dashboard', (tester) async {
+    api.on(
+      'POST',
+      '/v1/auth/register',
+      (_) => FakeResponse(201, {...tokensJson(), 'user': userJson()}),
+    );
+    await pumpApp(tester, api);
+    await tester.tap(find.text('Create an account'));
+    await tester.pumpAndSettle();
+
+    final page = find.byType(Scrollable).first;
+    Future<void> fill(String label, String value) async {
+      final field = find.widgetWithText(TextFormField, label);
+      await tester.scrollUntilVisible(field, 100, scrollable: page);
+      await tester.enterText(field, value);
+    }
+
+    await fill('Full name', 'Asha Mwakyusa');
+    await fill('Email', 'asha@example.com');
+    await fill('Password', 'a strong password');
+    await fill('Confirm password', 'a strong password');
+    final submit = find.widgetWithText(FilledButton, 'Create account');
+    await tester.scrollUntilVisible(submit, 100, scrollable: page);
+    await tester.ensureVisible(submit);
+    await tester.pumpAndSettle();
+    await tester.tap(submit, warnIfMissed: true);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hello, Asha'), findsOneWidget);
+  });
+
   testWidgets('a saved session opens the dashboard directly', (tester) async {
     api.on('GET', '/v1/me', (_) => FakeResponse(200, userJson()));
     await pumpApp(

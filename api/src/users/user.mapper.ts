@@ -4,6 +4,8 @@ export interface UserDto {
   id: string;
   email: string;
   phone: string | null;
+  /** True once the phone number was confirmed with an SMS code. */
+  phoneVerified: boolean;
   fullName: string;
   businessName: string | null;
   createdAt: string;
@@ -15,6 +17,7 @@ export function toUserDto(user: User): UserDto {
     id: user.id,
     email: user.email,
     phone: user.phone,
+    phoneVerified: user.phoneVerifiedAt !== null,
     fullName: user.fullName,
     businessName: user.businessName,
     createdAt: user.createdAt.toISOString(),

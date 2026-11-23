@@ -14,6 +14,7 @@ import '../../features/goals/presentation/goals_screen.dart';
 import '../../features/profile/change_password_screen.dart';
 import '../../features/profile/edit_profile_screen.dart';
 import '../../features/profile/profile_screen.dart';
+import '../../features/profile/verify_phone_screen.dart';
 import '../../features/savings/presentation/deposit_screen.dart';
 import '../../features/savings/presentation/history_screen.dart';
 import 'home_shell.dart';
@@ -32,7 +33,13 @@ String? redirectFor(AuthState auth, String location) => switch (auth) {
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ValueNotifier<AuthState>(ref.read(authControllerProvider));
-  ref.listen(authControllerProvider, (_, next) => auth.value = next);
+  // Re-route only when the user signs in or out. Reacting to profile changes
+  // (same state type, new user) would refresh the router mid-navigation and
+  // put back a screen that was just closed.
+  ref.listen(
+    authControllerProvider.select((state) => state.runtimeType),
+    (_, _) => auth.value = ref.read(authControllerProvider),
+  );
 
   final router = GoRouter(
     initialLocation: '/',
@@ -91,6 +98,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile/edit',
         builder: (_, _) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: '/profile/verify-phone',
+        builder: (_, _) => const VerifyPhoneScreen(),
       ),
       GoRoute(
         path: '/profile/password',

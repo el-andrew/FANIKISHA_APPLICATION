@@ -58,6 +58,10 @@ class DashboardScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (user != null && user.needsPhoneVerification) ...[
+              const _VerifyPhoneCard(),
+              const SizedBox(height: 16),
+            ],
             summary.when(
               loading: () => const _SummaryCard(summary: null),
               error: (error, _) => ErrorView(
@@ -179,6 +183,58 @@ class _SummaryCard extends StatelessWidget {
               ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// Asks the user to confirm their phone number until they have.
+class _VerifyPhoneCard extends StatelessWidget {
+  const _VerifyPhoneCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      color: scheme.tertiaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.sms_outlined, color: scheme.onTertiaryContainer),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.verifyPhoneBannerTitle,
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: scheme.onTertiaryContainer,
+                        ),
+                      ),
+                      Text(
+                        l10n.verifyPhoneBannerBody,
+                        style: TextStyle(color: scheme.onTertiaryContainer),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => context.push('/profile/verify-phone'),
+                child: Text(l10n.verifyPhoneAction),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
