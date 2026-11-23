@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/l10n/l10n.dart';
+import '../../core/legal_links.dart';
 import '../../core/locale_controller.dart';
 import '../auth/application/auth_controller.dart';
 
@@ -104,6 +105,18 @@ class ProfileScreen extends ConsumerWidget {
             title: Text(l10n.profileLanguage),
             subtitle: Text(_languageName(locale, l10n)),
             onTap: () => _chooseLanguage(context, ref, locale),
+          ),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.legalPrivacy),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () => openLegalPage(context, ref, LegalPage.privacy),
+          ),
+          ListTile(
+            leading: const Icon(Icons.description_outlined),
+            title: Text(l10n.legalTerms),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () => openLegalPage(context, ref, LegalPage.terms),
           ),
           const Divider(),
           ListTile(

@@ -561,4 +561,14 @@ class AppLocalizationsSw extends AppLocalizations {
   String offlineSavedEarlier(String date) {
     return 'Huna mtandao. Unaona taarifa zilizohifadhiwa tarehe $date.';
   }
+
+  @override
+  String get legalAgreement =>
+      'Kwa kufungua akaunti, unakubali masharti ya huduma na sera ya faragha.';
+
+  @override
+  String get legalTerms => 'Masharti ya huduma';
+
+  @override
+  String get legalPrivacy => 'Sera ya faragha';
 }

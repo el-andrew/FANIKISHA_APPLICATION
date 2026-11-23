@@ -5,6 +5,13 @@ const base = {
   JWT_SECRET: 'x'.repeat(32),
 };
 
+const operator = {
+  OPERATOR_NAME: 'Fanikisha Ltd',
+  OPERATOR_REGISTRATION: '123456789',
+  OPERATOR_ADDRESS: 'Dar es Salaam, Tanzania',
+  OPERATOR_EMAIL: 'privacy@example.com',
+};
+
 describe('validateEnv', () => {
   it('prints SMS to the log by default outside production', () => {
     expect(validateEnv(base).SMS_PROVIDER).toBe('log');
@@ -22,6 +29,7 @@ describe('validateEnv', () => {
     );
     const env = validateEnv({
       ...base,
+      ...operator,
       NODE_ENV: 'production',
       SMS_PROVIDER: 'beem',
       BEEM_API_KEY: 'key',
@@ -41,5 +49,17 @@ describe('validateEnv', () => {
         BEEM_SENDER_ID: 'FANIKISHA-APP',
       }),
     ).toThrow(/BEEM_SENDER_ID/);
+  });
+  it('refuses to publish placeholder operator details in production', () => {
+    expect(() =>
+      validateEnv({
+        ...base,
+        NODE_ENV: 'production',
+        SMS_PROVIDER: 'beem',
+        BEEM_API_KEY: 'k',
+        BEEM_SECRET_KEY: 's',
+        BEEM_SENDER_ID: 'FANIKISHA',
+      }),
+    ).toThrow(/OPERATOR_NAME[\s\S]*OPERATOR_EMAIL/);
   });
 });

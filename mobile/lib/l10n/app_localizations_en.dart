@@ -556,4 +556,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String offlineSavedEarlier(String date) {
     return 'You\'re offline. Showing what was saved on $date.';
   }
+
+  @override
+  String get legalAgreement =>
+      'By creating an account, you accept the terms of service and the privacy policy.';
+
+  @override
+  String get legalTerms => 'Terms of service';
+
+  @override
+  String get legalPrivacy => 'Privacy policy';
 }

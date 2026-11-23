@@ -1,6 +1,7 @@
 import 'package:fanikisha/app.dart';
 import 'package:fanikisha/core/api/api_client.dart';
 import 'package:fanikisha/core/api/token_storage.dart';
+import 'package:fanikisha/core/legal_links.dart';
 import 'package:fanikisha/core/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +9,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fake_api.dart';
+
+/// URLs the app asked to open in the browser, in order.
+final openedUrls = <Uri>[];
 
 /// Starts the whole app against [api], signed in when [tokens] is given.
 /// Pass the [storage] a previous launch returned to keep its session.
@@ -25,6 +29,7 @@ Future<MemoryTokenStorage> pumpApp(
     SharedPreferences.setMockInitialValues({'locale': locale});
   }
   final preferences = await SharedPreferences.getInstance();
+  openedUrls.clear();
   final tokenStorage = storage ?? MemoryTokenStorage();
   if (tokens != null) await tokenStorage.save(tokens);
 
@@ -34,6 +39,10 @@ Future<MemoryTokenStorage> pumpApp(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(preferences),
         tokenStorageProvider.overrideWithValue(tokenStorage),
+        urlOpenerProvider.overrideWithValue((uri) async {
+          openedUrls.add(uri);
+          return true;
+        }),
         apiClientProvider.overrideWith(
           (ref) => ApiClient(
             baseUrl: 'http://fanikisha.test',

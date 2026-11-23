@@ -26,6 +26,18 @@ export const envSchema = z
     /** A sender ID registered and activated on the Beem account (max 11 characters). */
     BEEM_SENDER_ID: z.string().min(1).max(11).optional(),
     BEEM_API_URL: z.url().default('https://apisms.beem.africa/v1/send'),
+
+    /**
+     * Who runs Fanikisha, as named in the privacy policy and terms. The
+     * placeholders are fine in development; production requires real values.
+     */
+    OPERATOR_NAME: z.string().min(1).default('[BUSINESS NAME]'),
+    OPERATOR_REGISTRATION: z
+      .string()
+      .min(1)
+      .default('[BUSINESS REGISTRATION NUMBER]'),
+    OPERATOR_ADDRESS: z.string().min(1).default('[BUSINESS ADDRESS]'),
+    OPERATOR_EMAIL: z.string().min(1).default('[CONTACT EMAIL]'),
   })
   .superRefine((env, ctx) => {
     if (env.NODE_ENV === 'production' && env.SMS_PROVIDER !== 'beem') {
@@ -34,6 +46,23 @@ export const envSchema = z
         path: ['SMS_PROVIDER'],
         message: 'must be "beem" in production (the log provider prints codes)',
       });
+    }
+    if (env.NODE_ENV === 'production') {
+      for (const key of [
+        'OPERATOR_NAME',
+        'OPERATOR_REGISTRATION',
+        'OPERATOR_ADDRESS',
+        'OPERATOR_EMAIL',
+      ] as const) {
+        if (env[key].startsWith('[')) {
+          ctx.addIssue({
+            code: 'custom',
+            path: [key],
+            message:
+              'must be set in production (it is published in the privacy policy and terms)',
+          });
+        }
+      }
     }
     if (env.SMS_PROVIDER === 'beem') {
       for (const key of [

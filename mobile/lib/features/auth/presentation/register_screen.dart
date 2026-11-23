@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
+import '../../../core/legal_links.dart';
 import '../../../core/validators.dart';
 import '../../../core/widgets/button_spinner.dart';
 import '../../../core/widgets/form_error.dart';
@@ -151,6 +152,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       v != _password.text ? l10n.passwordsDoNotMatch : null,
                 ),
                 const SizedBox(height: 24),
+                Text(
+                  l10n.legalAgreement,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    TextButton(
+                      onPressed: () =>
+                          openLegalPage(context, ref, LegalPage.terms),
+                      child: Text(l10n.legalTerms),
+                    ),
+                    TextButton(
+                      onPressed: () =>
+                          openLegalPage(context, ref, LegalPage.privacy),
+                      child: Text(l10n.legalPrivacy),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 FormError(_error),
                 FilledButton(
                   onPressed: _submitting ? null : _submit,

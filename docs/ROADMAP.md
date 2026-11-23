@@ -47,11 +47,14 @@ Needed before the app can go on the Play Store.
 - [x] Account deletion in the app (Google Play requirement): confirmed with
       the password, removes the user's goals, deposits and codes, and signs
       out every device
-- [ ] A web page to request account deletion without the app (also a Google
-      Play requirement); needs the API deployed and a support contact
-- [ ] Privacy policy and terms of service (drafts, to be checked against
-      Tanzania's Personal Data Protection Act), linked from sign-up and the
-      profile
+- [x] A web page to delete an account without the app (also a Google Play
+      requirement), served by the API at `/account-deletion`
+- [x] Privacy policy and terms of service, in English and Kiswahili, served by
+      the API at `/privacy` and `/terms` and linked from sign-up and the
+      profile (drafts)
+- [ ] Fill in the business details (`OPERATOR_*` settings) and the
+      placeholders (hosting, log and backup retention), and have the texts
+      checked against Tanzania's Personal Data Protection Act (owner)
 - [x] Android release signing set up: the key is read from a git-ignored
       `key.properties` (see mobile/README.md); release builds refuse a
       non-HTTPS API

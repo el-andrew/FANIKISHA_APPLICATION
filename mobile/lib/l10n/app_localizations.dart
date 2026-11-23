@@ -1057,6 +1057,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re offline. Showing what was saved on {date}.'**
   String offlineSavedEarlier(String date);
+
+  /// No description provided for @legalAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating an account, you accept the terms of service and the privacy policy.'**
+  String get legalAgreement;
+
+  /// No description provided for @legalTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of service'**
+  String get legalTerms;
+
+  /// No description provided for @legalPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get legalPrivacy;
 }
 
 class _AppLocalizationsDelegate

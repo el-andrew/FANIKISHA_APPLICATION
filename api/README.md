@@ -78,6 +78,8 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | Method | Path | Purpose |
 | --- | --- | --- |
 | GET | `/health` | API and database status |
+| GET | `/privacy`, `/terms` | Privacy policy and terms of service, as web pages (`?lang=sw` for Kiswahili) |
+| GET / POST | `/account-deletion` | Web page to delete an account with email and password, without the app |
 | POST | `/v1/auth/register` | Create an account, returns user and tokens |
 | POST | `/v1/auth/login` | Returns user and tokens |
 | POST | `/v1/auth/refresh` | Exchange a refresh token for a new pair |

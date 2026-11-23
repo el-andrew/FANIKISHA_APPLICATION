@@ -99,6 +99,22 @@ export class UsersService {
     ]);
   }
 
+  /**
+   * For the web deletion page: deletes the account with this email and
+   * password. `false` when they don't match an account; the check takes the
+   * same time either way, so it does not reveal which emails exist.
+   */
+  async deleteAccountWithCredentials(
+    email: string,
+    password: string,
+  ): Promise<boolean> {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    const valid = await this.hasher.verify(password, user?.passwordHash);
+    if (!user || !valid) return false;
+    await this.deleteAccount(user.id, { password });
+    return true;
+  }
+
   private async checkPassword(userId: string, password: string): Promise<void> {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     const valid = await this.hasher.verify(password, user?.passwordHash);

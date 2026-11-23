@@ -159,5 +159,8 @@
   "deleteAccountSubmit": "Futa akaunti yangu",
   "deleteAccountDone": "Akaunti yako imefutwa.",
   "offlineSavedToday": "Huna mtandao. Unaona taarifa zilizohifadhiwa saa {time}.",
-  "offlineSavedEarlier": "Huna mtandao. Unaona taarifa zilizohifadhiwa tarehe {date}."
+  "offlineSavedEarlier": "Huna mtandao. Unaona taarifa zilizohifadhiwa tarehe {date}.",
+  "legalAgreement": "Kwa kufungua akaunti, unakubali masharti ya huduma na sera ya faragha.",
+  "legalTerms": "Masharti ya huduma",
+  "legalPrivacy": "Sera ya faragha"
 }

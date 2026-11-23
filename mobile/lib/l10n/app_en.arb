@@ -281,5 +281,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "legalAgreement": "By creating an account, you accept the terms of service and the privacy policy.",
+  "legalTerms": "Terms of service",
+  "legalPrivacy": "Privacy policy"
 }
