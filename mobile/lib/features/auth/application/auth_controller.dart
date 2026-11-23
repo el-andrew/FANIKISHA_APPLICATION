@@ -100,6 +100,11 @@ class AuthController extends Notifier<AuthState> {
     state = SignedIn(user);
   }
 
+  Future<void> deleteAccount({required String password}) async {
+    await ref.read(authRepositoryProvider).deleteAccount(password: password);
+    state = const SignedOut();
+  }
+
   Future<void> logout() async {
     await ref.read(authRepositoryProvider).logout();
     state = const SignedOut();

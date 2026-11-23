@@ -1,8 +1,8 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { PasswordHasher, TokenService } from '@nestjs/authentication';
 import { isUniqueViolation } from '../common/prisma-errors.js';
@@ -10,8 +10,21 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { toUserDto, type UserDto } from './user.mapper.js';
 import type {
   ChangePasswordInput,
+  DeleteAccountInput,
   UpdateProfileInput,
 } from './users.schemas.js';
+
+/**
+ * A wrong password on a signed-in request. 403, not 401: a 401 tells the app
+ * its session expired, and it would refresh tokens and retry for nothing.
+ */
+function wrongPassword(): ForbiddenException {
+  return new ForbiddenException({
+    statusCode: 403,
+    message: 'That password is not correct',
+    code: 'wrong_password',
+  });
+}
 
 @Injectable()
 export class UsersService {
@@ -60,18 +73,35 @@ export class UsersService {
     userId: string,
     input: ChangePasswordInput,
   ): Promise<void> {
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    const valid = await this.hasher.verify(
-      input.currentPassword,
-      user?.passwordHash,
-    );
-    if (!user || !valid) {
-      throw new UnauthorizedException('Current password is incorrect');
-    }
+    await this.checkPassword(userId, input.currentPassword);
     await this.prisma.user.update({
       where: { id: userId },
       data: { passwordHash: await this.hasher.hash(input.newPassword) },
     });
     await this.tokens.revokeAll(userId);
+  }
+
+  /**
+   * Deletes the account and everything in it (goals, deposits, SMS codes),
+   * and signs it out everywhere. Cannot be undone.
+   */
+  async deleteAccount(
+    userId: string,
+    input: DeleteAccountInput,
+  ): Promise<void> {
+    await this.checkPassword(userId, input.password);
+    // Refresh tokens are kept by the authentication store, outside the user's
+    // foreign keys: revoke them, then remove them.
+    await this.tokens.revokeAll(userId);
+    await this.prisma.$transaction([
+      this.prisma.refreshToken.deleteMany({ where: { userId } }),
+      this.prisma.user.delete({ where: { id: userId } }),
+    ]);
+  }
+
+  private async checkPassword(userId: string, password: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const valid = await this.hasher.verify(password, user?.passwordHash);
+    if (!user || !valid) throw wrongPassword();
   }
 }

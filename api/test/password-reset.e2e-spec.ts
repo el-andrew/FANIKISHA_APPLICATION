@@ -32,12 +32,10 @@ afterAll(async () => {
 /** A user whose phone number is verified. */
 async function verifiedUser(): Promise<TestUser> {
   const user = await registerUser(app, { phone: PHONE });
-  await app
-    .get(PrismaService)
-    .user.update({
-      where: { id: user.id },
-      data: { phoneVerifiedAt: new Date() },
-    });
+  await app.get(PrismaService).user.update({
+    where: { id: user.id },
+    data: { phoneVerifiedAt: new Date() },
+  });
   return user;
 }
 
@@ -145,12 +143,10 @@ describe('password reset', () => {
       .send({})
       .expect(202);
     const verifyCode = sms.lastCode(PHONE);
-    await app
-      .get(PrismaService)
-      .user.update({
-        where: { id: user.id },
-        data: { phoneVerifiedAt: new Date() },
-      });
+    await app.get(PrismaService).user.update({
+      where: { id: user.id },
+      data: { phoneVerifiedAt: new Date() },
+    });
 
     await confirmReset(user.email, verifyCode).expect(400);
   });

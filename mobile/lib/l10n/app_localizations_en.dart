@@ -524,4 +524,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forgotPasswordOtherEmail => 'Use a different email';
+
+  @override
+  String get errorWrongPassword => 'That password is not correct.';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountBody =>
+      'This permanently deletes your account, your goals and your savings history, and signs you out on every device. It can\'t be undone.';
+
+  @override
+  String get deleteAccountPassword => 'Enter your password to confirm';
+
+  @override
+  String get deleteAccountSubmit => 'Delete my account';
+
+  @override
+  String get deleteAccountDone => 'Your account has been deleted.';
 }

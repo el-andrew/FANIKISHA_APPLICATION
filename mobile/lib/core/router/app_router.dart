@@ -13,6 +13,7 @@ import '../../features/goals/presentation/goal_detail_screen.dart';
 import '../../features/goals/presentation/goal_form_screen.dart';
 import '../../features/goals/presentation/goals_screen.dart';
 import '../../features/profile/change_password_screen.dart';
+import '../../features/profile/delete_account_screen.dart';
 import '../../features/profile/edit_profile_screen.dart';
 import '../../features/profile/profile_screen.dart';
 import '../../features/profile/verify_phone_screen.dart';
@@ -107,6 +108,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile/verify-phone',
         builder: (_, _) => const VerifyPhoneScreen(),
+      ),
+      GoRoute(
+        path: '/profile/delete',
+        builder: (_, _) => const DeleteAccountScreen(),
       ),
       GoRoute(
         path: '/profile/password',

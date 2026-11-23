@@ -76,6 +76,9 @@ class ApiClient {
   Future<Map<String, dynamic>> deleteMap(String path) async =>
       _asMap(await _send('DELETE', path));
 
+  Future<void> deleteVoid(String path, {Object? body}) =>
+      _send('DELETE', path, body: body);
+
   void dispose() {
     _sessionExpired.close();
     _dio.close();

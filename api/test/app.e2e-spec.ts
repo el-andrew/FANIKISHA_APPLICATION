@@ -1,6 +1,7 @@
 import type { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import type { App } from 'supertest/types.js';
+import { PrismaService } from '../src/prisma/prisma.service.js';
 import {
   createTestApp,
   daysFromNow,
@@ -165,7 +166,9 @@ describe('profile', () => {
       .post('/v1/me/password')
       .set(auth(user))
       .send({ currentPassword: 'wrong', newPassword: 'brand new password' })
-      .expect(401);
+      // 403, not 401: a 401 would make the app think its session expired.
+      .expect(403)
+      .expect((res) => expect(res.body.code).toBe('wrong_password'));
     await http()
       .post('/v1/me/password')
       .set(auth(user))
@@ -183,6 +186,68 @@ describe('profile', () => {
       .post('/v1/auth/login')
       .send({ email: user.email, password: 'brand new password' })
       .expect(200);
+  });
+});
+
+describe('account deletion', () => {
+  it('needs the right password', async () => {
+    const user = await registerUser(app);
+    const res = await http()
+      .delete('/v1/me')
+      .set(auth(user))
+      .send({ password: 'wrong' })
+      .expect(403);
+    expect(res.body.code).toBe('wrong_password');
+    await http().get('/v1/me').set(auth(user)).expect(200);
+  });
+
+  it('deletes the account, its data and its sessions', async () => {
+    const user = await registerUser(app, { phone: '+255712345678' });
+    const other = await registerUser(app);
+    const goal = await http()
+      .post('/v1/goals')
+      .set(auth(user))
+      .send({
+        name: 'Stock',
+        targetAmount: 100_000,
+        priority: 3,
+        targetDate: daysFromNow(30),
+      })
+      .expect(201);
+    await http()
+      .post('/v1/savings/deposits')
+      .set(auth(user))
+      .set('idempotency-key', 'before-delete-1')
+      .send({ amount: 5_000 })
+      .expect(201);
+
+    await http()
+      .delete('/v1/me')
+      .set(auth(user))
+      .send({ password: user.password })
+      .expect(204);
+
+    // The access token stops working at once, and the refresh token too.
+    await http().get('/v1/me').set(auth(user)).expect(401);
+    await http()
+      .post('/v1/auth/refresh')
+      .send({ refreshToken: user.refreshToken })
+      .expect(401);
+    await http()
+      .post('/v1/auth/login')
+      .send({ email: user.email, password: user.password })
+      .expect(401);
+
+    const prisma = app.get(PrismaService);
+    expect(await prisma.goal.count({ where: { id: goal.body.id } })).toBe(0);
+    expect(await prisma.deposit.count({ where: { userId: user.id } })).toBe(0);
+    expect(
+      await prisma.refreshToken.count({ where: { userId: user.id } }),
+    ).toBe(0);
+
+    // Other accounts are untouched, and the email can be used again.
+    await http().get('/v1/me').set(auth(other)).expect(200);
+    await registerUser(app, { email: user.email });
   });
 });
 

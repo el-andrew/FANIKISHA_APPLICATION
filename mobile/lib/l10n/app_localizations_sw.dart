@@ -529,4 +529,26 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get forgotPasswordOtherEmail => 'Tumia barua pepe nyingine';
+
+  @override
+  String get errorWrongPassword => 'Nenosiri si sahihi.';
+
+  @override
+  String get deleteAccount => 'Futa akaunti';
+
+  @override
+  String get deleteAccountTitle => 'Futa akaunti yako?';
+
+  @override
+  String get deleteAccountBody =>
+      'Hii itafuta kabisa akaunti yako, malengo yako na historia yako ya akiba, na kukutoa kwenye vifaa vyote. Haiwezi kurudishwa.';
+
+  @override
+  String get deleteAccountPassword => 'Weka nenosiri lako kuthibitisha';
+
+  @override
+  String get deleteAccountSubmit => 'Futa akaunti yangu';
+
+  @override
+  String get deleteAccountDone => 'Akaunti yako imefutwa.';
 }

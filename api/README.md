@@ -85,6 +85,7 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | POST | `/v1/auth/password-reset` | Text a reset code to the account's verified phone (`{"email", "language"}`); always 202 |
 | POST | `/v1/auth/password-reset/confirm` | Set a new password with the code (`{"email", "code", "newPassword"}`); signs out other devices, returns tokens |
 | GET / PATCH | `/v1/me` | Read or update the profile |
+| DELETE | `/v1/me` | Delete the account and all its data (`{"password"}`) |
 | POST | `/v1/me/password` | Change password, signs out everywhere |
 | POST | `/v1/me/phone/verification` | Text a 6-digit code to the profile's phone (`{"language": "en" \| "sw"}`) |
 | POST | `/v1/me/phone/verification/confirm` | Check the code (`{"code": "123456"}`); marks the phone verified |

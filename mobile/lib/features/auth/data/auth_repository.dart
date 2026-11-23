@@ -26,6 +26,13 @@ class AuthRepository {
       _signIn('/v1/auth/login', {'email': email, 'password': password});
 
   /// Revokes the refresh token on the server (best effort) and forgets it.
+  /// Deletes the account and all its data on the server, then forgets the
+  /// tokens. Cannot be undone.
+  Future<void> deleteAccount({required String password}) async {
+    await _api.deleteVoid('/v1/me', body: {'password': password});
+    await _tokens.clear();
+  }
+
   Future<void> logout() async {
     final tokens = await _tokens.read();
     await _tokens.clear();

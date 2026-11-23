@@ -44,8 +44,11 @@ Needed before the app can go on the Play Store.
 
 - [x] Forgot password: reset with an SMS code sent to the account's verified
       phone number
-- [ ] Account deletion in the app (Google Play requirement), removing the
-      user's data; plus a web page to request deletion
+- [x] Account deletion in the app (Google Play requirement): confirmed with
+      the password, removes the user's goals, deposits and codes, and signs
+      out every device
+- [ ] A web page to request account deletion without the app (also a Google
+      Play requirement); needs the API deployed and a support contact
 - [ ] Privacy policy and terms of service (drafts, to be checked against
       Tanzania's Personal Data Protection Act), linked from sign-up and the
       profile

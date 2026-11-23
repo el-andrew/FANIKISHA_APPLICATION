@@ -258,5 +258,12 @@
   },
   "forgotPasswordNoPhone": "No verified phone number on your account? Then it can't be reset by SMS yet.",
   "forgotPasswordSubmit": "Reset password",
-  "forgotPasswordOtherEmail": "Use a different email"
+  "forgotPasswordOtherEmail": "Use a different email",
+  "errorWrongPassword": "That password is not correct.",
+  "deleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete your account?",
+  "deleteAccountBody": "This permanently deletes your account, your goals and your savings history, and signs you out on every device. It can't be undone.",
+  "deleteAccountPassword": "Enter your password to confirm",
+  "deleteAccountSubmit": "Delete my account",
+  "deleteAccountDone": "Your account has been deleted."
 }

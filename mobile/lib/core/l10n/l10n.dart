@@ -22,6 +22,7 @@ String describeError(Object error, AppLocalizations l10n) {
       case ApiErrorKind.sessionExpired:
         return l10n.errorSessionExpired;
       case ApiErrorKind.rejected:
+        if (error.errorCode == 'wrong_password') return l10n.errorWrongPassword;
         if (error.messages.isNotEmpty) return error.messages.join('\n');
     }
   }

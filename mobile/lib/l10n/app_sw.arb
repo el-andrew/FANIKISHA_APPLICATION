@@ -150,5 +150,12 @@
   "forgotPasswordSent": "Kama {email} ina akaunti yenye namba ya simu iliyothibitishwa, tumetuma namba kwa SMS kwenda namba hiyo.",
   "forgotPasswordNoPhone": "Akaunti yako haina namba ya simu iliyothibitishwa? Basi haiwezi kubadilishwa nenosiri kwa SMS kwa sasa.",
   "forgotPasswordSubmit": "Badilisha nenosiri",
-  "forgotPasswordOtherEmail": "Tumia barua pepe nyingine"
+  "forgotPasswordOtherEmail": "Tumia barua pepe nyingine",
+  "errorWrongPassword": "Nenosiri si sahihi.",
+  "deleteAccount": "Futa akaunti",
+  "deleteAccountTitle": "Futa akaunti yako?",
+  "deleteAccountBody": "Hii itafuta kabisa akaunti yako, malengo yako na historia yako ya akiba, na kukutoa kwenye vifaa vyote. Haiwezi kurudishwa.",
+  "deleteAccountPassword": "Weka nenosiri lako kuthibitisha",
+  "deleteAccountSubmit": "Futa akaunti yangu",
+  "deleteAccountDone": "Akaunti yako imefutwa."
 }

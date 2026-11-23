@@ -114,6 +114,17 @@ class ProfileScreen extends ConsumerWidget {
             ),
             onTap: () => _logOut(context, ref),
           ),
+          ListTile(
+            leading: Icon(
+              Icons.delete_forever_outlined,
+              color: theme.colorScheme.error,
+            ),
+            title: Text(
+              l10n.deleteAccount,
+              style: TextStyle(color: theme.colorScheme.error),
+            ),
+            onTap: () => context.push('/profile/delete'),
+          ),
         ],
       ),
     );
