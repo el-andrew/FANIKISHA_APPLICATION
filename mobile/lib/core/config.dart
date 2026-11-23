@@ -10,3 +10,13 @@ abstract final class AppConfig {
     defaultValue: 'http://10.0.2.2:3000',
   );
 }
+
+/// Why this build must not start, or null. A release build talking to the
+/// API over plain HTTP would send passwords and tokens unencrypted.
+String? releaseConfigProblem({
+  required bool isRelease,
+  required String apiBaseUrl,
+}) => isRelease && !apiBaseUrl.startsWith('https://')
+    ? 'Release builds need an HTTPS API_BASE_URL '
+          '(--dart-define=API_BASE_URL=https://...), got $apiBaseUrl'
+    : null;

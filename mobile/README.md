@@ -76,6 +76,41 @@ xvfb-run -a flutter test integration_test -d linux \
 
 It signs up a new account each run, so it is safe on a development database.
 
+## Release builds
+
+Release builds are signed with an upload key that stays out of git.
+
+1. Create the key once, outside the repository:
+
+   ```bash
+   keytool -genkeypair -v -keystore ~/fanikisha-upload.jks \
+     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+   ```
+
+   Back up the file and its password in two safe places (e.g. a password
+   manager and an offline copy). With Google Play App Signing a lost upload
+   key can be replaced through Play support, but it takes time.
+
+2. Create `android/key.properties` (git-ignored):
+
+   ```properties
+   storeFile=/home/you/fanikisha-upload.jks
+   storePassword=...
+   keyAlias=upload
+   keyPassword=...
+   ```
+
+3. Build, with the deployed API's HTTPS address:
+
+   ```bash
+   flutter build appbundle --release \
+     --dart-define=API_BASE_URL=https://api.example.com
+   ```
+
+Without `key.properties` the release build is signed with the debug key (so
+`flutter run --release` works) and cannot be published. A release build with
+a non-HTTPS `API_BASE_URL` refuses to start.
+
 ## Icon and splash screen
 
 Made from the Fanikisha logo; the source images are in `assets/branding/`.

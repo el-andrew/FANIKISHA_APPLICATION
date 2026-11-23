@@ -52,7 +52,10 @@ Needed before the app can go on the Play Store.
 - [ ] Privacy policy and terms of service (drafts, to be checked against
       Tanzania's Personal Data Protection Act), linked from sign-up and the
       profile
-- [ ] Android release signing with a release key kept outside the repository
+- [x] Android release signing set up: the key is read from a git-ignored
+      `key.properties` (see mobile/README.md); release builds refuse a
+      non-HTTPS API
+- [ ] Create the real upload key and back it up (owner)
 - [x] Offline viewing: the dashboard, goals, recent history and profile are
       saved on the phone and shown, with a banner, when offline
 
