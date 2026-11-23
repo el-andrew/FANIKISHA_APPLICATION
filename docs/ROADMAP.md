@@ -46,6 +46,26 @@ calculated balances on the phone.
 
 ## Phase 4: Mobile money
 
+- [x] SMS provider: [Beem](https://docs.beem.africa), using its SMS API
+      (`POST https://apisms.beem.africa/v1/send`, Basic auth with the API key
+      and secret, numbers as `255…` without the `+`). Fanikisha generates and
+      checks codes itself rather than using Beem's OTP API, so the same sender
+      also serves later messages (reminders) and the provider stays replaceable.
+- [ ] Beem account set-up (owner):
+  - register a sender ID, e.g. `FANIKISHA` (at most 11 characters), and wait
+    for activation; Beem's default `INFO` sender ID is deactivated
+  - top up SMS credit (prepaid)
+  - create the API key and secret, kept only in the API's environment
+  - ask Beem for staging (`dev-sms.beem.africa`) credentials, if any
+- [ ] Phone verification through the API, before a number can be linked to
+      mobile money (replaces the 2022 app's Firebase phone check):
+  - the API sends one-time codes through an `SmsSender` interface
+    (`BeemSmsSender` in production), and tests use a fake that sends nothing
+  - codes are stored hashed, expire after a few minutes, and allow a limited
+    number of attempts
+  - sending is rate-limited per phone number and per account
+  - `users.phone_verified_at` records the result; changing the number clears it
+  - the app gets a code-entry screen after sign-up and in the profile
 - [ ] Deposits from mobile money (M-Pesa, Airtel Money, Tigo Pesa) through a
       payment aggregator's sandbox, confirmed by webhook
 - [ ] Reconciliation of payments against recorded deposits
