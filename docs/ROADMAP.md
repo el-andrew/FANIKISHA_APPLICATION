@@ -33,7 +33,8 @@ calculated balances on the phone.
 - [x] Unit and widget tests, plus an integration test that drives the real app
       against the real API (with optional screenshots)
 - [ ] Kiswahili text reviewed by a native speaker
-- [ ] App icon and splash screen from the logo
+- [x] App icon (adaptive and themed on Android) and splash screen from the logo,
+      light and dark
 - [x] Remove the 2022 app (`lib/`, `backend/`, Firebase config); the original
       code remains in the git history (commit `0ee59b3`)
 

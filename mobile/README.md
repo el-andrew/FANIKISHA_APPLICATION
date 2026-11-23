@@ -70,6 +70,19 @@ xvfb-run -a flutter test integration_test -d linux \
 
 It signs up a new account each run, so it is safe on a development database.
 
+## Icon and splash screen
+
+Made from the Fanikisha logo; the source images are in `assets/branding/`.
+After changing them, regenerate the platform files:
+
+```bash
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
+
+`flutter_launcher_icons` can rewrite an unrelated iOS build setting
+(`ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS`): keep it `YES`.
+
 ## Translations
 
 Edit `lib/l10n/app_en.arb` and `lib/l10n/app_sw.arb` (every key in both), then

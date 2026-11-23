@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 
-/// The Fanikisha logo on a light tile, so it stays visible in dark mode.
+/// The Fanikisha logo (mark and wordmark), in a light colour on dark themes.
 class FanikishaLogo extends StatelessWidget {
-  const FanikishaLogo({super.key, this.size = 120});
+  const FanikishaLogo({super.key, this.width = 160});
 
-  final double size;
+  /// The width the native splash screen uses, so the in-app splash that
+  /// follows it looks identical.
+  static const splashWidth = 154.0;
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(size / 5),
-      child: ColoredBox(
-        color: Colors.white,
-        child: Image.asset(
-          'assets/images/logo.png',
-          width: size,
-          height: size,
-          semanticLabel: 'Fanikisha',
-        ),
-      ),
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Image.asset(
+      dark ? 'assets/images/logo_dark.png' : 'assets/images/logo.png',
+      width: width,
+      semanticLabel: 'Fanikisha',
     );
   }
 }
