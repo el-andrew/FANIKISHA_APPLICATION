@@ -72,9 +72,15 @@ export class GoalsService {
       }
       if (input.targetDate) assertDateOrder(goal.startDate, input.targetDate);
 
-      // Raising the target of a completed goal reopens it.
+      // Only a new target changes completion: raising the target of a
+      // completed goal reopens it. Other edits leave it as it is, even if its
+      // money has since been taken out.
       const status: GoalStatus =
-        goal.savedAmount >= targetAmount ? 'COMPLETED' : 'ACTIVE';
+        input.targetAmount === undefined
+          ? goal.status
+          : goal.savedAmount >= targetAmount
+            ? 'COMPLETED'
+            : 'ACTIVE';
       const updated = await tx.goal.update({
         where: { id: goal.id },
         data: {

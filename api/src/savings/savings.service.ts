@@ -26,8 +26,11 @@ import type {
 export type DepositPreviewDto = Omit<DepositDto, 'id' | 'note' | 'createdAt'>;
 
 export interface SavingsSummary {
+  /** The money saved now: in goals plus general savings. */
+  balance: number;
   totalDeposited: number;
-  /** Money saved that no goal needed. */
+  totalWithdrawn: number;
+  /** General savings: money saved that is not in any goal. */
   unallocatedAmount: number;
   depositCount: number;
   activeGoals: number;
@@ -53,8 +56,10 @@ export class SavingsService {
 
     try {
       return await this.prisma.$transaction(async (tx) => {
-        // Lock the user's active goals: concurrent deposits for the same user
-        // run one after the other, so no increment is lost.
+        // Lock the account, then its active goals: concurrent deposits and
+        // money movements for the same user run one after the other, so no
+        // change is lost. Always in this order, so they cannot deadlock.
+        await tx.$queryRaw`SELECT id FROM users WHERE id = ${userId}::uuid FOR UPDATE`;
         await tx.$queryRaw`SELECT id FROM goals WHERE user_id = ${userId}::uuid AND status = 'ACTIVE' FOR UPDATE`;
         const goals = await tx.goal.findMany({
           where: { userId, status: 'ACTIVE' },
@@ -65,6 +70,13 @@ export class SavingsService {
           input.amount,
           goals,
         );
+
+        if (unallocated > 0) {
+          await tx.user.update({
+            where: { id: userId },
+            data: { generalSavings: { increment: BigInt(unallocated) } },
+          });
+        }
 
         const deposit = await tx.deposit.create({
           data: {
@@ -162,10 +174,10 @@ export class SavingsService {
   }
 
   async getSummary(userId: string): Promise<SavingsSummary> {
-    const [totals, goalCounts] = await Promise.all([
+    const [totals, goalCounts, inGoals, withdrawn, user] = await Promise.all([
       this.prisma.deposit.aggregate({
         where: { userId },
-        _sum: { amount: true, unallocatedAmount: true },
+        _sum: { amount: true },
         _count: true,
       }),
       this.prisma.goal.groupBy({
@@ -173,12 +185,27 @@ export class SavingsService {
         where: { userId },
         _count: true,
       }),
+      this.prisma.goal.aggregate({
+        where: { userId },
+        _sum: { savedAmount: true },
+      }),
+      this.prisma.movement.aggregate({
+        where: { userId, kind: 'WITHDRAWAL' },
+        _sum: { amount: true },
+      }),
+      this.prisma.user.findUniqueOrThrow({
+        where: { id: userId },
+        select: { generalSavings: true },
+      }),
     ]);
+    const general = toAmount(user.generalSavings);
     const countOf = (status: string) =>
       goalCounts.find((g) => g.status === status)?._count ?? 0;
     return {
+      balance: toAmount(inGoals._sum.savedAmount ?? 0n) + general,
       totalDeposited: toAmount(totals._sum.amount ?? 0n),
-      unallocatedAmount: toAmount(totals._sum.unallocatedAmount ?? 0n),
+      totalWithdrawn: toAmount(withdrawn._sum.amount ?? 0n),
+      unallocatedAmount: general,
       depositCount: totals._count,
       activeGoals: countOf('ACTIVE'),
       completedGoals: countOf('COMPLETED'),

@@ -107,9 +107,15 @@ Map<String, Object?> goalJson({
   'createdAt': '2026-11-01T08:00:00.000Z',
 };
 
-Map<String, Object?> summaryJson({int total = 300000, int deposits = 3}) => {
+Map<String, Object?> summaryJson({
+  int total = 300000,
+  int deposits = 3,
+  int general = 0,
+}) => {
+  'balance': total,
   'totalDeposited': total,
-  'unallocatedAmount': 0,
+  'totalWithdrawn': 0,
+  'unallocatedAmount': general,
   'depositCount': deposits,
   'activeGoals': 1,
   'completedGoals': 0,

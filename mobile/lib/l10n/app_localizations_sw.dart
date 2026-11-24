@@ -741,4 +741,71 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get ruleEdit => 'Badilisha kanuni';
+
+  @override
+  String get moveMoney => 'Hamisha pesa';
+
+  @override
+  String get withdrawMoney => 'Toa pesa';
+
+  @override
+  String get withdrawTitle => 'Toa pesa';
+
+  @override
+  String moveFrom(String place, String amount) {
+    return 'Kutoka $place: $amount zinapatikana';
+  }
+
+  @override
+  String get moveTo => 'Hamishia';
+
+  @override
+  String moveSubmit(String amount) {
+    return 'Hamisha $amount';
+  }
+
+  @override
+  String withdrawSubmit(String amount) {
+    return 'Toa $amount';
+  }
+
+  @override
+  String get withdrawNote => 'Ilikuwa kwa ajili ya nini? (si lazima)';
+
+  @override
+  String get withdrawExplain =>
+      'Fanikisha haishiki pesa zako: hii inarekodi kwamba umezitoa kwenye akiba yako.';
+
+  @override
+  String amountTooHigh(String amount) {
+    return 'Hiyo ni zaidi ya $amount zinazopatikana';
+  }
+
+  @override
+  String get amountAll => 'Zote';
+
+  @override
+  String get moveDone => 'Pesa zimehamishwa';
+
+  @override
+  String get withdrawDone => 'Utoaji umerekodiwa';
+
+  @override
+  String get moveNoDestination =>
+      'Bado hakuna mahali pa kuzihamishia. Weka lengo jingine kwanza.';
+
+  @override
+  String activityWithdrawal(String place) {
+    return 'Imetolewa kutoka $place';
+  }
+
+  @override
+  String activityTransfer(String from, String to) {
+    return 'Imehamishwa kutoka $from kwenda $to';
+  }
+
+  @override
+  String goalLeft(String amount) {
+    return '$amount zimebaki kwenye lengo hili';
+  }
 }

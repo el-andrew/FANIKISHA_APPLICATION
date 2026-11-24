@@ -15,15 +15,15 @@ final todaySavingsProvider = FutureProvider.autoDispose<TodaySavings>((ref) {
   return ref.watch(savingsRepositoryProvider).today();
 });
 
-class DepositHistory {
-  const DepositHistory({
+class ActivityList {
+  const ActivityList({
     required this.items,
     required this.nextCursor,
     this.loadingMore = false,
     this.loadMoreError,
   });
 
-  final List<Deposit> items;
+  final List<Activity> items;
   final String? nextCursor;
   final bool loadingMore;
   final Object? loadMoreError;
@@ -31,20 +31,21 @@ class DepositHistory {
   bool get hasMore => nextCursor != null;
 }
 
-/// Deposit history, newest first, loaded a page at a time.
-class DepositHistoryController extends AsyncNotifier<DepositHistory> {
+/// Savings history (deposits, withdrawals, transfers), newest first, loaded a
+/// page at a time.
+class ActivityController extends AsyncNotifier<ActivityList> {
   @override
-  Future<DepositHistory> build() async {
+  Future<ActivityList> build() async {
     ref.watch(currentUserIdProvider);
-    final page = await ref.watch(savingsRepositoryProvider).history();
-    return DepositHistory(items: page.items, nextCursor: page.nextCursor);
+    final page = await ref.watch(savingsRepositoryProvider).activity();
+    return ActivityList(items: page.items, nextCursor: page.nextCursor);
   }
 
   Future<void> loadMore() async {
     final current = state.value;
     if (current == null || !current.hasMore || current.loadingMore) return;
     state = AsyncData(
-      DepositHistory(
+      ActivityList(
         items: current.items,
         nextCursor: current.nextCursor,
         loadingMore: true,
@@ -53,10 +54,10 @@ class DepositHistoryController extends AsyncNotifier<DepositHistory> {
     try {
       final page = await ref
           .read(savingsRepositoryProvider)
-          .history(cursor: current.nextCursor);
+          .activity(cursor: current.nextCursor);
       if (!ref.mounted) return;
       state = AsyncData(
-        DepositHistory(
+        ActivityList(
           items: [...current.items, ...page.items],
           nextCursor: page.nextCursor,
         ),
@@ -64,7 +65,7 @@ class DepositHistoryController extends AsyncNotifier<DepositHistory> {
     } catch (error) {
       if (!ref.mounted) return;
       state = AsyncData(
-        DepositHistory(
+        ActivityList(
           items: current.items,
           nextCursor: current.nextCursor,
           loadMoreError: error,
@@ -74,9 +75,9 @@ class DepositHistoryController extends AsyncNotifier<DepositHistory> {
   }
 }
 
-final depositHistoryProvider =
-    AsyncNotifierProvider.autoDispose<DepositHistoryController, DepositHistory>(
-      DepositHistoryController.new,
+final activityProvider =
+    AsyncNotifierProvider.autoDispose<ActivityController, ActivityList>(
+      ActivityController.new,
     );
 
 /// After money moves or a goal changes, everything that shows totals reloads.
@@ -86,5 +87,5 @@ void refreshSavingsData(WidgetRef ref) {
     ..invalidate(todaySavingsProvider)
     ..invalidate(goalsProvider)
     ..invalidate(goalProvider)
-    ..invalidate(depositHistoryProvider);
+    ..invalidate(activityProvider);
 }

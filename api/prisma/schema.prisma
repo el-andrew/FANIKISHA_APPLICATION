@@ -26,6 +26,9 @@ model User {
   businessName    String?   @map("business_name")
   /// scrypt hash produced by @nestjs/authentication's PasswordHasher.
   passwordHash    String    @map("password_hash")
+  /// Saved money not assigned to any goal: deposit leftovers, plus money
+  /// moved out of goals, minus money moved into goals or withdrawn.
+  generalSavings  BigInt    @default(0) @map("general_savings")
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
@@ -34,6 +37,7 @@ model User {
   smsCodes        SmsCode[]
   businessEntries BusinessEntry[]
   savingRule      SavingRule?
+  movements       Movement[]
 
   @@map("users")
 }
@@ -52,7 +56,8 @@ model Goal {
   name         String
   category     String?
   targetAmount BigInt     @map("target_amount")
-  /// Running total of allocations. The allocations table is the source of truth.
+  /// The money in the goal now: allocations and transfers in, minus
+  /// transfers out and withdrawals. Kept with the row lock-protected.
   savedAmount  BigInt     @default(0) @map("saved_amount")
   /// 1 (low) to 5 (high).
   priority     Int
@@ -63,8 +68,10 @@ model Goal {
   createdAt    DateTime   @default(now()) @map("created_at")
   updatedAt    DateTime   @updatedAt @map("updated_at")
 
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  allocations Allocation[]
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  allocations   Allocation[]
+  movementsFrom Movement[]   @relation("MovementFrom")
+  movementsTo   Movement[]   @relation("MovementTo")
 
   @@index([userId, status])
   @@map("goals")
@@ -214,4 +221,36 @@ model SavingRule {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("saving_rules")
+}
+
+enum MovementKind {
+  WITHDRAWAL
+  TRANSFER
+
+  @@map("movement_kind")
+}
+
+/// Money leaving savings (a withdrawal) or moving between goals and general
+/// savings (a transfer). Deposits are recorded separately.
+model Movement {
+  id             String       @id @default(uuid()) @db.Uuid
+  userId         String       @map("user_id") @db.Uuid
+  kind           MovementKind
+  amount         BigInt
+  /// Where the money came from: a goal, or general savings when null.
+  fromGoalId     String?      @map("from_goal_id") @db.Uuid
+  /// Transfers only: where it went; general savings when null.
+  toGoalId       String?      @map("to_goal_id") @db.Uuid
+  note           String?
+  /// Sent by the client so a retried request is recorded once.
+  idempotencyKey String       @map("idempotency_key")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  user     User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fromGoal Goal? @relation("MovementFrom", fields: [fromGoalId], references: [id], onDelete: Cascade)
+  toGoal   Goal? @relation("MovementTo", fields: [toGoalId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, createdAt])
+  @@map("movements")
 }

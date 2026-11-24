@@ -166,7 +166,7 @@ class _SummaryCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            summary == null ? '—' : formatTzs(summary.totalDeposited),
+            summary == null ? '—' : formatTzs(summary.balance),
             style: theme.textTheme.headlineMedium?.copyWith(
               color: onPrimary,
               fontWeight: FontWeight.w700,
@@ -179,11 +179,28 @@ class _SummaryCard extends StatelessWidget {
               style: theme.textTheme.bodyMedium?.copyWith(color: onPrimary),
             ),
             if (summary.unallocatedAmount > 0)
-              Text(
-                l10n.dashboardGeneralSavings(
-                  formatTzs(summary.unallocatedAmount),
+              InkWell(
+                // General savings can be moved into a goal or taken out.
+                onTap: () => _generalSavingsActions(context),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        l10n.dashboardGeneralSavings(
+                          formatTzs(summary.unallocatedAmount),
+                        ),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: onPrimary,
+                          decoration: TextDecoration.underline,
+                          decorationColor: onPrimary,
+                        ),
+                      ),
+                      Icon(Icons.chevron_right, color: onPrimary, size: 18),
+                    ],
+                  ),
                 ),
-                style: theme.textTheme.bodyMedium?.copyWith(color: onPrimary),
               ),
           ],
         ],
@@ -242,4 +259,40 @@ class _VerifyPhoneCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _generalSavingsActions(BuildContext context) {
+  final l10n = context.l10n;
+  return showModalBottomSheet<void>(
+    context: context,
+    builder: (sheet) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            title: Text(
+              l10n.generalSavings,
+              style: Theme.of(sheet).textTheme.titleMedium,
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.swap_horiz),
+            title: Text(l10n.moveMoney),
+            onTap: () {
+              Navigator.pop(sheet);
+              context.push('/savings/move?from=general');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.outbox_outlined),
+            title: Text(l10n.withdrawMoney),
+            onTap: () {
+              Navigator.pop(sheet);
+              context.push('/savings/withdraw?from=general');
+            },
+          ),
+        ],
+      ),
+    ),
+  );
 }

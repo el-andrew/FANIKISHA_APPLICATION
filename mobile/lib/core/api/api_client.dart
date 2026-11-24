@@ -81,8 +81,15 @@ class ApiClient {
   Future<void> postVoid(
     String path, {
     Object? body,
+    Map<String, String>? headers,
     bool authenticated = true,
-  }) => _send('POST', path, body: body, authenticated: authenticated);
+  }) => _send(
+    'POST',
+    path,
+    body: body,
+    headers: headers,
+    authenticated: authenticated,
+  );
 
   Future<Map<String, dynamic>> patchMap(String path, {Object? body}) async =>
       _asMap(await _send('PATCH', path, body: body));

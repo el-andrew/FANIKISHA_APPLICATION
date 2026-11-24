@@ -48,6 +48,40 @@ class SavingsRepository {
     ),
   );
 
+  /// Moves money; a null goal id means general savings.
+  Future<void> transfer({
+    required String? from,
+    required String? to,
+    required int amount,
+    required String idempotencyKey,
+  }) => _api.postVoid(
+    '/v1/savings/transfers',
+    headers: {'Idempotency-Key': idempotencyKey},
+    body: {'from': from, 'to': to, 'amount': amount},
+  );
+
+  /// Records money taken out; a null goal id means general savings.
+  Future<void> withdraw({
+    required String? from,
+    required int amount,
+    required String idempotencyKey,
+    String? note,
+  }) => _api.postVoid(
+    '/v1/savings/withdrawals',
+    headers: {'Idempotency-Key': idempotencyKey},
+    body: {'from': from, 'amount': amount, 'note': ?note},
+  );
+
+  /// Deposits, withdrawals and transfers, newest first.
+  Future<ActivityPage> activity({String? cursor, int limit = 20}) async =>
+      ActivityPage.fromJson(
+        await _api.getMap(
+          '/v1/savings/activity',
+          query: {'limit': limit, 'cursor': ?cursor},
+          cacheKey: cursor == null ? 'activity:first' : null,
+        ),
+      );
+
   Future<DepositPage> history({String? cursor, int limit = 20}) async =>
       DepositPage.fromJson(
         await _api.getMap(

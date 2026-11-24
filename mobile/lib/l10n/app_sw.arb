@@ -214,5 +214,22 @@
   "ruleSave": "Hifadhi kanuni",
   "ruleRemove": "Ondoa kanuni",
   "ruleSaved": "Kanuni ya akiba imehifadhiwa",
-  "ruleEdit": "Badilisha kanuni"
+  "ruleEdit": "Badilisha kanuni",
+  "moveMoney": "Hamisha pesa",
+  "withdrawMoney": "Toa pesa",
+  "withdrawTitle": "Toa pesa",
+  "moveFrom": "Kutoka {place}: {amount} zinapatikana",
+  "moveTo": "Hamishia",
+  "moveSubmit": "Hamisha {amount}",
+  "withdrawSubmit": "Toa {amount}",
+  "withdrawNote": "Ilikuwa kwa ajili ya nini? (si lazima)",
+  "withdrawExplain": "Fanikisha haishiki pesa zako: hii inarekodi kwamba umezitoa kwenye akiba yako.",
+  "amountTooHigh": "Hiyo ni zaidi ya {amount} zinazopatikana",
+  "amountAll": "Zote",
+  "moveDone": "Pesa zimehamishwa",
+  "withdrawDone": "Utoaji umerekodiwa",
+  "moveNoDestination": "Bado hakuna mahali pa kuzihamishia. Weka lengo jingine kwanza.",
+  "activityWithdrawal": "Imetolewa kutoka {place}",
+  "activityTransfer": "Imehamishwa kutoka {from} kwenda {to}",
+  "goalLeft": "{amount} zimebaki kwenye lengo hili"
 }

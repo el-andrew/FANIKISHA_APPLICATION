@@ -71,7 +71,8 @@ Needed before the app can go on the Play Store.
 - [x] Saving rules, e.g. "save 10% of each day's sales" (or profit): the
       dashboard shows today's target, what is saved so far, and a one-tap
       deposit for the rest
-- [ ] Withdrawals from completed goals, and moving money between goals
+- [x] Withdrawals and moving money between goals and general savings; the
+      dashboard shows the current balance and History shows every movement
 - [ ] Reminders when a goal falls behind its daily target
 
 ## Phase 4: Mobile money

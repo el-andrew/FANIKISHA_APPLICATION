@@ -202,8 +202,8 @@ void main() {
 
     // So does the history tab.
     await tapText(tester, 'History');
-    await waitFor(tester, find.text('TZS 45,000'));
-    await tester.tap(find.text('TZS 45,000'));
+    await waitFor(tester, find.text('+ TZS 45,000'));
+    await tester.tap(find.text('+ TZS 45,000'));
     await tester.pumpAndSettle();
     await capture(tester, '09-history');
 
@@ -238,5 +238,20 @@ void main() {
     await waitFor(tester, find.text("10% of today's sales (TZS 120,000)"));
     await waitFor(tester, find.text("Today's target reached. Well done!"));
     await capture(tester, '11-dashboard-rule');
+
+    // Take some money out of the goal; History shows it.
+    await tapText(tester, 'Blender');
+    await waitFor(tester, find.text('Withdraw'));
+    await tapText(tester, 'Withdraw');
+    await waitFor(tester, find.text('From Blender: TZS 45,000 available'));
+    await fillForm(tester, {find.byType(TextFormField).first: '5000'});
+    await tapText(tester, 'Take out TZS 5,000');
+    await waitFor(tester, find.text('Withdrawal recorded'));
+    await waitFor(tester, find.text('TZS 40,000'));
+    await tester.pageBack();
+    await waitFor(tester, find.text('Hello, Neema'));
+    await tapText(tester, 'History');
+    await waitFor(tester, find.text('− TZS 5,000'));
+    await capture(tester, '12-history-activity');
   });
 }

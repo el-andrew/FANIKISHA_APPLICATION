@@ -9,25 +9,26 @@ import '../application/savings_providers.dart';
 import '../data/savings_models.dart';
 import 'split_list.dart';
 
+/// Every deposit, withdrawal and transfer, newest first.
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final history = ref.watch(depositHistoryProvider);
+    final activity = ref.watch(activityProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.historyTitle)),
-      body: history.when(
+      body: activity.when(
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(
           error: error,
-          onRetry: () => ref.invalidate(depositHistoryProvider),
+          onRetry: () => ref.invalidate(activityProvider),
         ),
-        data: (history) => RefreshIndicator(
-          onRefresh: () => ref.refresh(depositHistoryProvider.future),
-          child: history.items.isEmpty
+        data: (list) => RefreshIndicator(
+          onRefresh: () => ref.refresh(activityProvider.future),
+          child: list.items.isEmpty
               ? ListView(
                   children: [
                     EmptyView(
@@ -40,16 +41,24 @@ class HistoryScreen extends ConsumerWidget {
                   // Load the next page when the list is nearly scrolled through.
                   onNotification: (n) {
                     if (n.metrics.extentAfter < 300) {
-                      ref.read(depositHistoryProvider.notifier).loadMore();
+                      ref.read(activityProvider.notifier).loadMore();
                     }
                     return false;
                   },
                   child: ListView.builder(
                     padding: const EdgeInsets.only(bottom: 24),
-                    itemCount: history.items.length + 1,
-                    itemBuilder: (context, i) => i < history.items.length
-                        ? _DepositTile(deposit: history.items[i])
-                        : _Footer(history: history),
+                    itemCount: list.items.length + 1,
+                    itemBuilder: (context, i) {
+                      if (i == list.items.length) return _Footer(list: list);
+                      return switch (list.items[i]) {
+                        DepositActivity(:final deposit) => _DepositTile(
+                          deposit: deposit,
+                        ),
+                        final MovementActivity movement => _MovementTile(
+                          movement: movement,
+                        ),
+                      };
+                    },
                   ),
                 ),
         ),
@@ -76,7 +85,7 @@ class _DepositTile extends StatelessWidget {
         ),
       ),
       title: Text(
-        formatTzs(deposit.amount),
+        '+ ${formatTzs(deposit.amount)}',
         style: theme.textTheme.titleMedium,
       ),
       subtitle: Text(deposit.note == null ? when : '$when · ${deposit.note}'),
@@ -86,22 +95,59 @@ class _DepositTile extends StatelessWidget {
   }
 }
 
-class _Footer extends ConsumerWidget {
-  const _Footer({required this.history});
+class _MovementTile extends StatelessWidget {
+  const _MovementTile({required this.movement});
 
-  final DepositHistory history;
+  final MovementActivity movement;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    String name(MoneyPlace place) => place.goalName ?? l10n.generalSavings;
+    final what = movement.isTransfer
+        ? l10n.activityTransfer(name(movement.from), name(movement.to!))
+        : l10n.activityWithdrawal(name(movement.from));
+    final when = formatDateTime(movement.createdAt, context.localeName);
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
+        child: Icon(
+          movement.isTransfer ? Icons.swap_horiz : Icons.outbox_outlined,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+      title: Text(
+        movement.isTransfer
+            ? formatTzs(movement.amount)
+            : '− ${formatTzs(movement.amount)}',
+        style: theme.textTheme.titleMedium,
+      ),
+      subtitle: Text(
+        [what, ?movement.note, when].join(' · '),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+}
+
+class _Footer extends ConsumerWidget {
+  const _Footer({required this.list});
+
+  final ActivityList list;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (history.loadMoreError != null) {
+    if (list.loadMoreError != null) {
       return Center(
         child: TextButton(
-          onPressed: () => ref.read(depositHistoryProvider.notifier).loadMore(),
+          onPressed: () => ref.read(activityProvider.notifier).loadMore(),
           child: Text(context.l10n.actionRetry),
         ),
       );
     }
-    if (history.loadingMore) {
+    if (list.loadingMore) {
       return const Padding(
         padding: EdgeInsets.all(16),
         child: Center(child: CircularProgressIndicator()),

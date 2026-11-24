@@ -84,6 +84,8 @@ class DepositPage {
 
 class SavingsSummary {
   const SavingsSummary({
+    required this.balance,
+    required this.totalWithdrawn,
     required this.totalDeposited,
     required this.unallocatedAmount,
     required this.depositCount,
@@ -92,6 +94,8 @@ class SavingsSummary {
   });
 
   factory SavingsSummary.fromJson(Map<String, dynamic> json) => SavingsSummary(
+    balance: (json['balance'] as num).toInt(),
+    totalWithdrawn: (json['totalWithdrawn'] as num).toInt(),
     totalDeposited: (json['totalDeposited'] as num).toInt(),
     unallocatedAmount: (json['unallocatedAmount'] as num).toInt(),
     depositCount: (json['depositCount'] as num).toInt(),
@@ -99,7 +103,12 @@ class SavingsSummary {
     completedGoals: (json['completedGoals'] as num).toInt(),
   );
 
+  /// The money saved now: in goals plus general savings.
+  final int balance;
+  final int totalWithdrawn;
   final int totalDeposited;
+
+  /// General savings: saved money that is not in any goal.
   final int unallocatedAmount;
   final int depositCount;
   final int activeGoals;
@@ -170,4 +179,83 @@ class TodaySavings {
   final int target;
   final int savedToday;
   final int remaining;
+}
+
+/// A goal, or general savings when [goalId] is null.
+class MoneyPlace {
+  const MoneyPlace({this.goalId, this.goalName});
+
+  factory MoneyPlace.fromJson(Map<String, dynamic> json) => MoneyPlace(
+    goalId: json['goalId'] as String?,
+    goalName: json['goalName'] as String?,
+  );
+
+  final String? goalId;
+  final String? goalName;
+
+  bool get isGeneralSavings => goalId == null;
+}
+
+/// One line of savings history.
+sealed class Activity {
+  const Activity();
+
+  static Activity fromJson(Map<String, dynamic> json) {
+    final kind = json['kind'] as String;
+    if (kind == 'DEPOSIT') return DepositActivity(Deposit.fromJson(json));
+    return MovementActivity(
+      id: json['id'] as String,
+      isTransfer: kind == 'TRANSFER',
+      amount: (json['amount'] as num).toInt(),
+      from: MoneyPlace.fromJson(json['from'] as Map<String, dynamic>),
+      to: json['to'] == null
+          ? null
+          : MoneyPlace.fromJson(json['to'] as Map<String, dynamic>),
+      note: json['note'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+  }
+}
+
+class DepositActivity extends Activity {
+  const DepositActivity(this.deposit);
+  final Deposit deposit;
+}
+
+/// A withdrawal, or a transfer between goals and general savings.
+class MovementActivity extends Activity {
+  const MovementActivity({
+    required this.id,
+    required this.isTransfer,
+    required this.amount,
+    required this.from,
+    required this.to,
+    required this.note,
+    required this.createdAt,
+  });
+
+  final String id;
+  final bool isTransfer;
+  final int amount;
+  final MoneyPlace from;
+
+  /// Transfers only.
+  final MoneyPlace? to;
+  final String? note;
+  final DateTime createdAt;
+}
+
+class ActivityPage {
+  const ActivityPage({required this.items, required this.nextCursor});
+
+  factory ActivityPage.fromJson(Map<String, dynamic> json) => ActivityPage(
+    items: (json['items'] as List<Object?>)
+        .cast<Map<String, dynamic>>()
+        .map(Activity.fromJson)
+        .toList(),
+    nextCursor: json['nextCursor'] as String?,
+  );
+
+  final List<Activity> items;
+  final String? nextCursor;
 }

@@ -1387,6 +1387,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change rule'**
   String get ruleEdit;
+
+  /// No description provided for @moveMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Move money'**
+  String get moveMoney;
+
+  /// No description provided for @withdrawMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get withdrawMoney;
+
+  /// No description provided for @withdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take money out'**
+  String get withdrawTitle;
+
+  /// No description provided for @moveFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {place}: {amount} available'**
+  String moveFrom(String place, String amount);
+
+  /// No description provided for @moveTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to'**
+  String get moveTo;
+
+  /// No description provided for @moveSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Move {amount}'**
+  String moveSubmit(String amount);
+
+  /// No description provided for @withdrawSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Take out {amount}'**
+  String withdrawSubmit(String amount);
+
+  /// No description provided for @withdrawNote.
+  ///
+  /// In en, this message translates to:
+  /// **'What was it for? (optional)'**
+  String get withdrawNote;
+
+  /// No description provided for @withdrawExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'Fanikisha doesn\'t hold your money: this records that you took it out of your savings.'**
+  String get withdrawExplain;
+
+  /// No description provided for @amountTooHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s more than the {amount} available'**
+  String amountTooHigh(String amount);
+
+  /// No description provided for @amountAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get amountAll;
+
+  /// No description provided for @moveDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Money moved'**
+  String get moveDone;
+
+  /// No description provided for @withdrawDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal recorded'**
+  String get withdrawDone;
+
+  /// No description provided for @moveNoDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s nowhere to move it yet. Create another goal first.'**
+  String get moveNoDestination;
+
+  /// No description provided for @activityWithdrawal.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken out of {place}'**
+  String activityWithdrawal(String place);
+
+  /// No description provided for @activityTransfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved from {from} to {to}'**
+  String activityTransfer(String from, String to);
+
+  /// No description provided for @goalLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left in this goal'**
+  String goalLeft(String amount);
 }
 
 class _AppLocalizationsDelegate

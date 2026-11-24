@@ -19,7 +19,11 @@ its deadline.
 - **Forgot password:** a code texted to the account's verified phone number
   resets the password and signs out every other device. The request answers
   the same way whether or not the account exists.
-- **Summary:** totals for a dashboard.
+- **Moving and withdrawing:** money moves between goals and general
+  savings, or is recorded as taken out, never more than the source holds
+  (rows are locked, in the same order as deposits). A completed goal stays
+  completed after its money is used.
+- **Summary:** totals for a dashboard, including the current balance.
 - **Saving rules:** "save 10% of each day's sales" (or profit) becomes a
   daily target; today's deposits count towards it, by the Tanzanian day.
 - **Sales and expenses:** the owner records each day's sales and expenses;
@@ -102,6 +106,9 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | POST | `/v1/savings/deposits/preview` | How a deposit would be split, saves nothing |
 | GET | `/v1/savings/deposits` | Deposit history (`?limit=20&cursor=…`) |
 | GET | `/v1/savings/deposits/:id` | One deposit with its split |
+| POST | `/v1/savings/transfers` | Move money (`{"from", "to", "amount"}`; a null goal id means general savings; needs `Idempotency-Key`) |
+| POST | `/v1/savings/withdrawals` | Record money taken out (`{"from", "amount", "note"?}`; needs `Idempotency-Key`) |
+| GET | `/v1/savings/activity` | Deposits, transfers and withdrawals, newest first (`?limit&cursor`) |
 | GET | `/v1/savings/summary` | Totals for the dashboard |
 | POST | `/v1/business/entries` | Record a sale or expense (`{"type": "SALE" \| "EXPENSE", "amount", "category"?, "note"?, "occurredOn"?}`, needs `Idempotency-Key`) |
 | GET | `/v1/business/entries` | Entries, newest first (`?from&to&type&limit&cursor`) |

@@ -735,4 +735,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ruleEdit => 'Change rule';
+
+  @override
+  String get moveMoney => 'Move money';
+
+  @override
+  String get withdrawMoney => 'Withdraw';
+
+  @override
+  String get withdrawTitle => 'Take money out';
+
+  @override
+  String moveFrom(String place, String amount) {
+    return 'From $place: $amount available';
+  }
+
+  @override
+  String get moveTo => 'Move to';
+
+  @override
+  String moveSubmit(String amount) {
+    return 'Move $amount';
+  }
+
+  @override
+  String withdrawSubmit(String amount) {
+    return 'Take out $amount';
+  }
+
+  @override
+  String get withdrawNote => 'What was it for? (optional)';
+
+  @override
+  String get withdrawExplain =>
+      'Fanikisha doesn\'t hold your money: this records that you took it out of your savings.';
+
+  @override
+  String amountTooHigh(String amount) {
+    return 'That\'s more than the $amount available';
+  }
+
+  @override
+  String get amountAll => 'All';
+
+  @override
+  String get moveDone => 'Money moved';
+
+  @override
+  String get withdrawDone => 'Withdrawal recorded';
+
+  @override
+  String get moveNoDestination =>
+      'There\'s nowhere to move it yet. Create another goal first.';
+
+  @override
+  String activityWithdrawal(String place) {
+    return 'Taken out of $place';
+  }
+
+  @override
+  String activityTransfer(String from, String to) {
+    return 'Moved from $from to $to';
+  }
+
+  @override
+  String goalLeft(String amount) {
+    return '$amount left in this goal';
+  }
 }

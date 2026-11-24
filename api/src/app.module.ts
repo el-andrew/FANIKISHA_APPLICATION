@@ -9,6 +9,7 @@ import { validateEnv, type Env } from './config/env.js';
 import { GoalsModule } from './goals/goals.module.js';
 import { HealthController } from './health/health.controller.js';
 import { LegalModule } from './legal/legal.module.js';
+import { MovementsModule } from './movements/movements.module.js';
 import { PasswordResetModule } from './password-reset/password-reset.module.js';
 import { PhoneVerificationModule } from './phone-verification/phone-verification.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -61,6 +62,7 @@ import { UsersModule } from './users/users.module.js';
     SavingsModule,
     BusinessModule,
     SavingRuleModule,
+    MovementsModule,
     PhoneVerificationModule,
     PasswordResetModule,
     LegalModule,

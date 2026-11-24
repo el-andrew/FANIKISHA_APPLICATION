@@ -386,5 +386,77 @@
   "ruleSave": "Save rule",
   "ruleRemove": "Remove rule",
   "ruleSaved": "Saving rule saved",
-  "ruleEdit": "Change rule"
+  "ruleEdit": "Change rule",
+  "moveMoney": "Move money",
+  "withdrawMoney": "Withdraw",
+  "withdrawTitle": "Take money out",
+  "moveFrom": "From {place}: {amount} available",
+  "@moveFrom": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moveTo": "Move to",
+  "moveSubmit": "Move {amount}",
+  "@moveSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawSubmit": "Take out {amount}",
+  "@withdrawSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawNote": "What was it for? (optional)",
+  "withdrawExplain": "Fanikisha doesn't hold your money: this records that you took it out of your savings.",
+  "amountTooHigh": "That's more than the {amount} available",
+  "@amountTooHigh": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "amountAll": "All",
+  "moveDone": "Money moved",
+  "withdrawDone": "Withdrawal recorded",
+  "moveNoDestination": "There's nowhere to move it yet. Create another goal first.",
+  "activityWithdrawal": "Taken out of {place}",
+  "@activityWithdrawal": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "activityTransfer": "Moved from {from} to {to}",
+  "@activityTransfer": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "goalLeft": "{amount} left in this goal",
+  "@goalLeft": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

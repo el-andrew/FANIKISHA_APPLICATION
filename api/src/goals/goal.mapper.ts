@@ -26,7 +26,10 @@ export interface GoalDto {
 export function toGoalDto(goal: Goal, now: Date = new Date()): GoalDto {
   const target = toAmount(goal.targetAmount);
   const saved = toAmount(goal.savedAmount);
-  const remaining = Math.max(0, target - saved);
+  // A completed goal stays complete even after its money is taken out:
+  // reaching the target was the achievement.
+  const completed = goal.status === 'COMPLETED';
+  const remaining = completed ? 0 : Math.max(0, target - saved);
   const daysLeft = daysUntil(goal.targetDate, businessToday(now));
   return {
     id: goal.id,
@@ -35,7 +38,9 @@ export function toGoalDto(goal: Goal, now: Date = new Date()): GoalDto {
     targetAmount: target,
     savedAmount: saved,
     remainingAmount: remaining,
-    progressPercent: Math.min(100, Math.floor((saved / target) * 1000) / 10),
+    progressPercent: completed
+      ? 100
+      : Math.min(100, Math.floor((saved / target) * 1000) / 10),
     priority: goal.priority,
     startDate: toDateOnly(goal.startDate),
     targetDate: toDateOnly(goal.targetDate),

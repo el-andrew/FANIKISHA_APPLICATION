@@ -21,6 +21,7 @@ import '../../features/profile/profile_screen.dart';
 import '../../features/profile/verify_phone_screen.dart';
 import '../../features/savings/presentation/deposit_screen.dart';
 import '../../features/savings/presentation/history_screen.dart';
+import '../../features/savings/presentation/move_money_screen.dart';
 import '../../features/savings/presentation/saving_rule_screen.dart';
 import 'home_shell.dart';
 
@@ -109,6 +110,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
+        path: '/savings/move',
+        builder: (_, state) => MoveMoneyScreen(fromGoalId: _source(state)),
+      ),
+      GoRoute(
+        path: '/savings/withdraw',
+        builder: (_, state) =>
+            MoveMoneyScreen(fromGoalId: _source(state), withdraw: true),
+      ),
+      GoRoute(
         path: '/savings/rule',
         builder: (_, _) => const SavingRuleScreen(),
       ),
@@ -157,3 +167,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   });
   return router;
 });
+
+/// `?from=<goal id>`, or `?from=general` (null) for general savings.
+String? _source(GoRouterState state) {
+  final from = state.uri.queryParameters['from'];
+  return from == null || from == 'general' ? null : from;
+}

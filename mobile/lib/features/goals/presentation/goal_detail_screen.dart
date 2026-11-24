@@ -131,6 +131,38 @@ class _GoalDetails extends StatelessWidget {
             ),
           ),
         ),
+        if (goal.status == GoalStatus.completed)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              l10n.goalLeft(formatTzs(goal.savedAmount)),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        if (goal.savedAmount > 0) ...[
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () =>
+                      context.push('/savings/move?from=${goal.id}'),
+                  icon: const Icon(Icons.swap_horiz),
+                  label: Text(l10n.moveMoney),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () =>
+                      context.push('/savings/withdraw?from=${goal.id}'),
+                  icon: const Icon(Icons.outbox_outlined),
+                  label: Text(l10n.withdrawMoney),
+                ),
+              ),
+            ],
+          ),
+        ],
         const SizedBox(height: 24),
         Card(
           color: scheme.surfaceContainerLow,

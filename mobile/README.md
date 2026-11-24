@@ -15,7 +15,8 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 - Goals: create, edit, archive; each shows the daily amount needed to finish on time.
 - Save money: shows how the amount will be split between goals before you
   confirm. A deposit retried after a dropped connection is recorded once.
-- Deposit history with each deposit's split.
+- History of every deposit (with its split), transfer and withdrawal.
+- Move money between goals and general savings, or record money taken out.
 - Business tab: record each day's sales and expenses, and see sales, expenses
   and profit for today, 7 or 30 days, with a daily chart.
 - Saving rule, e.g. "10% of each day's sales": the dashboard shows today's

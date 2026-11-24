@@ -468,7 +468,9 @@ describe('deposits', () => {
       .set(auth(user))
       .expect(200);
     expect(summary.body).toEqual({
+      balance: 20_000,
       totalDeposited: 20_000,
+      totalWithdrawn: 0,
       unallocatedAmount: 5_000,
       depositCount: 1,
       activeGoals: 0,
