@@ -52,9 +52,11 @@ Needed before the app can go on the Play Store.
 - [x] Privacy policy and terms of service, in English and Kiswahili, served by
       the API at `/privacy` and `/terms` and linked from sign-up and the
       profile (drafts)
-- [ ] Fill in the business details (`OPERATOR_*` settings) and the
-      placeholders (hosting, log and backup retention), and have the texts
-      checked against Tanzania's Personal Data Protection Act (owner)
+- [x] Business details: NORTH KINGS LIMITED, registration 211059125,
+      Dar es Salaam (`OPERATOR_*` in `api/.env.example`)
+- [ ] Contact email for data requests (`OPERATOR_EMAIL`), the remaining
+      placeholders (hosting, log and backup retention), and a legal check
+      against Tanzania's Personal Data Protection Act (owner)
 - [x] Android release signing set up: the key is read from a git-ignored
       `key.properties` (see mobile/README.md); release builds refuse a
       non-HTTPS API
