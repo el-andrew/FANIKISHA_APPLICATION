@@ -66,7 +66,8 @@ Needed before the app can go on the Play Store.
 
 ## Phase 3: Features for business owners
 
-- [ ] Daily sales and expense log
+- [x] Daily sales and expense log: a Business tab with sales, expenses and
+      profit for today, 7 or 30 days, a daily chart and the biggest expenses
 - [ ] Saving rules, e.g. "save 10% of each day's sales"
 - [ ] Withdrawals from completed goals, and moving money between goals
 - [ ] Reminders when a goal falls behind its daily target

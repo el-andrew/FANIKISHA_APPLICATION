@@ -29,9 +29,10 @@ model User {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  goals    Goal[]
-  deposits Deposit[]
-  smsCodes SmsCode[]
+  goals           Goal[]
+  deposits        Deposit[]
+  smsCodes        SmsCode[]
+  businessEntries BusinessEntry[]
 
   @@map("users")
 }
@@ -160,4 +161,34 @@ model SmsCode {
   @@index([userId, purpose, createdAt])
   @@index([phone, purpose, createdAt])
   @@map("sms_codes")
+}
+
+enum EntryType {
+  SALE
+  EXPENSE
+
+  @@map("entry_type")
+}
+
+/// A sale or an expense the business owner records: the basis for profit
+/// figures and for saving rules such as "save 10% of each day's sales".
+model BusinessEntry {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  type           EntryType
+  amount         BigInt
+  category       String?
+  note           String?
+  /// The business day it happened on (Tanzania time).
+  occurredOn     DateTime  @map("occurred_on") @db.Date
+  /// Sent by the client so a retried request never records the entry twice.
+  idempotencyKey String    @map("idempotency_key")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, idempotencyKey])
+  @@index([userId, occurredOn])
+  @@map("business_entries")
 }

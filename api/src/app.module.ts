@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
+import { BusinessModule } from './business/business.module.js';
 import { validateEnv, type Env } from './config/env.js';
 import { GoalsModule } from './goals/goals.module.js';
 import { HealthController } from './health/health.controller.js';
@@ -57,6 +58,7 @@ import { UsersModule } from './users/users.module.js';
     UsersModule,
     GoalsModule,
     SavingsModule,
+    BusinessModule,
     PhoneVerificationModule,
     PasswordResetModule,
     LegalModule,

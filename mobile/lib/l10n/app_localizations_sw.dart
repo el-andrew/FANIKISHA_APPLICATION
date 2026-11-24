@@ -571,4 +571,98 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get legalPrivacy => 'Sera ya faragha';
+
+  @override
+  String get navBusiness => 'Biashara';
+
+  @override
+  String get businessTitle => 'Biashara';
+
+  @override
+  String get periodToday => 'Leo';
+
+  @override
+  String get period7Days => 'Siku 7';
+
+  @override
+  String get period30Days => 'Siku 30';
+
+  @override
+  String get businessSales => 'Mauzo';
+
+  @override
+  String get businessExpenses => 'Matumizi';
+
+  @override
+  String get businessProfit => 'Faida';
+
+  @override
+  String get businessLoss => 'Hasara';
+
+  @override
+  String get businessTopExpenses => 'Matumizi makubwa';
+
+  @override
+  String get businessRecent => 'Rekodi za karibuni';
+
+  @override
+  String get businessEmpty =>
+      'Bado hakuna mauzo wala matumizi. Yarekodi kila siku ili kuona faida yako.';
+
+  @override
+  String get businessAdd => 'Ongeza rekodi';
+
+  @override
+  String get entryNewTitle => 'Rekodi mpya';
+
+  @override
+  String get entryEditTitle => 'Badilisha rekodi';
+
+  @override
+  String get entrySale => 'Mauzo';
+
+  @override
+  String get entryExpense => 'Matumizi';
+
+  @override
+  String get entryAmount => 'Kiasi';
+
+  @override
+  String get entryCategory => 'Aina (si lazima)';
+
+  @override
+  String get entryNote => 'Maelezo (si lazima)';
+
+  @override
+  String get entryDate => 'Tarehe';
+
+  @override
+  String get entrySave => 'Hifadhi';
+
+  @override
+  String get entryDelete => 'Futa rekodi';
+
+  @override
+  String get entryDeleteConfirm => 'Futa rekodi hii?';
+
+  @override
+  String get entryDeleteAction => 'Futa';
+
+  @override
+  String get entryUncategorised => 'Nyingine';
+
+  @override
+  String get categoryStock => 'Bidhaa';
+
+  @override
+  String get categoryRent => 'Kodi ya pango';
+
+  @override
+  String get categoryTransport => 'Usafiri';
+
+  @override
+  String get categoryWages => 'Mishahara';
+
+  @override
+  String get categoryUtilities => 'Umeme na maji';
 }

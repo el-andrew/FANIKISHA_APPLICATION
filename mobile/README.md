@@ -3,9 +3,9 @@
 Flutter app for [Fanikisha](../README.md): savings goals for small and medium
 business owners, in English and Kiswahili. It talks to the [Fanikisha API](../api/).
 
-| Welcome | Dashboard | Save money | Goal | History |
-| --- | --- | --- | --- | --- |
-| ![](../docs/screenshots/welcome.png) | ![](../docs/screenshots/dashboard.png) | ![](../docs/screenshots/save-money.png) | ![](../docs/screenshots/goal-detail.png) | ![](../docs/screenshots/history.png) |
+| Welcome | Dashboard | Business | Save money | Goal | History |
+| --- | --- | --- | --- | --- | --- |
+| ![](../docs/screenshots/welcome.png) | ![](../docs/screenshots/dashboard.png) | ![](../docs/screenshots/business.png) | ![](../docs/screenshots/save-money.png) | ![](../docs/screenshots/goal-detail.png) | ![](../docs/screenshots/history.png) |
 
 ## What it does
 
@@ -16,6 +16,8 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 - Save money: shows how the amount will be split between goals before you
   confirm. A deposit retried after a dropped connection is recorded once.
 - Deposit history with each deposit's split.
+- Business tab: record each day's sales and expenses, and see sales, expenses
+  and profit for today, 7 or 30 days, with a daily chart.
 - Phone number verification by SMS code, with a reminder on the dashboard
   until it's done.
 - Account deletion from the profile, confirmed with the password.
@@ -40,6 +42,7 @@ lib/
   core/         API client, providers, router, theme, formatting, shared widgets
   features/
     auth/       sign up, log in, session state
+    business/   sales and expenses, profit
     dashboard/
     goals/
     savings/    deposits, preview, history

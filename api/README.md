@@ -20,6 +20,9 @@ its deadline.
   resets the password and signs out every other device. The request answers
   the same way whether or not the account exists.
 - **Summary:** totals for a dashboard.
+- **Sales and expenses:** the owner records each day's sales and expenses;
+  summaries give sales, expenses, profit, daily totals and the biggest
+  expense categories for any period.
 - **Phone verification:** a 6-digit code by SMS through [Beem](https://beem.africa).
   Codes are stored as keyed hashes, expire after 10 minutes and allow 5
   tries; at most one code a minute and five a day per account and per number.
@@ -98,6 +101,10 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | GET | `/v1/savings/deposits` | Deposit history (`?limit=20&cursor=…`) |
 | GET | `/v1/savings/deposits/:id` | One deposit with its split |
 | GET | `/v1/savings/summary` | Totals for the dashboard |
+| POST | `/v1/business/entries` | Record a sale or expense (`{"type": "SALE" \| "EXPENSE", "amount", "category"?, "note"?, "occurredOn"?}`, needs `Idempotency-Key`) |
+| GET | `/v1/business/entries` | Entries, newest first (`?from&to&type&limit&cursor`) |
+| GET / PATCH / DELETE | `/v1/business/entries/:id` | Read, correct or delete an entry |
+| GET | `/v1/business/summary` | Sales, expenses, profit and daily totals (`?from=YYYY-MM-DD&to=YYYY-MM-DD`, up to 366 days) |
 
 Example:
 

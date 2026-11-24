@@ -566,4 +566,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalPrivacy => 'Privacy policy';
+
+  @override
+  String get navBusiness => 'Business';
+
+  @override
+  String get businessTitle => 'Business';
+
+  @override
+  String get periodToday => 'Today';
+
+  @override
+  String get period7Days => '7 days';
+
+  @override
+  String get period30Days => '30 days';
+
+  @override
+  String get businessSales => 'Sales';
+
+  @override
+  String get businessExpenses => 'Expenses';
+
+  @override
+  String get businessProfit => 'Profit';
+
+  @override
+  String get businessLoss => 'Loss';
+
+  @override
+  String get businessTopExpenses => 'Biggest expenses';
+
+  @override
+  String get businessRecent => 'Recent entries';
+
+  @override
+  String get businessEmpty =>
+      'No sales or expenses yet. Record them each day to see your profit.';
+
+  @override
+  String get businessAdd => 'Add entry';
+
+  @override
+  String get entryNewTitle => 'New entry';
+
+  @override
+  String get entryEditTitle => 'Edit entry';
+
+  @override
+  String get entrySale => 'Sale';
+
+  @override
+  String get entryExpense => 'Expense';
+
+  @override
+  String get entryAmount => 'Amount';
+
+  @override
+  String get entryCategory => 'Category (optional)';
+
+  @override
+  String get entryNote => 'Note (optional)';
+
+  @override
+  String get entryDate => 'Date';
+
+  @override
+  String get entrySave => 'Save';
+
+  @override
+  String get entryDelete => 'Delete entry';
+
+  @override
+  String get entryDeleteConfirm => 'Delete this entry?';
+
+  @override
+  String get entryDeleteAction => 'Delete';
+
+  @override
+  String get entryUncategorised => 'Other';
+
+  @override
+  String get categoryStock => 'Stock';
+
+  @override
+  String get categoryRent => 'Rent';
+
+  @override
+  String get categoryTransport => 'Transport';
+
+  @override
+  String get categoryWages => 'Wages';
+
+  @override
+  String get categoryUtilities => 'Electricity & water';
 }

@@ -1075,6 +1075,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy policy'**
   String get legalPrivacy;
+
+  /// No description provided for @navBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get navBusiness;
+
+  /// No description provided for @businessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get businessTitle;
+
+  /// No description provided for @periodToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get periodToday;
+
+  /// No description provided for @period7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get period7Days;
+
+  /// No description provided for @period30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'30 days'**
+  String get period30Days;
+
+  /// No description provided for @businessSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Sales'**
+  String get businessSales;
+
+  /// No description provided for @businessExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get businessExpenses;
+
+  /// No description provided for @businessProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get businessProfit;
+
+  /// No description provided for @businessLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss'**
+  String get businessLoss;
+
+  /// No description provided for @businessTopExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Biggest expenses'**
+  String get businessTopExpenses;
+
+  /// No description provided for @businessRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent entries'**
+  String get businessRecent;
+
+  /// No description provided for @businessEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No sales or expenses yet. Record them each day to see your profit.'**
+  String get businessEmpty;
+
+  /// No description provided for @businessAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add entry'**
+  String get businessAdd;
+
+  /// No description provided for @entryNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New entry'**
+  String get entryNewTitle;
+
+  /// No description provided for @entryEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit entry'**
+  String get entryEditTitle;
+
+  /// No description provided for @entrySale.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale'**
+  String get entrySale;
+
+  /// No description provided for @entryExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get entryExpense;
+
+  /// No description provided for @entryAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get entryAmount;
+
+  /// No description provided for @entryCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category (optional)'**
+  String get entryCategory;
+
+  /// No description provided for @entryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get entryNote;
+
+  /// No description provided for @entryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get entryDate;
+
+  /// No description provided for @entrySave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get entrySave;
+
+  /// No description provided for @entryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete entry'**
+  String get entryDelete;
+
+  /// No description provided for @entryDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this entry?'**
+  String get entryDeleteConfirm;
+
+  /// No description provided for @entryDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get entryDeleteAction;
+
+  /// No description provided for @entryUncategorised.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get entryUncategorised;
+
+  /// No description provided for @categoryStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get categoryStock;
+
+  /// No description provided for @categoryRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get categoryRent;
+
+  /// No description provided for @categoryTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get categoryTransport;
+
+  /// No description provided for @categoryWages.
+  ///
+  /// In en, this message translates to:
+  /// **'Wages'**
+  String get categoryWages;
+
+  /// No description provided for @categoryUtilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity & water'**
+  String get categoryUtilities;
 }
 
 class _AppLocalizationsDelegate

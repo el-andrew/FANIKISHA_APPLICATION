@@ -8,6 +8,8 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/business/presentation/business_screen.dart';
+import '../../features/business/presentation/entry_form_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/goals/presentation/goal_detail_screen.dart';
 import '../../features/goals/presentation/goal_form_screen.dart';
@@ -67,6 +69,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
+              GoRoute(
+                path: '/business',
+                builder: (_, _) => const BusinessScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(path: '/goals', builder: (_, _) => const GoalsScreen()),
             ],
           ),
@@ -90,6 +100,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       // Full-screen pages, shown above the tabs.
       GoRoute(path: '/save', builder: (_, _) => const DepositScreen()),
+      GoRoute(
+        path: '/business/new',
+        builder: (_, _) => const EntryFormScreen(),
+      ),
+      GoRoute(
+        path: '/business/:id/edit',
+        builder: (_, state) =>
+            EntryFormScreen(entryId: state.pathParameters['id']),
+      ),
       GoRoute(path: '/goals/new', builder: (_, _) => const GoalFormScreen()),
       GoRoute(
         path: '/goals/:id',

@@ -206,5 +206,27 @@ void main() {
     await tester.tap(find.text('TZS 45,000'));
     await tester.pumpAndSettle();
     await capture(tester, '09-history');
+
+    // Record the day's sales and a stock purchase; see the profit.
+    await tapText(tester, 'Business');
+    await waitFor(tester, find.text('Add entry'));
+    await tapText(tester, 'Add entry');
+    await waitFor(tester, find.text('New entry'));
+    await fillForm(tester, {find.byType(TextFormField).first: '120000'});
+    await tapText(tester, 'Save');
+    await waitFor(tester, find.text('+ TZS 120,000'));
+
+    await tapText(tester, 'Add entry');
+    await waitFor(tester, find.text('New entry'));
+    await tapText(tester, 'Expense');
+    await fillForm(tester, {find.byType(TextFormField).first: '35000'});
+    await tapText(tester, 'Stock');
+    await tapText(tester, 'Save');
+    await waitFor(tester, find.text('− TZS 35,000'));
+    await waitFor(tester, find.text('TZS 85,000'));
+
+    await tapText(tester, '7 days');
+    await waitFor(tester, find.text('TZS 85,000'));
+    await capture(tester, '10-business');
   });
 }
