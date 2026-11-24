@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/providers.dart';
 import '../../auth/application/auth_controller.dart';
+import '../../savings/application/savings_providers.dart';
 import '../data/business_models.dart';
 import '../data/business_repository.dart';
 
@@ -109,5 +110,7 @@ void refreshBusinessData(WidgetRef ref) {
   ref
     ..invalidate(businessSummaryProvider)
     ..invalidate(entryListProvider)
-    ..invalidate(entryProvider);
+    ..invalidate(entryProvider)
+    // The day's sales set the saving target.
+    ..invalidate(todaySavingsProvider);
 }

@@ -315,5 +315,76 @@
   "categoryRent": "Rent",
   "categoryTransport": "Transport",
   "categoryWages": "Wages",
-  "categoryUtilities": "Electricity & water"
+  "categoryUtilities": "Electricity & water",
+  "todayTitle": "Today's saving target",
+  "todayRuleSales": "{percent}% of today's sales ({amount})",
+  "@todayRuleSales": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todayRuleProfit": "{percent}% of today's profit ({amount})",
+  "@todayRuleProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todaySavedOf": "Saved today: {saved} of {target}",
+  "@todaySavedOf": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "todayReached": "Today's target reached. Well done!",
+  "todayNoSales": "Record today's sales to see how much to save.",
+  "todayNoProfit": "No profit yet today, so nothing to save from it.",
+  "todayRecordSales": "Record sales",
+  "ruleSetupTitle": "Save a share of each day's sales",
+  "ruleSetupBody": "Set a rule, such as 10% of each day's sales, and Fanikisha will tell you how much to save every day.",
+  "ruleSetupAction": "Set a rule",
+  "ruleTitle": "Saving rule",
+  "ruleBasisLabel": "Save a share of each day's",
+  "rulePercentLabel": "Percentage",
+  "rulePercentInvalid": "Enter a whole number from 1 to 100",
+  "ruleExampleSales": "With {sales} in sales, you would save {saving}.",
+  "@ruleExampleSales": {
+    "placeholders": {
+      "sales": {
+        "type": "String"
+      },
+      "saving": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleExampleProfit": "With {profit} in profit, you would save {saving}.",
+  "@ruleExampleProfit": {
+    "placeholders": {
+      "profit": {
+        "type": "String"
+      },
+      "saving": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleSave": "Save rule",
+  "ruleRemove": "Remove rule",
+  "ruleSaved": "Saving rule saved",
+  "ruleEdit": "Change rule"
 }

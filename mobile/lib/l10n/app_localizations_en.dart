@@ -660,4 +660,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryUtilities => 'Electricity & water';
+
+  @override
+  String get todayTitle => 'Today\'s saving target';
+
+  @override
+  String todayRuleSales(int percent, String amount) {
+    return '$percent% of today\'s sales ($amount)';
+  }
+
+  @override
+  String todayRuleProfit(int percent, String amount) {
+    return '$percent% of today\'s profit ($amount)';
+  }
+
+  @override
+  String todaySavedOf(String saved, String target) {
+    return 'Saved today: $saved of $target';
+  }
+
+  @override
+  String get todayReached => 'Today\'s target reached. Well done!';
+
+  @override
+  String get todayNoSales => 'Record today\'s sales to see how much to save.';
+
+  @override
+  String get todayNoProfit =>
+      'No profit yet today, so nothing to save from it.';
+
+  @override
+  String get todayRecordSales => 'Record sales';
+
+  @override
+  String get ruleSetupTitle => 'Save a share of each day\'s sales';
+
+  @override
+  String get ruleSetupBody =>
+      'Set a rule, such as 10% of each day\'s sales, and Fanikisha will tell you how much to save every day.';
+
+  @override
+  String get ruleSetupAction => 'Set a rule';
+
+  @override
+  String get ruleTitle => 'Saving rule';
+
+  @override
+  String get ruleBasisLabel => 'Save a share of each day\'s';
+
+  @override
+  String get rulePercentLabel => 'Percentage';
+
+  @override
+  String get rulePercentInvalid => 'Enter a whole number from 1 to 100';
+
+  @override
+  String ruleExampleSales(String sales, String saving) {
+    return 'With $sales in sales, you would save $saving.';
+  }
+
+  @override
+  String ruleExampleProfit(String profit, String saving) {
+    return 'With $profit in profit, you would save $saving.';
+  }
+
+  @override
+  String get ruleSave => 'Save rule';
+
+  @override
+  String get ruleRemove => 'Remove rule';
+
+  @override
+  String get ruleSaved => 'Saving rule saved';
+
+  @override
+  String get ruleEdit => 'Change rule';
 }

@@ -10,6 +10,23 @@ class SavingsRepository {
     await _api.getMap('/v1/savings/summary', cacheKey: 'summary'),
   );
 
+  Future<SavingRule?> rule() async =>
+      SavingRule.fromJson((await _api.getMap('/v1/savings/rule'))['rule']);
+
+  Future<SavingRule?> setRule(SavingBasis basis, int percent) async =>
+      SavingRule.fromJson(
+        (await _api.putMap(
+          '/v1/savings/rule',
+          body: {'basis': basis.apiValue, 'percent': percent},
+        ))['rule'],
+      );
+
+  Future<void> removeRule() => _api.deleteVoid('/v1/savings/rule');
+
+  Future<TodaySavings> today() async => TodaySavings.fromJson(
+    await _api.getMap('/v1/savings/today', cacheKey: 'savings-today'),
+  );
+
   Future<DepositSplit> preview(int amount) async => DepositSplit.fromJson(
     await _api.postMap(
       '/v1/savings/deposits/preview',

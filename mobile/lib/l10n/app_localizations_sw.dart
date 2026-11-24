@@ -665,4 +665,80 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get categoryUtilities => 'Umeme na maji';
+
+  @override
+  String get todayTitle => 'Lengo la akiba la leo';
+
+  @override
+  String todayRuleSales(int percent, String amount) {
+    return '$percent% ya mauzo ya leo ($amount)';
+  }
+
+  @override
+  String todayRuleProfit(int percent, String amount) {
+    return '$percent% ya faida ya leo ($amount)';
+  }
+
+  @override
+  String todaySavedOf(String saved, String target) {
+    return 'Akiba ya leo: $saved kati ya $target';
+  }
+
+  @override
+  String get todayReached => 'Lengo la leo limefikiwa. Hongera!';
+
+  @override
+  String get todayNoSales =>
+      'Rekodi mauzo ya leo ili kuona kiasi cha kuweka akiba.';
+
+  @override
+  String get todayNoProfit =>
+      'Bado hakuna faida leo, kwa hiyo hakuna cha kuweka akiba kutoka kwake.';
+
+  @override
+  String get todayRecordSales => 'Rekodi mauzo';
+
+  @override
+  String get ruleSetupTitle => 'Weka akiba sehemu ya mauzo ya kila siku';
+
+  @override
+  String get ruleSetupBody =>
+      'Weka kanuni, kama 10% ya mauzo ya kila siku, na Fanikisha itakuambia kiasi cha kuweka akiba kila siku.';
+
+  @override
+  String get ruleSetupAction => 'Weka kanuni';
+
+  @override
+  String get ruleTitle => 'Kanuni ya akiba';
+
+  @override
+  String get ruleBasisLabel => 'Weka akiba sehemu ya kila siku ya';
+
+  @override
+  String get rulePercentLabel => 'Asilimia';
+
+  @override
+  String get rulePercentInvalid => 'Weka namba kamili kati ya 1 na 100';
+
+  @override
+  String ruleExampleSales(String sales, String saving) {
+    return 'Ukiwa na mauzo ya $sales, ungeweka akiba ya $saving.';
+  }
+
+  @override
+  String ruleExampleProfit(String profit, String saving) {
+    return 'Ukiwa na faida ya $profit, ungeweka akiba ya $saving.';
+  }
+
+  @override
+  String get ruleSave => 'Hifadhi kanuni';
+
+  @override
+  String get ruleRemove => 'Ondoa kanuni';
+
+  @override
+  String get ruleSaved => 'Kanuni ya akiba imehifadhiwa';
+
+  @override
+  String get ruleEdit => 'Badilisha kanuni';
 }

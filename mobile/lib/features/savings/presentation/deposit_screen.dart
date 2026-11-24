@@ -16,7 +16,10 @@ import '../data/savings_models.dart';
 import 'split_list.dart';
 
 class DepositScreen extends ConsumerStatefulWidget {
-  const DepositScreen({super.key});
+  const DepositScreen({super.key, this.initialAmount});
+
+  /// Pre-fills the amount, e.g. the rest of today's saving target.
+  final int? initialAmount;
 
   @override
   ConsumerState<DepositScreen> createState() => _DepositScreenState();
@@ -26,6 +29,20 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
   final _formKey = GlobalKey<FormState>();
   final _amount = TextEditingController();
   final _note = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = widget.initialAmount;
+    if (initial != null && initial > 0) {
+      _amount.text = formatGrouped(initial);
+      // Show the split for it straight away.
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _onAmountChanged(_amount.text),
+      );
+    }
+  }
+
   Timer? _debounce;
   int _previewRequest = 0;
   DepositSplit? _preview;

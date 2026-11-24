@@ -12,6 +12,7 @@ import { LegalModule } from './legal/legal.module.js';
 import { PasswordResetModule } from './password-reset/password-reset.module.js';
 import { PhoneVerificationModule } from './phone-verification/phone-verification.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
+import { SavingRuleModule } from './saving-rule/saving-rule.module.js';
 import { SavingsModule } from './savings/savings.module.js';
 import { SmsModule } from './sms/sms.module.js';
 import { SmsCodesModule } from './sms-codes/sms-codes.module.js';
@@ -59,6 +60,7 @@ import { UsersModule } from './users/users.module.js';
     GoalsModule,
     SavingsModule,
     BusinessModule,
+    SavingRuleModule,
     PhoneVerificationModule,
     PasswordResetModule,
     LegalModule,

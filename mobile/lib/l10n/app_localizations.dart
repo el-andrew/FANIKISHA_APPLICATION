@@ -1261,6 +1261,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Electricity & water'**
   String get categoryUtilities;
+
+  /// No description provided for @todayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s saving target'**
+  String get todayTitle;
+
+  /// No description provided for @todayRuleSales.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of today\'s sales ({amount})'**
+  String todayRuleSales(int percent, String amount);
+
+  /// No description provided for @todayRuleProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of today\'s profit ({amount})'**
+  String todayRuleProfit(int percent, String amount);
+
+  /// No description provided for @todaySavedOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved today: {saved} of {target}'**
+  String todaySavedOf(String saved, String target);
+
+  /// No description provided for @todayReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s target reached. Well done!'**
+  String get todayReached;
+
+  /// No description provided for @todayNoSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Record today\'s sales to see how much to save.'**
+  String get todayNoSales;
+
+  /// No description provided for @todayNoProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'No profit yet today, so nothing to save from it.'**
+  String get todayNoProfit;
+
+  /// No description provided for @todayRecordSales.
+  ///
+  /// In en, this message translates to:
+  /// **'Record sales'**
+  String get todayRecordSales;
+
+  /// No description provided for @ruleSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a share of each day\'s sales'**
+  String get ruleSetupTitle;
+
+  /// No description provided for @ruleSetupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a rule, such as 10% of each day\'s sales, and Fanikisha will tell you how much to save every day.'**
+  String get ruleSetupBody;
+
+  /// No description provided for @ruleSetupAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a rule'**
+  String get ruleSetupAction;
+
+  /// No description provided for @ruleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving rule'**
+  String get ruleTitle;
+
+  /// No description provided for @ruleBasisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a share of each day\'s'**
+  String get ruleBasisLabel;
+
+  /// No description provided for @rulePercentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get rulePercentLabel;
+
+  /// No description provided for @rulePercentInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number from 1 to 100'**
+  String get rulePercentInvalid;
+
+  /// No description provided for @ruleExampleSales.
+  ///
+  /// In en, this message translates to:
+  /// **'With {sales} in sales, you would save {saving}.'**
+  String ruleExampleSales(String sales, String saving);
+
+  /// No description provided for @ruleExampleProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'With {profit} in profit, you would save {saving}.'**
+  String ruleExampleProfit(String profit, String saving);
+
+  /// No description provided for @ruleSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save rule'**
+  String get ruleSave;
+
+  /// No description provided for @ruleRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove rule'**
+  String get ruleRemove;
+
+  /// No description provided for @ruleSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving rule saved'**
+  String get ruleSaved;
+
+  /// No description provided for @ruleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Change rule'**
+  String get ruleEdit;
 }
 
 class _AppLocalizationsDelegate

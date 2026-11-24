@@ -32,3 +32,16 @@ export function businessToday(now: Date = new Date()): Date {
   // en-CA formats as YYYY-MM-DD.
   return new Date(`${businessDateFormat.format(now)}T00:00:00.000Z`);
 }
+
+/** Tanzania is UTC+3 all year: it has no daylight saving time. */
+const BUSINESS_UTC_OFFSET_MS = 3 * 60 * 60 * 1000;
+
+/**
+ * The instants a business day starts and ends at, for comparing timestamps
+ * (such as when a deposit was made) with a day in Tanzania. `end` is
+ * exclusive.
+ */
+export function businessDayBounds(day: Date): { start: Date; end: Date } {
+  const start = new Date(day.getTime() - BUSINESS_UTC_OFFSET_MS);
+  return { start, end: new Date(start.getTime() + 86_400_000) };
+}

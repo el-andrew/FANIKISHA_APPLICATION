@@ -11,6 +11,7 @@ import '../goals/data/goal.dart';
 import '../goals/presentation/goal_card.dart';
 import '../savings/application/savings_providers.dart';
 import '../savings/data/savings_models.dart';
+import 'today_card.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -29,6 +30,7 @@ class DashboardScreen extends ConsumerWidget {
     Future<void> refresh() => Future.wait([
       ref.refresh(summaryProvider.future),
       ref.refresh(goalsProvider(GoalStatus.active).future),
+      ref.refresh(todaySavingsProvider.future),
     ]);
 
     return Scaffold(
@@ -70,6 +72,8 @@ class DashboardScreen extends ConsumerWidget {
               ),
               data: (summary) => _SummaryCard(summary: summary),
             ),
+            const SizedBox(height: 16),
+            const TodayCard(),
             const SizedBox(height: 16),
             FilledButton.icon(
               onPressed: () => context.push('/save'),

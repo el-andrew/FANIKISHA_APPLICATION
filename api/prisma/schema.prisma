@@ -33,6 +33,7 @@ model User {
   deposits        Deposit[]
   smsCodes        SmsCode[]
   businessEntries BusinessEntry[]
+  savingRule      SavingRule?
 
   @@map("users")
 }
@@ -191,4 +192,26 @@ model BusinessEntry {
   @@unique([userId, idempotencyKey])
   @@index([userId, occurredOn])
   @@map("business_entries")
+}
+
+enum SavingBasis {
+  SALES
+  PROFIT
+
+  @@map("saving_basis")
+}
+
+/// The owner's daily saving rule, e.g. "save 10% of each day's sales". The
+/// app turns it into a daily target; deposits are still made by the owner.
+model SavingRule {
+  userId    String      @id @map("user_id") @db.Uuid
+  basis     SavingBasis
+  /// 1 to 100.
+  percent   Int
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("saving_rules")
 }

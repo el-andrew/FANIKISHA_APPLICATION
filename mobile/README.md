@@ -18,6 +18,8 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 - Deposit history with each deposit's split.
 - Business tab: record each day's sales and expenses, and see sales, expenses
   and profit for today, 7 or 30 days, with a daily chart.
+- Saving rule, e.g. "10% of each day's sales": the dashboard shows today's
+  target and saves the rest in one tap.
 - Phone number verification by SMS code, with a reminder on the dashboard
   until it's done.
 - Account deletion from the profile, confirmed with the password.

@@ -68,7 +68,9 @@ Needed before the app can go on the Play Store.
 
 - [x] Daily sales and expense log: a Business tab with sales, expenses and
       profit for today, 7 or 30 days, a daily chart and the biggest expenses
-- [ ] Saving rules, e.g. "save 10% of each day's sales"
+- [x] Saving rules, e.g. "save 10% of each day's sales" (or profit): the
+      dashboard shows today's target, what is saved so far, and a one-tap
+      deposit for the rest
 - [ ] Withdrawals from completed goals, and moving money between goals
 - [ ] Reminders when a goal falls behind its daily target
 

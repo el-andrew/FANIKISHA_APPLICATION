@@ -20,6 +20,8 @@ its deadline.
   resets the password and signs out every other device. The request answers
   the same way whether or not the account exists.
 - **Summary:** totals for a dashboard.
+- **Saving rules:** "save 10% of each day's sales" (or profit) becomes a
+  daily target; today's deposits count towards it, by the Tanzanian day.
 - **Sales and expenses:** the owner records each day's sales and expenses;
   summaries give sales, expenses, profit, daily totals and the biggest
   expense categories for any period.
@@ -104,6 +106,8 @@ Amounts are whole shillings; dates are `YYYY-MM-DD`.
 | POST | `/v1/business/entries` | Record a sale or expense (`{"type": "SALE" \| "EXPENSE", "amount", "category"?, "note"?, "occurredOn"?}`, needs `Idempotency-Key`) |
 | GET | `/v1/business/entries` | Entries, newest first (`?from&to&type&limit&cursor`) |
 | GET / PATCH / DELETE | `/v1/business/entries/:id` | Read, correct or delete an entry |
+| GET / PUT / DELETE | `/v1/savings/rule` | The daily saving rule (`{"basis": "SALES" \| "PROFIT", "percent": 1-100}`) |
+| GET | `/v1/savings/today` | Today's sales, the rule's target, what is saved today and what remains |
 | GET | `/v1/business/summary` | Sales, expenses, profit and daily totals (`?from=YYYY-MM-DD&to=YYYY-MM-DD`, up to 366 days) |
 
 Example:

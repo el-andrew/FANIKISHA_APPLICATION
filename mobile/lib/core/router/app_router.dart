@@ -21,6 +21,7 @@ import '../../features/profile/profile_screen.dart';
 import '../../features/profile/verify_phone_screen.dart';
 import '../../features/savings/presentation/deposit_screen.dart';
 import '../../features/savings/presentation/history_screen.dart';
+import '../../features/savings/presentation/saving_rule_screen.dart';
 import 'home_shell.dart';
 
 const _publicRoutes = {'/welcome', '/login', '/register', '/forgot-password'};
@@ -99,7 +100,18 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       // Full-screen pages, shown above the tabs.
-      GoRoute(path: '/save', builder: (_, _) => const DepositScreen()),
+      GoRoute(
+        path: '/save',
+        builder: (_, state) => DepositScreen(
+          initialAmount: int.tryParse(
+            state.uri.queryParameters['amount'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/savings/rule',
+        builder: (_, _) => const SavingRuleScreen(),
+      ),
       GoRoute(
         path: '/business/new',
         builder: (_, _) => const EntryFormScreen(),

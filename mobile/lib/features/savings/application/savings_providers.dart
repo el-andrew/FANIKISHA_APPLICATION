@@ -10,6 +10,11 @@ final summaryProvider = FutureProvider.autoDispose<SavingsSummary>((ref) {
   return ref.watch(savingsRepositoryProvider).summary();
 });
 
+final todaySavingsProvider = FutureProvider.autoDispose<TodaySavings>((ref) {
+  ref.watch(currentUserIdProvider);
+  return ref.watch(savingsRepositoryProvider).today();
+});
+
 class DepositHistory {
   const DepositHistory({
     required this.items,
@@ -78,6 +83,7 @@ final depositHistoryProvider =
 void refreshSavingsData(WidgetRef ref) {
   ref
     ..invalidate(summaryProvider)
+    ..invalidate(todaySavingsProvider)
     ..invalidate(goalsProvider)
     ..invalidate(goalProvider)
     ..invalidate(depositHistoryProvider);

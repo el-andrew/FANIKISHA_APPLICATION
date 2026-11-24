@@ -105,3 +105,69 @@ class SavingsSummary {
   final int activeGoals;
   final int completedGoals;
 }
+
+enum SavingBasis {
+  sales('SALES'),
+  profit('PROFIT');
+
+  const SavingBasis(this.apiValue);
+  final String apiValue;
+
+  static SavingBasis fromApi(String value) =>
+      values.firstWhere((b) => b.apiValue == value);
+}
+
+/// "Save [percent]% of each day's [basis]".
+class SavingRule {
+  const SavingRule({required this.basis, required this.percent});
+
+  static SavingRule? fromJson(Object? json) {
+    if (json is! Map<String, dynamic>) return null;
+    return SavingRule(
+      basis: SavingBasis.fromApi(json['basis'] as String),
+      percent: (json['percent'] as num).toInt(),
+    );
+  }
+
+  final SavingBasis basis;
+  final int percent;
+
+  /// What the rule asks to save for a day; nothing on a day with a loss.
+  int targetFor({required int sales, required int expenses}) {
+    final base = basis == SavingBasis.sales
+        ? sales
+        : (sales - expenses).clamp(0, sales);
+    return base * percent ~/ 100;
+  }
+}
+
+/// Today's sales and what the saving rule asks to save from them.
+class TodaySavings {
+  const TodaySavings({
+    required this.sales,
+    required this.expenses,
+    required this.profit,
+    required this.rule,
+    required this.target,
+    required this.savedToday,
+    required this.remaining,
+  });
+
+  factory TodaySavings.fromJson(Map<String, dynamic> json) => TodaySavings(
+    sales: (json['sales'] as num).toInt(),
+    expenses: (json['expenses'] as num).toInt(),
+    profit: (json['profit'] as num).toInt(),
+    rule: SavingRule.fromJson(json['rule']),
+    target: (json['target'] as num).toInt(),
+    savedToday: (json['savedToday'] as num).toInt(),
+    remaining: (json['remaining'] as num).toInt(),
+  );
+
+  final int sales;
+  final int expenses;
+  final int profit;
+  final SavingRule? rule;
+  final int target;
+  final int savedToday;
+  final int remaining;
+}

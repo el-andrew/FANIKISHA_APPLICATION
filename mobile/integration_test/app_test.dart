@@ -228,5 +228,15 @@ void main() {
     await tapText(tester, '7 days');
     await waitFor(tester, find.text('TZS 85,000'));
     await capture(tester, '10-business');
+
+    // A 10% saving rule: today's 45,000 already covers the 12,000 target.
+    await tapText(tester, 'Home');
+    await waitFor(tester, find.text('Set a rule'));
+    await tapText(tester, 'Set a rule');
+    await waitFor(tester, find.text('Save rule'));
+    await tapText(tester, 'Save rule');
+    await waitFor(tester, find.text("10% of today's sales (TZS 120,000)"));
+    await waitFor(tester, find.text("Today's target reached. Well done!"));
+    await capture(tester, '11-dashboard-rule');
   });
 }
