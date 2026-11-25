@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { z } from 'zod';
 
 const secret = z.string().refine((s) => Buffer.byteLength(s, 'utf8') >= 32, {
@@ -19,6 +20,19 @@ export const envSchema = z
      */
     TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(5).default(0),
     DATABASE_URL: z.url(),
+    /**
+     * The database server's root certificate (a path, relative to the API
+     * folder), e.g. `certs/supabase-root-2021.crt`. When set, connections are
+     * encrypted and the server's certificate is verified against it. Leave
+     * unset for a local database.
+     */
+    DATABASE_CA_CERT: z
+      .string()
+      .min(1)
+      .optional()
+      .refine((path) => path === undefined || existsSync(path), {
+        message: 'file not found',
+      }),
     JWT_SECRET: secret,
     JWT_ISSUER: z.string().min(1).default('fanikisha-api'),
     JWT_AUDIENCE: z.string().min(1).default('fanikisha-mobile'),

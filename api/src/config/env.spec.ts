@@ -13,6 +13,16 @@ const operator = {
 };
 
 describe('validateEnv', () => {
+  it('checks the database certificate file exists', () => {
+    expect(() =>
+      validateEnv({ ...base, DATABASE_CA_CERT: 'certs/missing.crt' }),
+    ).toThrow(/DATABASE_CA_CERT: file not found/);
+    expect(
+      validateEnv({ ...base, DATABASE_CA_CERT: 'certs/supabase-root-2021.crt' })
+        .DATABASE_CA_CERT,
+    ).toBe('certs/supabase-root-2021.crt');
+  });
+
   it('trusts no proxy unless told how many there are', () => {
     expect(validateEnv(base).TRUST_PROXY_HOPS).toBe(0);
     expect(
