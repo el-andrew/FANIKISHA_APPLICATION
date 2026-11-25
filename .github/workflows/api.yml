@@ -5,6 +5,8 @@ on:
     paths: ['api/**', '.github/workflows/api.yml']
   pull_request:
     paths: ['api/**', '.github/workflows/api.yml']
+  # A "Run workflow" button in the Actions tab.
+  workflow_dispatch:
 
 jobs:
   test:
