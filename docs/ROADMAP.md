@@ -114,7 +114,13 @@ Needed before the app can go on the Play Store.
 
 ## Phase 5: Production and portfolio
 
-- [ ] Deploy the API with a managed PostgreSQL database
+- [ ] Deploy the API with a managed PostgreSQL database: Render, Frankfurt,
+      described in `render.yaml` and [docs/DEPLOY.md](DEPLOY.md)
+  - [x] Blueprint, production checks (client addresses behind Render's proxy
+        for rate limits), privacy policy updated for hosting and Phase 3 data
+  - [ ] Owner: Render account and Blueprint, contact email, Render's DPA,
+        Cloudflare DNS records for `api.fanikisha` and `fanikisha`
+        under `northkings.co.tz`
 - [ ] OpenAPI documentation
 - [ ] Demo account with sample data, screenshots and a short demo video
 - [ ] Architecture diagram and write-up in the root README

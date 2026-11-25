@@ -1,0 +1,73 @@
+# Render Blueprint: the Fanikisha API and its PostgreSQL database.
+# Create it in Render with New > Blueprint, pointing at this repository.
+# See docs/DEPLOY.md for the whole procedure, DNS included.
+
+services:
+  - type: web
+    name: fanikisha-api
+    runtime: node
+    # Frankfurt is Render's closest region to Tanzania. It can't be changed
+    # after creation.
+    region: frankfurt
+    plan: 0.5c-512mb
+    rootDir: api
+    buildFilter:
+      paths:
+        - api/**
+        - render.yaml
+    # The build needs dev dependencies (Nest CLI, Prisma CLI, TypeScript),
+    # which npm skips by default when NODE_ENV=production.
+    buildCommand: npm ci --include=dev && npm run build
+    # Runs before each new version starts; a failed migration stops the
+    # deploy and the old version keeps running.
+    preDeployCommand: npx prisma migrate deploy
+    startCommand: node dist/main.js
+    healthCheckPath: /health
+    # Deploy a commit only after its GitHub checks pass.
+    autoDeployTrigger: checksPass
+    domains:
+      - api.fanikisha.northkings.co.tz
+      # The privacy policy, terms and account-deletion pages, for the app and
+      # the Play Store listing.
+      - fanikisha.northkings.co.tz
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+      - key: NODE_ENV
+        value: production
+      # Render's load balancer.
+      - key: TRUST_PROXY_HOPS
+        value: '1'
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fanikisha-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OPERATOR_NAME
+        value: NORTH KINGS LIMITED
+      - key: OPERATOR_REGISTRATION
+        value: '211059125'
+      - key: OPERATOR_ADDRESS
+        value: Dar es Salaam, Tanzania
+      # Entered in the Render dashboard when the Blueprint is created.
+      - key: OPERATOR_EMAIL
+        sync: false
+      - key: SMS_PROVIDER
+        value: beem
+      - key: BEEM_API_KEY
+        sync: false
+      - key: BEEM_SECRET_KEY
+        sync: false
+      - key: BEEM_SENDER_ID
+        sync: false
+
+databases:
+  - name: fanikisha-db
+    region: frankfurt
+    plan: 0.1c-256mb
+    postgresMajorVersion: '18'
+    databaseName: fanikisha
+    user: fanikisha
+    # Only services in this Render account can connect.
+    ipAllowList: []

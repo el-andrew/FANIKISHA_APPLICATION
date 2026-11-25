@@ -115,11 +115,13 @@ Release builds are signed with an upload key that stays out of git.
    keyPassword=...
    ```
 
-3. Build, with the deployed API's HTTPS address:
+3. Build, with the deployed API's HTTPS address and the address of the public
+   pages (privacy policy, terms; see [docs/DEPLOY.md](../docs/DEPLOY.md)):
 
    ```bash
    flutter build appbundle --release \
-     --dart-define=API_BASE_URL=https://api.example.com
+     --dart-define=API_BASE_URL=https://api.fanikisha.northkings.co.tz \
+     --dart-define=PUBLIC_SITE_URL=https://fanikisha.northkings.co.tz
    ```
 
 The Android build compiles against SDK 37 (needed by
@@ -130,7 +132,8 @@ on Android 7.0 (SDK 24) and later.
 
 Without `key.properties` the release build is signed with the debug key (so
 `flutter run --release` works) and cannot be published. A release build with
-a non-HTTPS `API_BASE_URL` refuses to start.
+a non-HTTPS `API_BASE_URL` or `PUBLIC_SITE_URL` refuses to start. Without
+`PUBLIC_SITE_URL`, the app opens the policy pages on the API's address.
 
 ## Icon and splash screen
 
