@@ -1,8 +1,9 @@
 # Deploying Fanikisha
 
-The API and its PostgreSQL database run on [Render](https://render.com), in
-the Frankfurt region. Everything Render needs is described in
-[`render.yaml`](../render.yaml) at the repository root (a Render "Blueprint").
+The API runs on [Render](https://render.com)'s free plan and its PostgreSQL
+database on [Supabase](https://supabase.com)'s free plan, both in Frankfurt.
+Render's part is described in [`render.yaml`](../render.yaml) at the
+repository root (a Render "Blueprint").
 
 | Address | What it serves |
 | --- | --- |
@@ -13,45 +14,83 @@ Both names point at the same Render service. Every product of North Kings
 follows the same pattern: `<product>.northkings.co.tz` for its public pages
 and `<service>.<product>.northkings.co.tz` for its services.
 
-## Cost
+## What the free plans mean
 
-On a Hobby workspace ($0 a month), you pay only for compute: $7 a month for
-the web service (`0.5c-512mb`) and $6 a month for the database
-(`0.1c-256mb`), billed by the second. Prices as of November 2026; see
-[render.com/pricing](https://render.com/pricing).
+| | Limit | Effect on Fanikisha |
+| --- | --- | --- |
+| Render | Sleeps after 15 minutes without requests; waking takes about a minute | The first request after a quiet spell is slow. The app waits up to 75 seconds and, on its opening screen, says it's starting up. |
+| Render | 750 instance hours a month per workspace | Enough for this one service running all month. A second free service would share them. |
+| Supabase | **No backups** | If the database is lost or damaged, the data is gone. The privacy policy says so. |
+| Supabase | Paused after a week without activity | The API answers with errors until the project is restored from the Supabase dashboard. |
+| Supabase | 500 MB database | Years of records for a few hundred users. |
 
-Render's free plans aren't suitable: a free web service sleeps after 15
-minutes without traffic (the next request waits about a minute), and a free
-database is deleted after 30 days.
+To lift them: Render's `0.5c-512mb` plan ($7 a month) never sleeps; Supabase
+Pro ($25 a month) adds daily backups kept 7 days and no pausing. With backups,
+update the privacy policy (`api/src/legal/privacy.ts`).
 
 ## First deployment
 
-### 1. Create the services in Render
+### 1. Create the database in Supabase
+
+1. **New project**, in the North Kings organisation:
+   - **Region: Central EU (Frankfurt), `eu-central-1`**: the same city as the
+     API. It can't be changed later.
+   - **Database password:** generate a long one and keep it in a password
+     manager.
+   - **Turn off the Data API** (if offered at creation; otherwise under
+     **Integrations → Data API** afterwards). Fanikisha uses only the direct
+     database connection. The tables also have row-level security with no
+     policies, so the Data API couldn't read them anyway.
+2. **Database → Settings → SSL Configuration**: turn on **Enforce SSL on
+   incoming connections**, and download the certificate.
+3. Check the certificate matches the one in the repository,
+   `api/certs/supabase-root-2021.crt`:
+
+   ```bash
+   openssl x509 -noout -fingerprint -sha256 -in ~/Downloads/prod-ca-2021.crt
+   openssl x509 -noout -fingerprint -sha256 -in api/certs/supabase-root-2021.crt
+   ```
+
+   Both must print
+   `80:70:25:AD:50:D4:ED:21:9D:2C:9C:7D:29:9C:00:4F:82:4E:B0:0C:F7:F6:5A:FE:F6:07:D0:7B:72:E6:CA:FA`.
+4. **Connect** (top of the project page) → **Connection string** →
+   **Session pooler**. Copy it and put the database password in. It looks
+   like:
+
+   ```text
+   postgresql://postgres.<project-ref>:<password>@aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+   ```
+
+   Use the **session pooler**, not the direct connection (IPv6 only on the
+   free plan, and Render can't reach IPv6) or the transaction pooler (port
+   6543, which Prisma migrations can't use). Leave out any `sslmode=`: the API
+   adds its own SSL settings from `DATABASE_CA_CERT`, which also check the
+   server's certificate.
+5. Get Supabase's data processing agreement
+   ([supabase.com/legal/dpa](https://supabase.com/legal/dpa)) and accept or
+   sign it. The privacy policy says it is in place.
+
+### 2. Create the API in Render
 
 1. Sign in to Render with GitHub and give it access to this repository.
 2. **New → Blueprint**, choose the repository and the `main` branch.
-3. Render lists the web service `fanikisha-api` and the database
-   `fanikisha-db`, and asks for the values marked `sync: false`:
+3. Render lists the web service `fanikisha-api` and asks for the values
+   marked `sync: false`:
+   - `DATABASE_URL`: the session pooler string from step 1.4.
    - `OPERATOR_EMAIL`: the contact address published in the privacy policy
      and terms.
    - `BEEM_API_KEY`, `BEEM_SECRET_KEY`, `BEEM_SENDER_ID`: from the Beem
      dashboard. The sender ID must be registered and active.
-4. Apply. Render creates the database, builds the API, runs the database
-   migrations and starts it. `JWT_SECRET` is generated by Render and never
-   leaves it.
+4. Apply. Render builds the API, applies the database migrations to Supabase,
+   and starts it. `JWT_SECRET` is generated by Render and never leaves it.
 5. Open the service's URL (e.g. `https://fanikisha-api.onrender.com`; Render
    shows the exact one) and check `/health` answers
    `{"status":"ok","database":"up"}`.
+6. Get Render's data processing agreement from **Dashboard → Documents**
+   (`https://dashboard.render.com/documents`) and accept or sign it.
 
-The API refuses to start with a clear message in the logs if a required value
-is missing.
-
-### 2. Accept Render's data processing agreement
-
-The privacy policy says Render handles users' data under a data processing
-agreement with North Kings. Before real users sign up, get Render's GDPR DPA
-(available on all plans) from **Dashboard → Documents**
-(`https://dashboard.render.com/documents`) and accept or sign it.
+The API refuses to start, with a clear message in the logs, if a required
+value is missing or the certificate file isn't found.
 
 ### 3. Add the domains in Cloudflare
 
@@ -104,22 +143,20 @@ Merging to `main` deploys automatically, once the commit's GitHub checks
 pass (`autoDeployTrigger: checksPass`). Only changes under `api/` or to
 `render.yaml` trigger a deploy.
 
-Each deploy builds the new version, runs `prisma migrate deploy`, and switches
-traffic over only when `/health` answers. If the migration or the health
-check fails, the previous version keeps running.
+Each deploy builds the new version and applies new database migrations
+(`prisma migrate deploy`, part of the build). If the build or a migration
+fails, the running version stays up.
 
-Database migrations must work with the version still running while they
-apply: add columns and tables freely, but remove or rename in two steps (stop
-using it in one deploy, drop it in a later one).
+Migrations are applied before the new version starts, while the old one is
+still serving, so they must work with both: add columns and tables freely,
+but remove or rename in two steps (stop using it in one deploy, drop it in a
+later one).
 
-## Backups and logs
+## Logs and the database
 
-Render backs up the paid database continuously: it can be restored to any
-point in the last 3 days (Hobby workspace; 7 days on Pro), and daily backups
-are kept for 7 days. Logs are kept for 7 days (14 on Pro). The privacy policy
-states these periods; update it if the workspace plan changes.
+Render keeps the API's logs for 7 days. The free plan has no shell; use the
+Supabase dashboard's **SQL Editor** or **Table Editor** to look at the data.
 
-The database accepts connections only from services in the same Render
-workspace (`ipAllowList: []`). To inspect it, use the **Shell** tab of the
-web service, or temporarily allow your own address in the database's
-settings.
+If Supabase pauses the project after a quiet week, `/health` reports
+`"database":"down"`. Restore the project from the Supabase dashboard; the API
+reconnects by itself.

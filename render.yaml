@@ -1,26 +1,29 @@
-# Render Blueprint: the Fanikisha API and its PostgreSQL database.
+# Render Blueprint: the Fanikisha API on Render's free plan. The database is a
+# Supabase project (also free), in the same city.
 # Create it in Render with New > Blueprint, pointing at this repository.
-# See docs/DEPLOY.md for the whole procedure, DNS included.
+# See docs/DEPLOY.md for the whole procedure, Supabase and DNS included.
 
 services:
   - type: web
     name: fanikisha-api
     runtime: node
-    # Frankfurt is Render's closest region to Tanzania. It can't be changed
-    # after creation.
+    # Frankfurt: Render's closest region to Tanzania, and the same city as
+    # the Supabase database (eu-central-1). It can't be changed later.
     region: frankfurt
-    plan: 0.5c-512mb
+    # Free: sleeps after 15 minutes without requests and takes about a
+    # minute to wake. Change to 0.5c-512mb ($7 a month) to keep it awake.
+    plan: free
     rootDir: api
     buildFilter:
       paths:
         - api/**
         - render.yaml
     # The build needs dev dependencies (Nest CLI, Prisma CLI, TypeScript),
-    # which npm skips by default when NODE_ENV=production.
-    buildCommand: npm ci --include=dev && npm run build
-    # Runs before each new version starts; a failed migration stops the
-    # deploy and the old version keeps running.
-    preDeployCommand: npx prisma migrate deploy
+    # which npm skips by default when NODE_ENV=production. Migrations run
+    # here because free services have no pre-deploy step: a failed migration
+    # fails the build, and the running version stays up.
+    buildCommand: >-
+      npm ci --include=dev && npm run build && npx prisma migrate deploy
     startCommand: node dist/main.js
     healthCheckPath: /health
     # Deploy a commit only after its GitHub checks pass.
@@ -38,10 +41,15 @@ services:
       # Render's load balancer.
       - key: TRUST_PROXY_HOPS
         value: '1'
+      # Supabase's session pooler (IPv4; Render has no IPv6), without any
+      # sslmode: SSL settings come from DATABASE_CA_CERT. Entered in the Render
+      # dashboard when the Blueprint is created.
       - key: DATABASE_URL
-        fromDatabase:
-          name: fanikisha-db
-          property: connectionString
+        sync: false
+      # Supabase's root certificate, committed in the repository: database
+      # connections are encrypted and the server is verified against it.
+      - key: DATABASE_CA_CERT
+        value: certs/supabase-root-2021.crt
       - key: JWT_SECRET
         generateValue: true
       - key: OPERATOR_NAME
@@ -50,7 +58,6 @@ services:
         value: '211059125'
       - key: OPERATOR_ADDRESS
         value: Dar es Salaam, Tanzania
-      # Entered in the Render dashboard when the Blueprint is created.
       - key: OPERATOR_EMAIL
         sync: false
       - key: SMS_PROVIDER
@@ -61,13 +68,3 @@ services:
         sync: false
       - key: BEEM_SENDER_ID
         sync: false
-
-databases:
-  - name: fanikisha-db
-    region: frankfurt
-    plan: 0.1c-256mb
-    postgresMajorVersion: '18'
-    databaseName: fanikisha
-    user: fanikisha
-    # Only services in this Render account can connect.
-    ipAllowList: []
