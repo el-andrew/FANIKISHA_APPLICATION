@@ -560,5 +560,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "splashSlowStart": "Starting up… this can take up to a minute."
 }

@@ -899,4 +899,8 @@ class AppLocalizationsSw extends AppLocalizations {
   String reminderRecordBodyProfit(String percent) {
     return 'Andika mauzo na matumizi ya leo uone kanuni yako ya $percent% inaweka kiasi gani.';
   }
+
+  @override
+  String get splashSlowStart =>
+      'Inaanza… hii inaweza kuchukua hadi dakika moja.';
 }

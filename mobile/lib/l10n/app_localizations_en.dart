@@ -893,4 +893,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String reminderRecordBodyProfit(String percent) {
     return 'Record today\'s sales and expenses to see what your $percent% rule saves.';
   }
+
+  @override
+  String get splashSlowStart => 'Starting up… this can take up to a minute.';
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,10 +27,58 @@ class SplashScreen extends ConsumerWidget {
                   alignment: Alignment(0, 0.6),
                   child: CircularProgressIndicator(),
                 ),
+                Align(alignment: Alignment(0, 0.75), child: _SlowStartHint()),
               ],
             ),
     );
   }
+}
+
+/// After a few seconds of loading, explains the wait: a server that has been
+/// idle can take up to a minute to wake.
+class _SlowStartHint extends StatefulWidget {
+  const _SlowStartHint();
+
+  static const delay = Duration(seconds: 5);
+
+  @override
+  State<_SlowStartHint> createState() => _SlowStartHintState();
+}
+
+class _SlowStartHintState extends State<_SlowStartHint> {
+  late final Timer _timer;
+  bool _shown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(_SlowStartHint.delay, () => setState(() => _shown = true));
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedSwitcher(
+    duration: const Duration(milliseconds: 300),
+    // Absent (not just invisible) until due, so screen readers don't
+    // announce it on a fast start.
+    child: _shown
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              context.l10n.splashSlowStart,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          )
+        : const SizedBox.shrink(),
+  );
 }
 
 class _RestoreFailed extends ConsumerWidget {

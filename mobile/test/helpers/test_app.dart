@@ -24,6 +24,7 @@ Future<MemoryTokenStorage> pumpApp(
   MemoryTokenStorage? storage,
   bool keepPreferences = false,
   List<Override> overrides = const [],
+  bool settle = true,
 }) async {
   await initializeDateFormatting();
   // keepPreferences: a second launch, finding what the first one saved.
@@ -58,6 +59,7 @@ Future<MemoryTokenStorage> pumpApp(
       child: const FanikishaApp(),
     ),
   );
-  await tester.pumpAndSettle();
+  // Not settling lets a test watch the app while a request is still open.
+  if (settle) await tester.pumpAndSettle();
   return tokenStorage;
 }

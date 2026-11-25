@@ -26,8 +26,11 @@ class ApiClient {
          BaseOptions(
            baseUrl: baseUrl,
            connectTimeout: const Duration(seconds: 10),
-           receiveTimeout: const Duration(seconds: 20),
+           // A free Render service that has been idle wakes up on the first
+           // request, which takes about a minute.
+           receiveTimeout: const Duration(seconds: 75),
            contentType: Headers.jsonContentType,
+           headers: {Headers.acceptHeader: Headers.jsonContentType},
            responseType: ResponseType.json,
          ),
        ) {

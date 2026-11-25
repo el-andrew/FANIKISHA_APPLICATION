@@ -1621,6 +1621,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Record today\'s sales and expenses to see what your {percent}% rule saves.'**
   String reminderRecordBodyProfit(String percent);
+
+  /// No description provided for @splashSlowStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting up… this can take up to a minute.'**
+  String get splashSlowStart;
 }
 
 class _AppLocalizationsDelegate
