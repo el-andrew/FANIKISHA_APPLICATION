@@ -18,10 +18,15 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.fanikisha.fanikisha"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_local_notifications and androidx.core need 37. This only
+    // changes the APIs compiled against, not the devices supported
+    // (minSdk) or runtime behaviour (targetSdk).
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        // Needed by flutter_local_notifications (scheduled reminders).
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -71,4 +76,8 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

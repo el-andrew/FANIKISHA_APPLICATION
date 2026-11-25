@@ -4,6 +4,7 @@ import 'package:fanikisha/core/api/token_storage.dart';
 import 'package:fanikisha/core/legal_links.dart';
 import 'package:fanikisha/core/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,7 @@ Future<MemoryTokenStorage> pumpApp(
   String locale = 'en',
   MemoryTokenStorage? storage,
   bool keepPreferences = false,
+  List<Override> overrides = const [],
 }) async {
   await initializeDateFormatting();
   // keepPreferences: a second launch, finding what the first one saved.
@@ -51,6 +53,7 @@ Future<MemoryTokenStorage> pumpApp(
             adapter: api,
           ),
         ),
+        ...overrides,
       ],
       child: const FanikishaApp(),
     ),

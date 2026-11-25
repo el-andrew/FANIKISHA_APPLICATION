@@ -1489,6 +1489,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} left in this goal'**
   String goalLeft(String amount);
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @remindersOnSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evenings around {time}, when a goal falls behind or today\'s saving is due'**
+  String remindersOnSubtitle(String time);
+
+  /// No description provided for @remindersOffSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get remindersOffSubtitle;
+
+  /// No description provided for @remindersTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get remindersTime;
+
+  /// No description provided for @remindersBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are blocked for Fanikisha. Allow them in your phone\'s settings, then try again.'**
+  String get remindersBlocked;
+
+  /// No description provided for @remindersTipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay on track'**
+  String get remindersTipTitle;
+
+  /// No description provided for @remindersTipBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get an evening reminder when a goal falls behind or today\'s saving is still to do.'**
+  String get remindersTipBody;
+
+  /// No description provided for @remindersTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get remindersTurnOn;
+
+  /// No description provided for @remindersOnMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders on: evenings around {time}'**
+  String remindersOnMessage(String time);
+
+  /// No description provided for @actionNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get actionNotNow;
+
+  /// No description provided for @reminderChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving reminders'**
+  String get reminderChannelName;
+
+  /// No description provided for @reminderChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When a goal falls behind or today\'s saving is due'**
+  String get reminderChannelDescription;
+
+  /// No description provided for @reminderSaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {amount} today'**
+  String reminderSaveTitle(String amount);
+
+  /// No description provided for @reminderSaveBodySales.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s {percent}% of today\'s sales, as your rule says.'**
+  String reminderSaveBodySales(String percent);
+
+  /// No description provided for @reminderSaveBodyProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s {percent}% of today\'s profit, as your rule says.'**
+  String reminderSaveBodyProfit(String percent);
+
+  /// No description provided for @reminderBehindTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{goal} is falling behind'**
+  String reminderBehindTitle(String goal);
+
+  /// No description provided for @reminderBehindBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {amount} a day to reach it by {date}.'**
+  String reminderBehindBody(String amount, String date);
+
+  /// No description provided for @reminderOverdueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{goal} is past its target date'**
+  String reminderOverdueTitle(String goal);
+
+  /// No description provided for @reminderOverdueBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} still to save. Keep going, or pick a new date.'**
+  String reminderOverdueBody(String amount);
+
+  /// No description provided for @reminderRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How did business go today?'**
+  String get reminderRecordTitle;
+
+  /// No description provided for @reminderRecordBodySales.
+  ///
+  /// In en, this message translates to:
+  /// **'Record today\'s sales to see what your {percent}% rule saves.'**
+  String reminderRecordBodySales(String percent);
+
+  /// No description provided for @reminderRecordBodyProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Record today\'s sales and expenses to see what your {percent}% rule saves.'**
+  String reminderRecordBodyProfit(String percent);
 }
 
 class _AppLocalizationsDelegate

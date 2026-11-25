@@ -9,6 +9,8 @@ import '../auth/application/auth_controller.dart';
 import '../goals/application/goals_providers.dart';
 import '../goals/data/goal.dart';
 import '../goals/presentation/goal_card.dart';
+import '../reminders/reminder_widgets.dart';
+import '../reminders/reminders.dart';
 import '../savings/application/savings_providers.dart';
 import '../savings/data/savings_models.dart';
 import 'today_card.dart';
@@ -26,6 +28,12 @@ class DashboardScreen extends ConsumerWidget {
     final user = auth is SignedIn ? auth.user : null;
     final summary = ref.watch(summaryProvider);
     final goals = ref.watch(goalsProvider(GoalStatus.active));
+    final showTip = showReminderTip(
+      supported: ref.watch(reminderSchedulerProvider).supported,
+      settings: ref.watch(reminderSettingsProvider),
+      hasActiveGoal: goals.value?.isNotEmpty ?? false,
+      hasRule: ref.watch(todaySavingsProvider).value?.rule != null,
+    );
 
     Future<void> refresh() => Future.wait([
       ref.refresh(summaryProvider.future),
@@ -75,6 +83,10 @@ class DashboardScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             const TodayCard(),
             const SizedBox(height: 16),
+            if (showTip) ...[
+              const ReminderTipCard(),
+              const SizedBox(height: 16),
+            ],
             FilledButton.icon(
               onPressed: () => context.push('/save'),
               icon: const Icon(Icons.add),

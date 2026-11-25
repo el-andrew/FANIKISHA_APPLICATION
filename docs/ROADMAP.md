@@ -73,7 +73,12 @@ Needed before the app can go on the Play Store.
       deposit for the rest
 - [x] Withdrawals and moving money between goals and general savings; the
       dashboard shows the current balance and History shows every movement
-- [ ] Reminders when a goal falls behind its daily target
+- [x] Reminders when a goal falls behind its daily target: notifications
+      scheduled on the phone itself (no server or push service), planned a
+      week ahead from the goals and today's sales each time the app is used.
+      A goal is behind when it's more than a day's saving short of an even
+      pace from its start date to its target date. Off by default; turned on
+      from the dashboard or Profile, with a chosen evening time
 
 ## Phase 4: Mobile money
 

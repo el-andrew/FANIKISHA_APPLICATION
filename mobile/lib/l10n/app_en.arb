@@ -458,5 +458,107 @@
         "type": "String"
       }
     }
+  },
+  "remindersTitle": "Reminders",
+  "remindersOnSubtitle": "Evenings around {time}, when a goal falls behind or today's saving is due",
+  "@remindersOnSubtitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "remindersOffSubtitle": "Off",
+  "remindersTime": "Reminder time",
+  "remindersBlocked": "Notifications are blocked for Fanikisha. Allow them in your phone's settings, then try again.",
+  "remindersTipTitle": "Stay on track",
+  "remindersTipBody": "Get an evening reminder when a goal falls behind or today's saving is still to do.",
+  "remindersTurnOn": "Turn on",
+  "remindersOnMessage": "Reminders on: evenings around {time}",
+  "@remindersOnMessage": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "actionNotNow": "Not now",
+  "reminderChannelName": "Saving reminders",
+  "reminderChannelDescription": "When a goal falls behind or today's saving is due",
+  "reminderSaveTitle": "Save {amount} today",
+  "@reminderSaveTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSaveBodySales": "That's {percent}% of today's sales, as your rule says.",
+  "@reminderSaveBodySales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSaveBodyProfit": "That's {percent}% of today's profit, as your rule says.",
+  "@reminderSaveBodyProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderBehindTitle": "{goal} is falling behind",
+  "@reminderBehindTitle": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderBehindBody": "Save {amount} a day to reach it by {date}.",
+  "@reminderBehindBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOverdueTitle": "{goal} is past its target date",
+  "@reminderOverdueTitle": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOverdueBody": "{amount} still to save. Keep going, or pick a new date.",
+  "@reminderOverdueBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRecordTitle": "How did business go today?",
+  "reminderRecordBodySales": "Record today's sales to see what your {percent}% rule saves.",
+  "@reminderRecordBodySales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRecordBodyProfit": "Record today's sales and expenses to see what your {percent}% rule saves.",
+  "@reminderRecordBodyProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
   }
 }

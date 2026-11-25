@@ -802,4 +802,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String goalLeft(String amount) {
     return '$amount left in this goal';
   }
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String remindersOnSubtitle(String time) {
+    return 'Evenings around $time, when a goal falls behind or today\'s saving is due';
+  }
+
+  @override
+  String get remindersOffSubtitle => 'Off';
+
+  @override
+  String get remindersTime => 'Reminder time';
+
+  @override
+  String get remindersBlocked =>
+      'Notifications are blocked for Fanikisha. Allow them in your phone\'s settings, then try again.';
+
+  @override
+  String get remindersTipTitle => 'Stay on track';
+
+  @override
+  String get remindersTipBody =>
+      'Get an evening reminder when a goal falls behind or today\'s saving is still to do.';
+
+  @override
+  String get remindersTurnOn => 'Turn on';
+
+  @override
+  String remindersOnMessage(String time) {
+    return 'Reminders on: evenings around $time';
+  }
+
+  @override
+  String get actionNotNow => 'Not now';
+
+  @override
+  String get reminderChannelName => 'Saving reminders';
+
+  @override
+  String get reminderChannelDescription =>
+      'When a goal falls behind or today\'s saving is due';
+
+  @override
+  String reminderSaveTitle(String amount) {
+    return 'Save $amount today';
+  }
+
+  @override
+  String reminderSaveBodySales(String percent) {
+    return 'That\'s $percent% of today\'s sales, as your rule says.';
+  }
+
+  @override
+  String reminderSaveBodyProfit(String percent) {
+    return 'That\'s $percent% of today\'s profit, as your rule says.';
+  }
+
+  @override
+  String reminderBehindTitle(String goal) {
+    return '$goal is falling behind';
+  }
+
+  @override
+  String reminderBehindBody(String amount, String date) {
+    return 'Save $amount a day to reach it by $date.';
+  }
+
+  @override
+  String reminderOverdueTitle(String goal) {
+    return '$goal is past its target date';
+  }
+
+  @override
+  String reminderOverdueBody(String amount) {
+    return '$amount still to save. Keep going, or pick a new date.';
+  }
+
+  @override
+  String get reminderRecordTitle => 'How did business go today?';
+
+  @override
+  String reminderRecordBodySales(String percent) {
+    return 'Record today\'s sales to see what your $percent% rule saves.';
+  }
+
+  @override
+  String reminderRecordBodyProfit(String percent) {
+    return 'Record today\'s sales and expenses to see what your $percent% rule saves.';
+  }
 }

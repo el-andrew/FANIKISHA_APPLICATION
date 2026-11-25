@@ -21,6 +21,11 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
   and profit for today, 7 or 30 days, with a daily chart.
 - Saving rule, e.g. "10% of each day's sales": the dashboard shows today's
   target and saves the rest in one tap.
+- Reminders, scheduled on the phone: an evening notification when a goal
+  falls behind, when today's saving rule target isn't met yet, or (with a
+  rule) to record the day's sales. At most one a day; tapping it opens the
+  goal, the deposit or the sales form. Android may deliver it up to an hour
+  after the chosen time, so the app says "around".
 - Phone number verification by SMS code, with a reminder on the dashboard
   until it's done.
 - Account deletion from the profile, confirmed with the password.
@@ -39,6 +44,7 @@ business owners, in English and Kiswahili. It talks to the [Fanikisha API](../ap
 | HTTP | [Dio](https://pub.dev/packages/dio) in `ApiClient`: adds the access token, refreshes it once on a 401 (shared by concurrent requests), and signs out only when the refresh token is refused |
 | Tokens | Android Keystore / iOS Keychain via `flutter_secure_storage` |
 | Translations | `flutter gen-l10n` from `lib/l10n/app_en.arb` and `app_sw.arb` |
+| Reminders | [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications), inexact alarms (no exact-alarm permission); `reminder_planner.dart` decides what to say, as a pure function |
 
 ```
 lib/
@@ -50,6 +56,7 @@ lib/
     goals/
     savings/    deposits, preview, history
     profile/    profile, password, language
+    reminders/  planning, scheduling and settings for reminders
   l10n/         translations (the .arb files are the source)
 ```
 
@@ -114,6 +121,12 @@ Release builds are signed with an upload key that stays out of git.
    flutter build appbundle --release \
      --dart-define=API_BASE_URL=https://api.example.com
    ```
+
+The Android build compiles against SDK 37 (needed by
+flutter_local_notifications and androidx.core), with Android Gradle plugin
+9.1.1 and Gradle 9.3.1. Install the platform with
+`sdkmanager "platforms;android-37"`. The app still targets SDK 36 and runs
+on Android 7.0 (SDK 24) and later.
 
 Without `key.properties` the release build is signed with the debug key (so
 `flutter run --release` works) and cannot be published. A release build with

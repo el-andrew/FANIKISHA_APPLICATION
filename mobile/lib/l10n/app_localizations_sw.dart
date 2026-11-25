@@ -808,4 +808,95 @@ class AppLocalizationsSw extends AppLocalizations {
   String goalLeft(String amount) {
     return '$amount zimebaki kwenye lengo hili';
   }
+
+  @override
+  String get remindersTitle => 'Vikumbusho';
+
+  @override
+  String remindersOnSubtitle(String time) {
+    return 'Jioni karibu saa $time, lengo likibaki nyuma au akiba ya leo ikiwa bado';
+  }
+
+  @override
+  String get remindersOffSubtitle => 'Vimezimwa';
+
+  @override
+  String get remindersTime => 'Muda wa kikumbusho';
+
+  @override
+  String get remindersBlocked =>
+      'Arifa za Fanikisha zimezuiwa. Ziruhusu kwenye mipangilio ya simu yako, kisha jaribu tena.';
+
+  @override
+  String get remindersTipTitle => 'Usibaki nyuma';
+
+  @override
+  String get remindersTipBody =>
+      'Pata kikumbusho jioni lengo likibaki nyuma au akiba ya leo ikiwa bado.';
+
+  @override
+  String get remindersTurnOn => 'Washa';
+
+  @override
+  String remindersOnMessage(String time) {
+    return 'Vikumbusho vimewashwa: jioni karibu saa $time';
+  }
+
+  @override
+  String get actionNotNow => 'Si sasa';
+
+  @override
+  String get reminderChannelName => 'Vikumbusho vya akiba';
+
+  @override
+  String get reminderChannelDescription =>
+      'Lengo likibaki nyuma au akiba ya leo ikiwa bado';
+
+  @override
+  String reminderSaveTitle(String amount) {
+    return 'Weka akiba ya $amount leo';
+  }
+
+  @override
+  String reminderSaveBodySales(String percent) {
+    return 'Hiyo ni $percent% ya mauzo ya leo, kama kanuni yako inavyosema.';
+  }
+
+  @override
+  String reminderSaveBodyProfit(String percent) {
+    return 'Hiyo ni $percent% ya faida ya leo, kama kanuni yako inavyosema.';
+  }
+
+  @override
+  String reminderBehindTitle(String goal) {
+    return 'Lengo la $goal linabaki nyuma';
+  }
+
+  @override
+  String reminderBehindBody(String amount, String date) {
+    return 'Weka $amount kila siku ili ulifikie ifikapo $date.';
+  }
+
+  @override
+  String reminderOverdueTitle(String goal) {
+    return 'Tarehe ya lengo $goal imepita';
+  }
+
+  @override
+  String reminderOverdueBody(String amount) {
+    return 'Bado $amount za kuweka. Endelea, au chagua tarehe mpya.';
+  }
+
+  @override
+  String get reminderRecordTitle => 'Biashara imeendaje leo?';
+
+  @override
+  String reminderRecordBodySales(String percent) {
+    return 'Andika mauzo ya leo uone kanuni yako ya $percent% inaweka kiasi gani.';
+  }
+
+  @override
+  String reminderRecordBodyProfit(String percent) {
+    return 'Andika mauzo na matumizi ya leo uone kanuni yako ya $percent% inaweka kiasi gani.';
+  }
 }

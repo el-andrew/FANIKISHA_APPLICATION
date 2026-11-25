@@ -6,6 +6,7 @@ import '../../core/l10n/l10n.dart';
 import '../../core/legal_links.dart';
 import '../../core/locale_controller.dart';
 import '../auth/application/auth_controller.dart';
+import '../reminders/reminder_widgets.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -106,6 +107,7 @@ class ProfileScreen extends ConsumerWidget {
             subtitle: Text(_languageName(locale, l10n)),
             onTap: () => _chooseLanguage(context, ref, locale),
           ),
+          const ReminderSettingsTiles(),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: Text(l10n.legalPrivacy),
