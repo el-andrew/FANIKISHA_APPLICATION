@@ -1,0 +1,6 @@
+{
+  // The Android folder is built by Flutter (`flutter build`), not by the Java
+  // extension. Importing it as a Gradle project costs about 2 GB of memory
+  // and reports errors that don't affect the app.
+  "java.import.gradle.enabled": false
+}
