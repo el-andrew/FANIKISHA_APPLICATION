@@ -1,4 +1,5 @@
 import 'package:fanikisha/core/api/token_storage.dart';
+import 'package:fanikisha/core/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,6 +33,39 @@ void main() {
       '/terms?lang=en',
       '/privacy?lang=en',
     ]);
+    // Without a public site address, the pages come from the API's
+    // (here the default development address).
+    expect(openedUrls.first.host, '10.0.2.2');
+  });
+
+  testWidgets('links go to the public site when it has its own address', (
+    tester,
+  ) async {
+    await pumpApp(
+      tester,
+      FakeApi(),
+      overrides: [
+        publicSiteUrlProvider.overrideWithValue(
+          'https://fanikisha.northkings.co.tz',
+        ),
+      ],
+    );
+    await tester.tap(find.text('Create an account'));
+    await tester.pumpAndSettle();
+    final privacy = find.widgetWithText(TextButton, 'Privacy policy');
+    await tester.scrollUntilVisible(
+      privacy,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(privacy);
+    await tester.pumpAndSettle();
+
+    expect(
+      openedUrls.single.toString(),
+      'https://fanikisha.northkings.co.tz/privacy?lang=en',
+    );
   });
 
   testWidgets('the profile opens the policy in the app language', (

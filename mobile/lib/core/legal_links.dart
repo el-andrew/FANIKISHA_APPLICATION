@@ -14,11 +14,10 @@ enum LegalPage {
   final String path;
 }
 
-/// The page on the Fanikisha API, in [language].
-Uri legalPageUri(LegalPage page, String apiBaseUrl, String language) =>
-    Uri.parse(
-      apiBaseUrl,
-    ).replace(path: page.path, queryParameters: {'lang': language});
+/// The page on the public site ([siteUrl]), in [language].
+Uri legalPageUri(LegalPage page, String siteUrl, String language) => Uri.parse(
+  siteUrl,
+).replace(path: page.path, queryParameters: {'lang': language});
 
 typedef UrlOpener = Future<bool> Function(Uri uri);
 
@@ -34,7 +33,11 @@ Future<void> openLegalPage(
   LegalPage page,
 ) async {
   final l10n = context.l10n;
-  final uri = legalPageUri(page, ref.read(apiBaseUrlProvider), l10n.localeName);
+  final uri = legalPageUri(
+    page,
+    ref.read(publicSiteUrlProvider),
+    l10n.localeName,
+  );
   final opened = await ref.read(urlOpenerProvider)(uri);
   if (!opened && context.mounted) showMessage(context, l10n.errorUnknown);
 }
