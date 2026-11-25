@@ -11,6 +11,13 @@ export const envSchema = z
       .enum(['development', 'test', 'production'])
       .default('development'),
     PORT: z.coerce.number().int().positive().default(3000),
+    /**
+     * How many reverse proxies sit in front of the API (1 on Render). Client
+     * addresses, used for rate limits, are read from `X-Forwarded-For` only
+     * past that many hops, so a client can't pick its own address. 0 when
+     * the API is reached directly.
+     */
+    TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(5).default(0),
     DATABASE_URL: z.url(),
     JWT_SECRET: secret,
     JWT_ISSUER: z.string().min(1).default('fanikisha-api'),
