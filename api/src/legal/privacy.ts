@@ -3,8 +3,11 @@ import type { Operator } from './operator.js';
 
 // DRAFT: to be checked against Tanzania's Personal Data Protection Act, 2022
 // before publishing. Every statement here describes what the code actually
-// does; update this text whenever that changes. Facts not decided yet are
-// left as [PLACEHOLDERS].
+// does; update this text whenever that changes.
+//
+// Hosting facts are Render's, for a Hobby workspace in the Frankfurt region
+// (render.yaml): logs kept 7 days, database backups at most 7 days. A move
+// to a Pro workspace makes logs 14 days. Update LEGAL_UPDATED with any change.
 
 export function privacyPolicy(lang: PageLanguage, op: Operator): Html {
   return lang === 'sw' ? sw(op) : en(op);
@@ -22,9 +25,11 @@ function en(op: Operator): Html {
     <h2>What Fanikisha is</h2>
     <p>
       Fanikisha helps owners of small and medium businesses plan their savings.
-      You set savings goals and record the money you save; Fanikisha suggests
-      how to share each amount between your goals. Fanikisha does not hold,
-      receive or move your money.
+      You set savings goals and record the money you save and, if you like, your
+      daily sales and expenses; Fanikisha suggests how much to save and how to
+      share it between your goals. Fanikisha does not hold, receive or move your
+      money: deposits, transfers and withdrawals in the app are records you
+      keep.
     </p>
 
     <h2>Data we collect</h2>
@@ -45,7 +50,13 @@ function en(op: Operator): Html {
         <strong>Your savings plans:</strong> the goals you create (name,
         category, target amount, priority and dates), the deposits you record
         (amount, optional note and date) and how each deposit was shared between
-        your goals.
+        your goals, and the transfers and withdrawals you record (amount, where
+        from and to, optional note and date).
+      </li>
+      <li>
+        <strong>Your business records:</strong> the sales and expenses you
+        record (amount, category, optional note and date) and your saving rule
+        (for example, 10% of each day's sales).
       </li>
       <li>
         <strong>Sign-in records:</strong> to keep you signed in, we store
@@ -54,7 +65,7 @@ function en(op: Operator): Html {
       <li>
         <strong>Technical data:</strong> your IP address is used briefly to
         limit repeated requests (for example, password guessing) and may appear
-        in our server logs, which we keep for [LOG RETENTION PERIOD].
+        in our server logs, which are kept for 7 days.
       </li>
     </ul>
     <p>
@@ -66,17 +77,22 @@ function en(op: Operator): Html {
     <h2>Data kept on your phone</h2>
     <p>
       The app keeps your sign-in tokens in your phone's secure storage (Android
-      Keystore or iOS Keychain), a copy of your most recent goals, savings
-      summary and history so you can view them offline, and your language
-      choice. The offline copy is removed when you log out or delete your
-      account.
+      Keystore or iOS Keychain); a copy of your most recent goals, savings
+      summary, history and business figures so you can view them offline; your
+      language choice; and your reminder settings. The offline copy is removed
+      when you log out or delete your account.
+    </p>
+    <p>
+      If you turn reminders on, the app works them out and schedules them on
+      your phone, from the data it already shows you. Nothing about your
+      reminders is sent to us or to anyone else.
     </p>
 
     <h2>Why we use your data</h2>
     <ul>
       <li>
-        To provide the service you signed up for: your account, goals, deposits
-        and savings suggestions.
+        To provide the service you signed up for: your account, goals, deposits,
+        business records, savings suggestions and daily saving targets.
       </li>
       <li>
         To confirm your phone number and to let you reset a forgotten password.
@@ -99,22 +115,25 @@ function en(op: Operator): Html {
         codes.
       </li>
       <li>
-        <strong>[HOSTING PROVIDER]</strong> stores our servers and database in
-        [HOSTING COUNTRY].
+        <strong>Render</strong> (Render Services, Inc., United States) runs our
+        servers and database in its Frankfurt, Germany region.
       </li>
       <li>Public authorities, only where Tanzanian law requires us to.</li>
     </ul>
     <p>
-      [If the hosting country is outside Tanzania: describe here how the
-      transfer is protected, as the Personal Data Protection Act requires.]
+      This means your data is stored outside Tanzania, in Germany. Render
+      handles it only to run our service, under a data processing agreement with
+      us, and is independently certified for information security (SOC 2 Type II
+      and ISO 27001). Your data travels to and from our servers encrypted.
     </p>
 
     <h2>How long we keep it</h2>
     <p>
       We keep your data while you have an account. When you delete your account,
-      your account, goals, deposits, SMS code records and sign-in tokens are
-      deleted from our database straight away. Copies in our backups are deleted
-      within [BACKUP RETENTION PERIOD].
+      your account and everything in it (goals, deposits, transfers and
+      withdrawals, sales and expense records, saving rule, SMS code records and
+      sign-in tokens) are deleted from our database straight away. Copies in our
+      backups are deleted within 7 days.
     </p>
 
     <h2>How we protect it</h2>
@@ -174,9 +193,11 @@ function sw(op: Operator): Html {
     <h2>Fanikisha ni nini</h2>
     <p>
       Fanikisha huwasaidia wamiliki wa biashara ndogo na za kati kupanga akiba
-      yao. Unaweka malengo ya akiba na kurekodi pesa unazoweka akiba; Fanikisha
-      hupendekeza jinsi ya kugawa kila kiasi kati ya malengo yako. Fanikisha
-      haishiki, haipokei wala haihamishi pesa zako.
+      yao. Unaweka malengo ya akiba na kurekodi pesa unazoweka akiba na,
+      ukipenda, mauzo na matumizi yako ya kila siku; Fanikisha hupendekeza kiasi
+      cha kuweka akiba na jinsi ya kukigawa kati ya malengo yako. Fanikisha
+      haishiki, haipokei wala haihamishi pesa zako: akiba, uhamisho na utoaji
+      ndani ya programu ni kumbukumbu unazohifadhi wewe.
     </p>
 
     <h2>Taarifa tunazokusanya</h2>
@@ -198,8 +219,14 @@ function sw(op: Operator): Html {
       <li>
         <strong>Mipango yako ya akiba:</strong> malengo unayoweka (jina, aina,
         kiasi cha lengo, kipaumbele na tarehe), akiba unazorekodi (kiasi,
-        maelezo ukiyaweka, na tarehe) na jinsi kila akiba ilivyogawanywa kati ya
-        malengo yako.
+        maelezo ukiyaweka, na tarehe), jinsi kila akiba ilivyogawanywa kati ya
+        malengo yako, na uhamisho na utoaji unaorekodi (kiasi, kutoka wapi
+        kwenda wapi, maelezo ukiyaweka, na tarehe).
+      </li>
+      <li>
+        <strong>Kumbukumbu za biashara yako:</strong> mauzo na matumizi
+        unayorekodi (kiasi, aina, maelezo ukiyaweka, na tarehe) na kanuni yako
+        ya akiba (kwa mfano, 10% ya mauzo ya kila siku).
       </li>
       <li>
         <strong>Kumbukumbu za kuingia:</strong> ili uendelee kuwa umeingia,
@@ -209,7 +236,7 @@ function sw(op: Operator): Html {
         <strong>Taarifa za kiufundi:</strong> anwani yako ya IP hutumika kwa
         muda mfupi kudhibiti maombi yanayorudiwa (kwa mfano, kubahatisha
         nenosiri) na inaweza kuonekana kwenye kumbukumbu za seva zetu, ambazo
-        tunazihifadhi kwa [MUDA WA KUHIFADHI KUMBUKUMBU].
+        huhifadhiwa kwa siku 7.
       </li>
     </ul>
     <p>
@@ -221,17 +248,23 @@ function sw(op: Operator): Html {
     <h2>Taarifa zinazohifadhiwa kwenye simu yako</h2>
     <p>
       Programu huhifadhi tokeni zako za kuingia kwenye hifadhi salama ya simu
-      yako (Android Keystore au iOS Keychain), nakala ya malengo yako ya
-      karibuni, muhtasari wa akiba na historia ili uweze kuziona bila mtandao,
-      na lugha uliyochagua. Nakala hiyo ya nje ya mtandao hufutwa unapotoka au
-      unapofuta akaunti yako.
+      yako (Android Keystore au iOS Keychain); nakala ya malengo yako ya
+      karibuni, muhtasari wa akiba, historia na takwimu za biashara ili uweze
+      kuziona bila mtandao; lugha uliyochagua; na mipangilio yako ya vikumbusho.
+      Nakala hiyo ya nje ya mtandao hufutwa unapotoka au unapofuta akaunti yako.
+    </p>
+    <p>
+      Ukiwasha vikumbusho, programu huviandaa na kuvipangia muda kwenye simu
+      yako, kutokana na taarifa ambazo tayari inakuonyesha. Hakuna chochote
+      kuhusu vikumbusho vyako kinachotumwa kwetu wala kwa mtu mwingine.
     </p>
 
     <h2>Kwa nini tunatumia taarifa zako</h2>
     <ul>
       <li>
-        Kukupa huduma uliyojisajili kwayo: akaunti yako, malengo, akiba na
-        mapendekezo ya akiba.
+        Kukupa huduma uliyojisajili kwayo: akaunti yako, malengo, akiba,
+        kumbukumbu za biashara, mapendekezo ya akiba na malengo ya akiba ya kila
+        siku.
       </li>
       <li>
         Kuthibitisha namba yako ya simu na kukuwezesha kubadilisha nenosiri
@@ -255,22 +288,26 @@ function sw(op: Operator): Html {
         uthibitisho.
       </li>
       <li>
-        <strong>[MTOA HUDUMA YA SEVA]</strong> huhifadhi seva na hifadhidata
-        yetu nchini [NCHI YA SEVA].
+        <strong>Render</strong> (Render Services, Inc., Marekani) huendesha seva
+        na hifadhidata yetu katika eneo lake la Frankfurt, Ujerumani.
       </li>
       <li>Mamlaka za umma, pale tu sheria za Tanzania zinapotutaka.</li>
     </ul>
     <p>
-      [Ikiwa nchi ya seva iko nje ya Tanzania: eleza hapa jinsi uhamisho huo
-      unavyolindwa, kama Sheria ya Ulinzi wa Taarifa Binafsi inavyotaka.]
+      Hii inamaanisha taarifa zako huhifadhiwa nje ya Tanzania, nchini
+      Ujerumani. Render huzishughulikia kwa ajili ya kuendesha huduma yetu tu,
+      chini ya makubaliano ya uchakataji wa taarifa nasi, na imethibitishwa na
+      wakaguzi huru kwa usalama wa taarifa (SOC 2 Type II na ISO 27001). Taarifa
+      zako husafiri kwenda na kutoka kwenye seva zetu zikiwa zimesimbwa.
     </p>
 
     <h2>Tunazihifadhi kwa muda gani</h2>
     <p>
       Tunahifadhi taarifa zako maadamu una akaunti. Unapofuta akaunti yako,
-      akaunti, malengo, akiba, kumbukumbu za namba za SMS na tokeni za kuingia
-      hufutwa kwenye hifadhidata yetu mara moja. Nakala zilizo kwenye hifadhi
-      rudufu hufutwa ndani ya [MUDA WA HIFADHI RUDUFU].
+      akaunti na kila kilichomo (malengo, akiba, uhamisho na utoaji, kumbukumbu
+      za mauzo na matumizi, kanuni ya akiba, kumbukumbu za namba za SMS na
+      tokeni za kuingia) hufutwa kwenye hifadhidata yetu mara moja. Nakala
+      zilizo kwenye hifadhi rudufu hufutwa ndani ya siku 7.
     </p>
 
     <h2>Tunavyozilinda</h2>

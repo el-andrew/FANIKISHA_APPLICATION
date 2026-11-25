@@ -35,6 +35,35 @@ describe('legal pages', () => {
     expect(masharti.text).toContain('<h1>Masharti ya huduma</h1>');
   });
 
+  it('publishes no unfinished [PLACEHOLDERS]', async () => {
+    // The operator's details are placeholders in tests; production refuses
+    // to start without real ones (see config/env.ts).
+    const operator = new Set([
+      '[BUSINESS NAME]',
+      '[BUSINESS REGISTRATION NUMBER]',
+      '[BUSINESS ADDRESS]',
+      '[CONTACT EMAIL]',
+    ]);
+    for (const page of ['/privacy', '/terms', '/account-deletion']) {
+      for (const lang of ['en', 'sw']) {
+        const res = await http().get(`${page}?lang=${lang}`).expect(200);
+        const left = (res.text.match(/\[[A-Z][A-Z ]{2,}\]/g) ?? []).filter(
+          (p) => !operator.has(p),
+        );
+        expect(left, `${page}?lang=${lang}`).toEqual([]);
+      }
+    }
+  });
+
+  it('says where the data is hosted and for how long it is kept', async () => {
+    const en = (await http().get('/privacy?lang=en').expect(200)).text;
+    expect(en).toContain('Frankfurt, Germany');
+    expect(en).toContain('kept for 7 days');
+    expect(en).toContain('backups are deleted within 7 days');
+    const sw = (await http().get('/privacy?lang=sw').expect(200)).text;
+    expect(sw).toContain('Frankfurt, Ujerumani');
+  });
+
   it('falls back to English for an unknown language', async () => {
     const res = await http().get('/privacy?lang=fr').expect(200);
     expect(res.text).toContain('<html lang="en">');
