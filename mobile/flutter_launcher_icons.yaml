@@ -1,0 +1,14 @@
+# Regenerate with: dart run flutter_launcher_icons
+# Source images are made from the Fanikisha logo; see assets/branding/.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/branding/icon.png
+  remove_alpha_ios: true
+  # Android 8+ adaptive icon: white mark on Fanikisha deep green.
+  adaptive_icon_background: "#215732"
+  adaptive_icon_foreground: assets/branding/icon_foreground.png
+  # The foreground image is already padded to the safe zone.
+  adaptive_icon_foreground_inset: 0
+  # Android 13+ themed icons.
+  adaptive_icon_monochrome: assets/branding/icon_monochrome.png

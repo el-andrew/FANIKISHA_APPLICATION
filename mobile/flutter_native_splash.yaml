@@ -1,0 +1,19 @@
+# Regenerate with: dart run flutter_native_splash:create
+# Background colours match the app theme's surface, so the hand-over from the
+# native splash to the first Flutter frame shows no colour change.
+flutter_native_splash:
+  color: "#f8faf0"
+  color_dark: "#11140f"
+  image: assets/branding/splash.png
+  image_dark: assets/branding/splash_dark.png
+
+  # Android 12+ draws its own splash: the app's mark, without the wordmark.
+  android_12:
+    color: "#f8faf0"
+    color_dark: "#11140f"
+    image: assets/branding/splash_android12.png
+    image_dark: assets/branding/splash_android12_dark.png
+
+  android: true
+  ios: true
+  web: false

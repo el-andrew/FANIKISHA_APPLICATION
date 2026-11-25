@@ -1,16 +1,22 @@
-# fanikisha_app
+# Fanikisha
 
-A new Flutter project.
+**Level up your saving habit.** Fanikisha ("make it succeed" in Swahili) helps
+owners of small and medium businesses in Tanzania save towards goals such as
+new stock, equipment or rent. Every deposit is split across the owner's goals
+automatically, weighted by each goal's priority and how close its deadline is.
 
-## Getting Started
+| Dashboard | Save money | Goal |
+| --- | --- | --- |
+| ![](docs/screenshots/dashboard.png) | ![](docs/screenshots/save-money.png) | ![](docs/screenshots/goal-detail.png) |
 
-This project is a starting point for a Flutter application.
+Fanikisha began in 2022 as a training project and has been rebuilt from the
+ground up: a NestJS API with PostgreSQL, and a Flutter app. See the
+[roadmap](docs/ROADMAP.md) for what's done and what's next.
 
-A few resources to get you started if this is your first Flutter project:
+## Repository layout
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Path | What it is |
+| --- | --- |
+| [`api/`](api/) | Backend: NestJS 12, PostgreSQL, Prisma. [Setup and API reference](api/README.md) |
+| [`mobile/`](mobile/) | Mobile app: Flutter, Riverpod, go_router; English and Kiswahili. [Setup and architecture](mobile/README.md) |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Rebuild plan and progress |

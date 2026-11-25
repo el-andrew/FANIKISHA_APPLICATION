@@ -1,0 +1,564 @@
+{
+  "@@locale": "en",
+  "appName": "Fanikisha",
+  "tagline": "Level up your saving habit",
+  "actionRetry": "Try again",
+  "actionCancel": "Cancel",
+  "actionDone": "Done",
+  "actionLogOut": "Log out",
+  "errorNetwork": "Can't reach Fanikisha. Check your internet connection and try again.",
+  "errorServer": "Something went wrong on our side. Please try again in a moment.",
+  "errorSessionExpired": "Your session has ended. Please log in again.",
+  "errorUnknown": "Something went wrong. Please try again.",
+  "fieldRequired": "Required",
+  "welcomeHeadline": "Save for what your business needs next",
+  "welcomeBody": "Set goals for stock, equipment or rent. Each time you save, Fanikisha shares the money between your goals so the most urgent ones fill first.",
+  "welcomeCreateAccount": "Create an account",
+  "welcomeLogIn": "I already have an account",
+  "emailLabel": "Email",
+  "emailInvalid": "Enter a valid email address",
+  "passwordLabel": "Password",
+  "passwordTooShort": "Use at least 8 characters",
+  "passwordShow": "Show password",
+  "passwordHide": "Hide password",
+  "confirmPasswordLabel": "Confirm password",
+  "passwordsDoNotMatch": "Passwords don't match",
+  "fullNameLabel": "Full name",
+  "fullNameInvalid": "Enter your full name",
+  "businessNameLabel": "Business name (optional)",
+  "phoneLabel": "Phone number (optional)",
+  "phoneHelper": "International format, e.g. +255712345678",
+  "phoneInvalid": "Use international format, e.g. +255712345678",
+  "loginTitle": "Welcome back",
+  "loginButton": "Log in",
+  "loginWrongCredentials": "Incorrect email or password",
+  "loginNoAccount": "New to Fanikisha?",
+  "loginCreateAccount": "Create an account",
+  "registerTitle": "Create your account",
+  "registerButton": "Create account",
+  "registerHaveAccount": "Already have an account?",
+  "registerLogIn": "Log in",
+  "splashRestoreFailed": "We couldn't load your account.",
+  "navHome": "Home",
+  "navGoals": "Goals",
+  "navHistory": "History",
+  "navProfile": "Profile",
+  "dashboardGreeting": "Hello, {name}",
+  "@dashboardGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardTotalSaved": "Total saved",
+  "dashboardGeneralSavings": "General savings: {amount}",
+  "@dashboardGeneralSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardDepositCount": "{count, plural, =0{No deposits yet} =1{1 deposit} other{{count} deposits}}",
+  "@dashboardDepositCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardSaveMoney": "Save money",
+  "dashboardActiveGoals": "Active goals",
+  "dashboardSeeAll": "See all",
+  "dashboardNoGoalsTitle": "No goals yet",
+  "dashboardNoGoalsBody": "Create a goal, such as new stock or equipment, and Fanikisha will help you save for it.",
+  "dashboardCreateGoal": "Create a goal",
+  "goalDailyTarget": "Save {amount} a day to finish on time",
+  "@goalDailyTarget": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalDaysLeft": "{count, plural, =1{1 day left} other{{count} days left}}",
+  "@goalDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalSavedOf": "{saved} of {target}",
+  "@goalSavedOf": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "goalStatusCompleted": "Completed",
+  "goalStatusArchived": "Archived",
+  "priority1": "Low",
+  "priority2": "Fairly low",
+  "priority3": "Medium",
+  "priority4": "High",
+  "priority5": "Very high",
+  "goalsTitle": "Goals",
+  "goalsFilterActive": "Active",
+  "goalsFilterCompleted": "Completed",
+  "goalsFilterArchived": "Archived",
+  "goalsEmptyActive": "You have no active goals.",
+  "goalsEmptyCompleted": "No completed goals yet. Keep saving!",
+  "goalsEmptyArchived": "No archived goals.",
+  "goalsNew": "New goal",
+  "goalDetailSaved": "Saved",
+  "goalDetailTarget": "Target",
+  "goalDetailRemaining": "Still needed",
+  "goalDetailDailyTarget": "Needed per day",
+  "goalDetailTargetDate": "Target date",
+  "goalDetailPriority": "Priority",
+  "goalDetailCategory": "Category",
+  "goalEdit": "Edit goal",
+  "goalArchive": "Archive goal",
+  "goalArchiveConfirmTitle": "Archive this goal?",
+  "goalArchiveConfirmBody": "It will stop receiving new savings. The {amount} already saved stays recorded.",
+  "@goalArchiveConfirmBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalArchiveConfirmButton": "Archive",
+  "goalFormNewTitle": "New goal",
+  "goalFormEditTitle": "Edit goal",
+  "goalNameLabel": "What are you saving for?",
+  "goalNameHint": "e.g. New fridge for the shop",
+  "goalCategoryLabel": "Category (optional)",
+  "goalCategoryHint": "e.g. Stock, Equipment, Rent",
+  "goalTargetAmountLabel": "Target amount",
+  "amountInvalid": "Enter an amount greater than zero",
+  "goalTargetDateLabel": "Target date",
+  "goalTargetDateMissing": "Choose a target date",
+  "goalPriorityLabel": "How important is it?",
+  "goalPriorityHelper": "More important goals get a bigger share of each deposit.",
+  "goalFormCreate": "Create goal",
+  "goalFormSave": "Save changes",
+  "depositTitle": "Save money",
+  "depositAmountLabel": "Amount",
+  "depositNoteLabel": "Note (optional)",
+  "depositNoteHint": "e.g. Monday's sales",
+  "depositPreviewTitle": "How it will be shared",
+  "depositPreviewEmpty": "Enter an amount to see how it will be shared between your goals.",
+  "depositPreviewNoGoals": "You have no active goals, so this will go to general savings.",
+  "generalSavings": "General savings",
+  "depositSubmit": "Save {amount}",
+  "@depositSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositSuccessTitle": "Saved!",
+  "depositSuccessBody": "{amount} has been added to your savings.",
+  "@depositSuccessBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "historyTitle": "History",
+  "historyEmpty": "No savings yet. Your deposits will appear here.",
+  "profileTitle": "Profile",
+  "profileEdit": "Edit profile",
+  "profileSave": "Save profile",
+  "profileUpdated": "Profile updated",
+  "profileChangePassword": "Change password",
+  "profileLanguage": "Language",
+  "profileLogOutConfirm": "Log out of Fanikisha on this device?",
+  "changePasswordCurrent": "Current password",
+  "changePasswordNew": "New password",
+  "changePasswordSubmit": "Change password",
+  "changePasswordDone": "Password changed. Your other devices have been logged out.",
+  "languageSystem": "Same as device",
+  "languageEnglish": "English",
+  "languageSwahili": "Kiswahili",
+  "verifyPhoneTitle": "Verify phone number",
+  "verifyPhoneSending": "Sending a code to {phone}…",
+  "@verifyPhoneSending": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyPhoneSentTo": "We sent a 6-digit code to {phone}.",
+  "@verifyPhoneSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyPhoneCodeLabel": "Verification code",
+  "verifyPhoneSubmit": "Verify",
+  "verifyPhoneResend": "Send a new code",
+  "verifyPhoneResendIn": "Send a new code in {seconds}s",
+  "@verifyPhoneResendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyPhoneDone": "Phone number verified",
+  "phoneVerified": "Verified",
+  "verifyPhoneBannerTitle": "Verify your phone number",
+  "verifyPhoneBannerBody": "You'll need it to save with mobile money.",
+  "verifyPhoneAction": "Verify now",
+  "phoneErrorNoPhone": "Add a phone number to your profile first.",
+  "phoneErrorResendTooSoon": "Please wait {seconds} seconds before asking for a new code.",
+  "@phoneErrorResendTooSoon": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneErrorDailyLimit": "Too many codes today. Please try again tomorrow.",
+  "phoneErrorSmsFailed": "We couldn't send the SMS. Please try again later.",
+  "phoneErrorCodeExpired": "This code has expired. Send a new one.",
+  "phoneErrorCodeIncorrect": "{count, plural, =1{That code is not correct. 1 try left.} other{That code is not correct. {count} tries left.}}",
+  "@phoneErrorCodeIncorrect": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneErrorTooManyAttempts": "Too many wrong codes. Send a new one.",
+  "forgotPasswordLink": "Forgot password?",
+  "forgotPasswordTitle": "Reset your password",
+  "forgotPasswordIntro": "Enter your account's email. We'll text a code to the phone number you verified on it.",
+  "forgotPasswordSend": "Send code",
+  "forgotPasswordSent": "If {email} has an account with a verified phone number, we've texted a code to that number.",
+  "@forgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotPasswordNoPhone": "No verified phone number on your account? Then it can't be reset by SMS yet.",
+  "forgotPasswordSubmit": "Reset password",
+  "forgotPasswordOtherEmail": "Use a different email",
+  "errorWrongPassword": "That password is not correct.",
+  "deleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete your account?",
+  "deleteAccountBody": "This permanently deletes your account, your goals and your savings history, and signs you out on every device. It can't be undone.",
+  "deleteAccountPassword": "Enter your password to confirm",
+  "deleteAccountSubmit": "Delete my account",
+  "deleteAccountDone": "Your account has been deleted.",
+  "offlineSavedToday": "You're offline. Showing what was saved at {time}.",
+  "@offlineSavedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "offlineSavedEarlier": "You're offline. Showing what was saved on {date}.",
+  "@offlineSavedEarlier": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalAgreement": "By creating an account, you accept the terms of service and the privacy policy.",
+  "legalTerms": "Terms of service",
+  "legalPrivacy": "Privacy policy",
+  "navBusiness": "Business",
+  "businessTitle": "Business",
+  "periodToday": "Today",
+  "period7Days": "7 days",
+  "period30Days": "30 days",
+  "businessSales": "Sales",
+  "businessExpenses": "Expenses",
+  "businessProfit": "Profit",
+  "businessLoss": "Loss",
+  "businessTopExpenses": "Biggest expenses",
+  "businessRecent": "Recent entries",
+  "businessEmpty": "No sales or expenses yet. Record them each day to see your profit.",
+  "businessAdd": "Add entry",
+  "entryNewTitle": "New entry",
+  "entryEditTitle": "Edit entry",
+  "entrySale": "Sale",
+  "entryExpense": "Expense",
+  "entryAmount": "Amount",
+  "entryCategory": "Category (optional)",
+  "entryNote": "Note (optional)",
+  "entryDate": "Date",
+  "entrySave": "Save",
+  "entryDelete": "Delete entry",
+  "entryDeleteConfirm": "Delete this entry?",
+  "entryDeleteAction": "Delete",
+  "entryUncategorised": "Other",
+  "categoryStock": "Stock",
+  "categoryRent": "Rent",
+  "categoryTransport": "Transport",
+  "categoryWages": "Wages",
+  "categoryUtilities": "Electricity & water",
+  "todayTitle": "Today's saving target",
+  "todayRuleSales": "{percent}% of today's sales ({amount})",
+  "@todayRuleSales": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todayRuleProfit": "{percent}% of today's profit ({amount})",
+  "@todayRuleProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "todaySavedOf": "Saved today: {saved} of {target}",
+  "@todaySavedOf": {
+    "placeholders": {
+      "saved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "todayReached": "Today's target reached. Well done!",
+  "todayNoSales": "Record today's sales to see how much to save.",
+  "todayNoProfit": "No profit yet today, so nothing to save from it.",
+  "todayRecordSales": "Record sales",
+  "ruleSetupTitle": "Save a share of each day's sales",
+  "ruleSetupBody": "Set a rule, such as 10% of each day's sales, and Fanikisha will tell you how much to save every day.",
+  "ruleSetupAction": "Set a rule",
+  "ruleTitle": "Saving rule",
+  "ruleBasisLabel": "Save a share of each day's",
+  "rulePercentLabel": "Percentage",
+  "rulePercentInvalid": "Enter a whole number from 1 to 100",
+  "ruleExampleSales": "With {sales} in sales, you would save {saving}.",
+  "@ruleExampleSales": {
+    "placeholders": {
+      "sales": {
+        "type": "String"
+      },
+      "saving": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleExampleProfit": "With {profit} in profit, you would save {saving}.",
+  "@ruleExampleProfit": {
+    "placeholders": {
+      "profit": {
+        "type": "String"
+      },
+      "saving": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleSave": "Save rule",
+  "ruleRemove": "Remove rule",
+  "ruleSaved": "Saving rule saved",
+  "ruleEdit": "Change rule",
+  "moveMoney": "Move money",
+  "withdrawMoney": "Withdraw",
+  "withdrawTitle": "Take money out",
+  "moveFrom": "From {place}: {amount} available",
+  "@moveFrom": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moveTo": "Move to",
+  "moveSubmit": "Move {amount}",
+  "@moveSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawSubmit": "Take out {amount}",
+  "@withdrawSubmit": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawNote": "What was it for? (optional)",
+  "withdrawExplain": "Fanikisha doesn't hold your money: this records that you took it out of your savings.",
+  "amountTooHigh": "That's more than the {amount} available",
+  "@amountTooHigh": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "amountAll": "All",
+  "moveDone": "Money moved",
+  "withdrawDone": "Withdrawal recorded",
+  "moveNoDestination": "There's nowhere to move it yet. Create another goal first.",
+  "activityWithdrawal": "Taken out of {place}",
+  "@activityWithdrawal": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "activityTransfer": "Moved from {from} to {to}",
+  "@activityTransfer": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "goalLeft": "{amount} left in this goal",
+  "@goalLeft": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "remindersTitle": "Reminders",
+  "remindersOnSubtitle": "Evenings around {time}, when a goal falls behind or today's saving is due",
+  "@remindersOnSubtitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "remindersOffSubtitle": "Off",
+  "remindersTime": "Reminder time",
+  "remindersBlocked": "Notifications are blocked for Fanikisha. Allow them in your phone's settings, then try again.",
+  "remindersTipTitle": "Stay on track",
+  "remindersTipBody": "Get an evening reminder when a goal falls behind or today's saving is still to do.",
+  "remindersTurnOn": "Turn on",
+  "remindersOnMessage": "Reminders on: evenings around {time}",
+  "@remindersOnMessage": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "actionNotNow": "Not now",
+  "reminderChannelName": "Saving reminders",
+  "reminderChannelDescription": "When a goal falls behind or today's saving is due",
+  "reminderSaveTitle": "Save {amount} today",
+  "@reminderSaveTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSaveBodySales": "That's {percent}% of today's sales, as your rule says.",
+  "@reminderSaveBodySales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderSaveBodyProfit": "That's {percent}% of today's profit, as your rule says.",
+  "@reminderSaveBodyProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderBehindTitle": "{goal} is falling behind",
+  "@reminderBehindTitle": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderBehindBody": "Save {amount} a day to reach it by {date}.",
+  "@reminderBehindBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOverdueTitle": "{goal} is past its target date",
+  "@reminderOverdueTitle": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOverdueBody": "{amount} still to save. Keep going, or pick a new date.",
+  "@reminderOverdueBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRecordTitle": "How did business go today?",
+  "reminderRecordBodySales": "Record today's sales to see what your {percent}% rule saves.",
+  "@reminderRecordBodySales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderRecordBodyProfit": "Record today's sales and expenses to see what your {percent}% rule saves.",
+  "@reminderRecordBodyProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  }
+}
