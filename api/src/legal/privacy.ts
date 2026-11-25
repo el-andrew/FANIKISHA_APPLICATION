@@ -5,9 +5,11 @@ import type { Operator } from './operator.js';
 // before publishing. Every statement here describes what the code actually
 // does; update this text whenever that changes.
 //
-// Hosting facts are Render's, for a Hobby workspace in the Frankfurt region
-// (render.yaml): logs kept 7 days, database backups at most 7 days. A move
-// to a Pro workspace makes logs 14 days. Update LEGAL_UPDATED with any change.
+// Hosting facts (render.yaml, docs/DEPLOY.md): the API on Render's free plan
+// (Hobby workspace) and the database on Supabase's free plan, both in
+// Frankfurt. Render keeps logs 7 days (14 on a Pro workspace). Supabase's
+// free plan has no backups: if that changes (a paid plan has daily backups,
+// kept 7 days), say so here. Update LEGAL_UPDATED with any change.
 
 export function privacyPolicy(lang: PageLanguage, op: Operator): Html {
   return lang === 'sw' ? sw(op) : en(op);
@@ -116,15 +118,20 @@ function en(op: Operator): Html {
       </li>
       <li>
         <strong>Render</strong> (Render Services, Inc., United States) runs our
-        servers and database in its Frankfurt, Germany region.
+        servers in its Frankfurt, Germany region.
+      </li>
+      <li>
+        <strong>Supabase</strong> (Supabase Inc., United States) stores our
+        database in its Frankfurt, Germany region.
       </li>
       <li>Public authorities, only where Tanzanian law requires us to.</li>
     </ul>
     <p>
-      This means your data is stored outside Tanzania, in Germany. Render
-      handles it only to run our service, under a data processing agreement with
-      us, and is independently certified for information security (SOC 2 Type II
-      and ISO 27001). Your data travels to and from our servers encrypted.
+      This means your data is stored outside Tanzania, in Germany. Render and
+      Supabase handle it only to run our service, under data processing
+      agreements with us, and both are independently certified for information
+      security (SOC 2 Type II and ISO 27001). Your data travels between the app,
+      our servers and our database encrypted.
     </p>
 
     <h2>How long we keep it</h2>
@@ -132,15 +139,16 @@ function en(op: Operator): Html {
       We keep your data while you have an account. When you delete your account,
       your account and everything in it (goals, deposits, transfers and
       withdrawals, sales and expense records, saving rule, SMS code records and
-      sign-in tokens) are deleted from our database straight away. Copies in our
-      backups are deleted within 7 days.
+      sign-in tokens) are deleted from our database straight away. We do not
+      keep backup copies of the database.
     </p>
 
     <h2>How we protect it</h2>
     <p>
-      Data travels between the app and our servers encrypted (HTTPS). Passwords,
-      codes and sign-in tokens are stored only as hashes. Each account can see
-      only its own data.
+      Data travels between the app and our servers encrypted (HTTPS), and
+      between our servers and our database encrypted, with the database's
+      identity checked. Passwords, codes and sign-in tokens are stored only as
+      hashes. Each account can see only its own data.
     </p>
 
     <h2>Your rights</h2>
@@ -289,16 +297,21 @@ function sw(op: Operator): Html {
       </li>
       <li>
         <strong>Render</strong> (Render Services, Inc., Marekani) huendesha seva
-        na hifadhidata yetu katika eneo lake la Frankfurt, Ujerumani.
+        zetu katika eneo lake la Frankfurt, Ujerumani.
+      </li>
+      <li>
+        <strong>Supabase</strong> (Supabase Inc., Marekani) huhifadhi
+        hifadhidata yetu katika eneo lake la Frankfurt, Ujerumani.
       </li>
       <li>Mamlaka za umma, pale tu sheria za Tanzania zinapotutaka.</li>
     </ul>
     <p>
       Hii inamaanisha taarifa zako huhifadhiwa nje ya Tanzania, nchini
-      Ujerumani. Render huzishughulikia kwa ajili ya kuendesha huduma yetu tu,
-      chini ya makubaliano ya uchakataji wa taarifa nasi, na imethibitishwa na
-      wakaguzi huru kwa usalama wa taarifa (SOC 2 Type II na ISO 27001). Taarifa
-      zako husafiri kwenda na kutoka kwenye seva zetu zikiwa zimesimbwa.
+      Ujerumani. Render na Supabase huzishughulikia kwa ajili ya kuendesha
+      huduma yetu tu, chini ya makubaliano ya uchakataji wa taarifa nasi, na
+      zote mbili zimethibitishwa na wakaguzi huru kwa usalama wa taarifa (SOC 2
+      Type II na ISO 27001). Taarifa zako husafiri kati ya programu, seva zetu
+      na hifadhidata yetu zikiwa zimesimbwa.
     </p>
 
     <h2>Tunazihifadhi kwa muda gani</h2>
@@ -306,15 +319,17 @@ function sw(op: Operator): Html {
       Tunahifadhi taarifa zako maadamu una akaunti. Unapofuta akaunti yako,
       akaunti na kila kilichomo (malengo, akiba, uhamisho na utoaji, kumbukumbu
       za mauzo na matumizi, kanuni ya akiba, kumbukumbu za namba za SMS na
-      tokeni za kuingia) hufutwa kwenye hifadhidata yetu mara moja. Nakala
-      zilizo kwenye hifadhi rudufu hufutwa ndani ya siku 7.
+      tokeni za kuingia) hufutwa kwenye hifadhidata yetu mara moja. Hatuhifadhi
+      nakala rudufu za hifadhidata.
     </p>
 
     <h2>Tunavyozilinda</h2>
     <p>
-      Taarifa husafiri kati ya programu na seva zetu zikiwa zimesimbwa (HTTPS).
-      Manenosiri, namba za uthibitisho na tokeni za kuingia huhifadhiwa kama
-      hashi pekee. Kila akaunti inaweza kuona taarifa zake tu.
+      Taarifa husafiri kati ya programu na seva zetu zikiwa zimesimbwa (HTTPS),
+      na kati ya seva zetu na hifadhidata yetu zikiwa zimesimbwa, huku
+      utambulisho wa hifadhidata ukithibitishwa. Manenosiri, namba za
+      uthibitisho na tokeni za kuingia huhifadhiwa kama hashi pekee. Kila
+      akaunti inaweza kuona taarifa zake tu.
     </p>
 
     <h2>Haki zako</h2>

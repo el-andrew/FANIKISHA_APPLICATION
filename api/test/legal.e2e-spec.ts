@@ -59,7 +59,10 @@ describe('legal pages', () => {
     const en = (await http().get('/privacy?lang=en').expect(200)).text;
     expect(en).toContain('Frankfurt, Germany');
     expect(en).toContain('kept for 7 days');
-    expect(en).toContain('backups are deleted within 7 days');
+    expect(en).toContain('Supabase');
+    expect(en.replace(/\s+/g, ' ')).toContain(
+      'We do not keep backup copies of the database',
+    );
     const sw = (await http().get('/privacy?lang=sw').expect(200)).text;
     expect(sw).toContain('Frankfurt, Ujerumani');
   });
