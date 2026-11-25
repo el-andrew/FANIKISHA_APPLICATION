@@ -96,6 +96,32 @@ void main() {
     expect(find.text('Verify your phone number'), findsNothing);
   });
 
+  testWidgets('says when the SMS could not be sent', (tester) async {
+    // What the API answers when Beem refuses the message.
+    api.on(
+      'POST',
+      '/v1/me/phone/verification',
+      (_) => const FakeResponse(503, {
+        'statusCode': 503,
+        'message': 'We could not send the SMS. Please try again later',
+        'code': 'sms_failed',
+      }),
+    );
+    await openVerification(tester);
+
+    expect(
+      find.text("We couldn't send the SMS. Please try again later."),
+      findsOneWidget,
+    );
+    // Not the general server error (errorServer).
+    expect(
+      find.text(
+        'Something went wrong on our side. Please try again in a moment.',
+      ),
+      findsNothing,
+    );
+  });
+
   testWidgets('asks for the SMS and shows errors in Kiswahili', (tester) async {
     await openVerification(tester, locale: 'sw');
     expect(languages, ['sw']);
