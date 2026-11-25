@@ -20,6 +20,13 @@ final tokenStorageProvider = Provider<TokenStorage>(
 
 final apiBaseUrlProvider = Provider<String>((ref) => AppConfig.apiBaseUrl);
 
+/// Where the privacy policy and terms are published.
+final publicSiteUrlProvider = Provider<String>(
+  (ref) => AppConfig.publicSiteUrl.isEmpty
+      ? ref.watch(apiBaseUrlProvider)
+      : AppConfig.publicSiteUrl,
+);
+
 final offlineCacheProvider = Provider<OfflineCache>(
   (ref) => OfflineCache(ref.watch(sharedPreferencesProvider)),
 );

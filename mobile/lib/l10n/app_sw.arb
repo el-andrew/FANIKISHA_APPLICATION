@@ -253,5 +253,6 @@
   "reminderOverdueBody": "Bado {amount} za kuweka. Endelea, au chagua tarehe mpya.",
   "reminderRecordTitle": "Biashara imeendaje leo?",
   "reminderRecordBodySales": "Andika mauzo ya leo uone kanuni yako ya {percent}% inaweka kiasi gani.",
-  "reminderRecordBodyProfit": "Andika mauzo na matumizi ya leo uone kanuni yako ya {percent}% inaweka kiasi gani."
+  "reminderRecordBodyProfit": "Andika mauzo na matumizi ya leo uone kanuni yako ya {percent}% inaweka kiasi gani.",
+  "splashSlowStart": "Inaanza… hii inaweza kuchukua hadi dakika moja."
 }

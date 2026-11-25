@@ -10,7 +10,8 @@ import { PrismaService } from '../src/prisma/prisma.service.js';
  * store, including the concurrency cases that catch read-then-write races.
  */
 const config = {
-  get: () => process.env.DATABASE_URL,
+  get: (key: string) =>
+    key === 'DATABASE_URL' ? process.env.DATABASE_URL : undefined,
 } as unknown as ConfigService<Env, true>;
 const prisma = new PrismaService(config);
 const storage = {

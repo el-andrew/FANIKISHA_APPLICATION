@@ -7,4 +7,4 @@ export interface Operator {
 }
 
 /** When the privacy policy and terms last changed. Update with the texts. */
-export const LEGAL_UPDATED = '2026-11-23';
+export const LEGAL_UPDATED = '2026-11-25';

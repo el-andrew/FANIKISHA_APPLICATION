@@ -114,7 +114,18 @@ Needed before the app can go on the Play Store.
 
 ## Phase 5: Production and portfolio
 
-- [ ] Deploy the API with a managed PostgreSQL database
+- [ ] Deploy the API with a managed PostgreSQL database: Render (free) for
+      the API and Supabase (free) for the database, both in Frankfurt;
+      `render.yaml` and [docs/DEPLOY.md](DEPLOY.md)
+  - [x] Blueprint; client addresses behind Render's proxy for rate limits;
+        verified SSL to the database; row-level security on every table;
+        the app waits out a sleeping server; privacy policy updated for
+        hosting, no backups, and the Phase 3 data
+  - [ ] Owner: Supabase project, Render account and Blueprint, contact
+        email, both DPAs, Cloudflare DNS records for `api.fanikisha` and
+        `fanikisha` under `northkings.co.tz`
+  - [ ] Backups: the free Supabase plan has none (Supabase Pro, or a
+        scheduled `pg_dump` elsewhere)
 - [ ] OpenAPI documentation
 - [ ] Demo account with sample data, screenshots and a short demo video
 - [ ] Architecture diagram and write-up in the root README

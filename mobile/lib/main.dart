@@ -12,6 +12,7 @@ Future<void> main() async {
   final problem = releaseConfigProblem(
     isRelease: kReleaseMode,
     apiBaseUrl: AppConfig.apiBaseUrl,
+    publicSiteUrl: AppConfig.publicSiteUrl,
   );
   if (problem != null) throw StateError(problem);
   WidgetsFlutterBinding.ensureInitialized();
