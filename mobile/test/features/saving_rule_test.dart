@@ -68,7 +68,7 @@ void main() {
   testWidgets('sets a rule from the dashboard', (tester) async {
     sales = 120000;
     await openDashboard(tester);
-    expect(find.text("Save a share of each day's sales"), findsOneWidget);
+    expect(find.text('Save a share of daily sales'), findsOneWidget);
 
     await tester.tap(find.text('Set a rule'));
     await tester.pumpAndSettle();
@@ -87,7 +87,7 @@ void main() {
       'percent': 15,
     });
     // Back on the dashboard, with today's target.
-    expect(find.text("Today's saving target"), findsOneWidget);
+    expect(find.text('Today'), findsOneWidget);
     expect(find.text('15% of sales'), findsOneWidget);
     expect(find.text('of TZS 18,000'), findsOneWidget);
     expect(find.text('Save TZS 18,000'), findsOneWidget);
@@ -153,6 +153,6 @@ void main() {
     await tester.tap(find.text('Remove rule'));
     await tester.pumpAndSettle();
     expect(api.requestsTo('DELETE', '/v1/savings/rule'), hasLength(1));
-    expect(find.text("Save a share of each day's sales"), findsOneWidget);
+    expect(find.text('Save a share of daily sales'), findsOneWidget);
   });
 }

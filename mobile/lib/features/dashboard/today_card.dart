@@ -31,42 +31,21 @@ class _SetUpRule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const RowIcon(icon: Icons.percent),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.ruleSetupTitle,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    l10n.ruleSetupBody,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.muted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            minimumSize: const Size.fromHeight(44),
+        const RowIcon(icon: Icons.percent),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            l10n.ruleSetupTitle,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
+        ),
+        const SizedBox(width: 8),
+        FilledButton.tonal(
+          style: FilledButton.styleFrom(minimumSize: const Size(0, 40)),
           onPressed: () => context.push('/savings/rule'),
           child: Text(l10n.ruleSetupAction),
         ),

@@ -61,7 +61,8 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
       locale: locale,
     );
-    await tester.tap(find.byType(TextButton).first); // "Verify now" on the card
+    // The card on Home (by its icon, so it works in either language).
+    await tester.tap(find.byIcon(Icons.sms_outlined));
     await tester.pumpAndSettle();
   }
 
@@ -71,9 +72,9 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    expect(find.text('Verify your phone number'), findsOneWidget);
+    expect(find.text('Verify your phone'), findsOneWidget);
 
-    await tester.tap(find.text('Verify now'));
+    await tester.tap(find.text('Verify your phone'));
     await tester.pumpAndSettle();
     expect(languages, ['en']);
     expect(
@@ -93,7 +94,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Phone number verified'), findsOneWidget);
     expect(find.text('Hello, Asha'), findsOneWidget);
-    expect(find.text('Verify your phone number'), findsNothing);
+    expect(find.text('Verify your phone'), findsNothing);
   });
 
   testWidgets('says when the SMS could not be sent', (tester) async {
@@ -152,7 +153,7 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    expect(find.text('Verify your phone number'), findsNothing);
+    expect(find.text('Verify your phone'), findsNothing);
     await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     expect(find.text('Verified'), findsOneWidget);

@@ -220,7 +220,7 @@
   },
   "verifyPhoneDone": "Phone number verified",
   "phoneVerified": "Verified",
-  "verifyPhoneBannerTitle": "Verify your phone number",
+  "verifyPhoneBannerTitle": "Verify your phone",
   "verifyPhoneBannerBody": "You'll need it to save with mobile money.",
   "verifyPhoneAction": "Verify now",
   "phoneErrorNoPhone": "Add a phone number to your profile first.",
@@ -316,7 +316,7 @@
   "categoryTransport": "Transport",
   "categoryWages": "Wages",
   "categoryUtilities": "Electricity & water",
-  "todayTitle": "Today's saving target",
+  "todayTitle": "Today",
   "todayRuleSales": "{percent}% of today's sales ({amount})",
   "@todayRuleSales": {
     "placeholders": {
@@ -354,7 +354,7 @@
   "todayNoSales": "Record today's sales to see how much to save.",
   "todayNoProfit": "No profit yet today, so nothing to save from it.",
   "todayRecordSales": "Record sales",
-  "ruleSetupTitle": "Save a share of each day's sales",
+  "ruleSetupTitle": "Save a share of daily sales",
   "ruleSetupBody": "Set a rule, such as 10% of each day's sales, and Fanikisha will tell you how much to save every day.",
   "ruleSetupAction": "Set a rule",
   "ruleTitle": "Saving rule",
@@ -471,7 +471,7 @@
   "remindersOffSubtitle": "Off",
   "remindersTime": "Reminder time",
   "remindersBlocked": "Notifications are blocked for Fanikisha. Allow them in your phone's settings, then try again.",
-  "remindersTipTitle": "Stay on track",
+  "remindersTipTitle": "Evening reminders",
   "remindersTipBody": "Get an evening reminder when a goal falls behind or today's saving is still to do.",
   "remindersTurnOn": "Turn on",
   "remindersOnMessage": "Reminders on: evenings around {time}",
@@ -608,5 +608,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "homeNoActivity": "Nothing yet"
 }

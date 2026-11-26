@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/l10n.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/widgets/async_views.dart';
+import '../../core/widgets/ui.dart';
 import 'reminders.dart';
 
 /// Asks for notification permission and turns reminders on, saying so.
@@ -86,56 +88,31 @@ class ReminderTipCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final scheme = Theme.of(context).colorScheme;
-    return Card(
-      color: scheme.secondaryContainer,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.notifications_active_outlined,
-                  color: scheme.onSecondaryContainer,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.remindersTipTitle,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: scheme.onSecondaryContainer,
-                        ),
-                      ),
-                      Text(
-                        l10n.remindersTipBody,
-                        style: TextStyle(color: scheme.onSecondaryContainer),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    return AppCard(
+      padding: const EdgeInsets.fromLTRB(16, 8, 4, 8),
+      child: Row(
+        children: [
+          const RowIcon(icon: Icons.notifications_active_outlined),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              l10n.remindersTipTitle,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () =>
-                      ref.read(reminderSettingsProvider.notifier).dismissTip(),
-                  child: Text(l10n.actionNotNow),
-                ),
-                TextButton(
-                  onPressed: () => turnOnReminders(context, ref),
-                  child: Text(l10n.remindersTurnOn),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          TextButton(
+            onPressed: () => turnOnReminders(context, ref),
+            child: Text(l10n.remindersTurnOn),
+          ),
+          IconButton(
+            tooltip: l10n.actionNotNow,
+            icon: const Icon(Icons.close, color: AppColors.muted),
+            onPressed: () =>
+                ref.read(reminderSettingsProvider.notifier).dismissTip(),
+          ),
+        ],
       ),
     );
   }

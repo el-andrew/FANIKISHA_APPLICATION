@@ -899,7 +899,7 @@ abstract class AppLocalizations {
   /// No description provided for @verifyPhoneBannerTitle.
   ///
   /// In en, this message translates to:
-  /// **'Verify your phone number'**
+  /// **'Verify your phone'**
   String get verifyPhoneBannerTitle;
 
   /// No description provided for @verifyPhoneBannerBody.
@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayTitle.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s saving target'**
+  /// **'Today'**
   String get todayTitle;
 
   /// No description provided for @todayRuleSales.
@@ -1313,7 +1313,7 @@ abstract class AppLocalizations {
   /// No description provided for @ruleSetupTitle.
   ///
   /// In en, this message translates to:
-  /// **'Save a share of each day\'s sales'**
+  /// **'Save a share of daily sales'**
   String get ruleSetupTitle;
 
   /// No description provided for @ruleSetupBody.
@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// No description provided for @remindersTipTitle.
   ///
   /// In en, this message translates to:
-  /// **'Stay on track'**
+  /// **'Evening reminders'**
   String get remindersTipTitle;
 
   /// No description provided for @remindersTipBody.
@@ -1735,6 +1735,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'target {target}'**
   String todayTargetWas(String target);
+
+  /// No description provided for @homeNoActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get homeNoActivity;
 }
 
 class _AppLocalizationsDelegate

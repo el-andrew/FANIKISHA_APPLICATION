@@ -202,11 +202,11 @@ void main() {
     tester,
   ) async {
     await start(tester);
-    expect(find.text('Stay on track'), findsOneWidget);
+    expect(find.text('Evening reminders'), findsOneWidget);
 
-    await tester.tap(find.text('Not now'));
+    await tester.tap(find.byTooltip('Not now'));
     await tester.pumpAndSettle();
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
     expect(scheduler.permissionRequests, 0);
   });
 
@@ -218,7 +218,7 @@ void main() {
     await tester.tap(find.text('Turn on'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
     expect(find.text('Reminders on: evenings around 19:00'), findsOneWidget);
     expect(scheduler.scheduled, hasLength(7));
   });
@@ -229,7 +229,7 @@ void main() {
     api.on('GET', '/v1/goals', (_) => const FakeResponse(200, []));
     await start(tester);
 
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
   });
 
   testWidgets('a goal back on track drops its reminders', (tester) async {

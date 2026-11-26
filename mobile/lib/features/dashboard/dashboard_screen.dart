@@ -158,7 +158,7 @@ class DashboardScreen extends ConsumerWidget {
                                   vertical: 16,
                                 ),
                                 child: Text(
-                                  l10n.historyEmpty,
+                                  l10n.homeNoActivity,
                                   style: const TextStyle(
                                     color: AppColors.muted,
                                   ),
@@ -619,11 +619,6 @@ class _NoGoals extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            l10n.dashboardNoGoalsBody,
-            style: theme.textTheme.bodySmall?.copyWith(color: AppColors.muted),
-          ),
           const SizedBox(height: 12),
           FilledButton(
             onPressed: () => context.push('/goals/new'),
@@ -642,40 +637,30 @@ class _VerifyPhoneCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final theme = Theme.of(context);
-    return AppCard(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const RowIcon(icon: Icons.sms_outlined),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+    return Material(
+      color: AppColors.card,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => context.push('/profile/verify-phone'),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              const RowIcon(icon: Icons.sms_outlined),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
                   l10n.verifyPhoneBannerTitle,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
-                Text(
-                  l10n.verifyPhoneBannerBody,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.muted,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => context.push('/profile/verify-phone'),
-                    child: Text(l10n.verifyPhoneAction),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const Icon(Icons.chevron_right, color: AppColors.muted),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -133,7 +133,7 @@
   "verifyPhoneResendIn": "Tuma namba mpya baada ya sekunde {seconds}",
   "verifyPhoneDone": "Namba ya simu imethibitishwa",
   "phoneVerified": "Imethibitishwa",
-  "verifyPhoneBannerTitle": "Thibitisha namba yako ya simu",
+  "verifyPhoneBannerTitle": "Thibitisha simu yako",
   "verifyPhoneBannerBody": "Utaihitaji ili kuweka akiba kwa pesa za simu.",
   "verifyPhoneAction": "Thibitisha sasa",
   "phoneErrorNoPhone": "Kwanza ongeza namba ya simu kwenye wasifu wako.",
@@ -194,7 +194,7 @@
   "categoryTransport": "Usafiri",
   "categoryWages": "Mishahara",
   "categoryUtilities": "Umeme na maji",
-  "todayTitle": "Lengo la akiba la leo",
+  "todayTitle": "Leo",
   "todayRuleSales": "{percent}% ya mauzo ya leo ({amount})",
   "todayRuleProfit": "{percent}% ya faida ya leo ({amount})",
   "todaySavedOf": "Akiba ya leo: {saved} kati ya {target}",
@@ -202,7 +202,7 @@
   "todayNoSales": "Rekodi mauzo ya leo ili kuona kiasi cha kuweka akiba.",
   "todayNoProfit": "Bado hakuna faida leo, kwa hiyo hakuna cha kuweka akiba kutoka kwake.",
   "todayRecordSales": "Rekodi mauzo",
-  "ruleSetupTitle": "Weka akiba sehemu ya mauzo ya kila siku",
+  "ruleSetupTitle": "Weka sehemu ya mauzo ya kila siku",
   "ruleSetupBody": "Weka kanuni, kama 10% ya mauzo ya kila siku, na Fanikisha itakuambia kiasi cha kuweka akiba kila siku.",
   "ruleSetupAction": "Weka kanuni",
   "ruleTitle": "Kanuni ya akiba",
@@ -237,7 +237,7 @@
   "remindersOffSubtitle": "Vimezimwa",
   "remindersTime": "Muda wa kikumbusho",
   "remindersBlocked": "Arifa za Fanikisha zimezuiwa. Ziruhusu kwenye mipangilio ya simu yako, kisha jaribu tena.",
-  "remindersTipTitle": "Usibaki nyuma",
+  "remindersTipTitle": "Vikumbusho vya jioni",
   "remindersTipBody": "Pata kikumbusho jioni lengo likibaki nyuma au akiba ya leo ikiwa bado.",
   "remindersTurnOn": "Washa",
   "remindersOnMessage": "Vikumbusho vimewashwa: jioni karibu saa {time}",
@@ -272,5 +272,6 @@
   "chooseSourceWithdraw": "Toa pesa kutoka",
   "nothingToMove": "Bado hakuna akiba ya kuhamisha.",
   "activitySaved": "Akiba imewekwa",
-  "todayTargetWas": "lengo {target}"
+  "todayTargetWas": "lengo {target}",
+  "homeNoActivity": "Bado hakuna kitu"
 }

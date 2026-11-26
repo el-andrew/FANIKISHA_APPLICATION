@@ -457,7 +457,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get phoneVerified => 'Imethibitishwa';
 
   @override
-  String get verifyPhoneBannerTitle => 'Thibitisha namba yako ya simu';
+  String get verifyPhoneBannerTitle => 'Thibitisha simu yako';
 
   @override
   String get verifyPhoneBannerBody =>
@@ -667,7 +667,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get categoryUtilities => 'Umeme na maji';
 
   @override
-  String get todayTitle => 'Lengo la akiba la leo';
+  String get todayTitle => 'Leo';
 
   @override
   String todayRuleSales(int percent, String amount) {
@@ -699,7 +699,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get todayRecordSales => 'Rekodi mauzo';
 
   @override
-  String get ruleSetupTitle => 'Weka akiba sehemu ya mauzo ya kila siku';
+  String get ruleSetupTitle => 'Weka sehemu ya mauzo ya kila siku';
 
   @override
   String get ruleSetupBody =>
@@ -828,7 +828,7 @@ class AppLocalizationsSw extends AppLocalizations {
       'Arifa za Fanikisha zimezuiwa. Ziruhusu kwenye mipangilio ya simu yako, kisha jaribu tena.';
 
   @override
-  String get remindersTipTitle => 'Usibaki nyuma';
+  String get remindersTipTitle => 'Vikumbusho vya jioni';
 
   @override
   String get remindersTipBody =>
@@ -965,4 +965,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String todayTargetWas(String target) {
     return 'lengo $target';
   }
+
+  @override
+  String get homeNoActivity => 'Bado hakuna kitu';
 }

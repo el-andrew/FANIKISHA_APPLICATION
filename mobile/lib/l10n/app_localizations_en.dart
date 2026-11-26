@@ -454,7 +454,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneVerified => 'Verified';
 
   @override
-  String get verifyPhoneBannerTitle => 'Verify your phone number';
+  String get verifyPhoneBannerTitle => 'Verify your phone';
 
   @override
   String get verifyPhoneBannerBody =>
@@ -662,7 +662,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryUtilities => 'Electricity & water';
 
   @override
-  String get todayTitle => 'Today\'s saving target';
+  String get todayTitle => 'Today';
 
   @override
   String todayRuleSales(int percent, String amount) {
@@ -693,7 +693,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todayRecordSales => 'Record sales';
 
   @override
-  String get ruleSetupTitle => 'Save a share of each day\'s sales';
+  String get ruleSetupTitle => 'Save a share of daily sales';
 
   @override
   String get ruleSetupBody =>
@@ -822,7 +822,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notifications are blocked for Fanikisha. Allow them in your phone\'s settings, then try again.';
 
   @override
-  String get remindersTipTitle => 'Stay on track';
+  String get remindersTipTitle => 'Evening reminders';
 
   @override
   String get remindersTipBody =>
@@ -958,4 +958,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String todayTargetWas(String target) {
     return 'target $target';
   }
+
+  @override
+  String get homeNoActivity => 'Nothing yet';
 }
