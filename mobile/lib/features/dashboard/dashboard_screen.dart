@@ -7,6 +7,7 @@ import '../../core/format/money.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/providers.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../core/widgets/async_views.dart';
 import '../../core/widgets/ui.dart';
 import '../auth/application/auth_controller.dart';
@@ -82,7 +83,12 @@ class DashboardScreen extends ConsumerWidget {
               ),
               const _ActionsCard(),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.l,
+                  AppSpace.l,
+                  AppSpace.l,
+                  AppSpace.xl,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -91,18 +97,18 @@ class DashboardScreen extends ConsumerWidget {
                         error: summary.error!,
                         onRetry: () => ref.invalidate(summaryProvider),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpace.m),
                     ],
                     if (user != null && user.needsPhoneVerification) ...[
                       const _VerifyPhoneCard(),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: AppSpace.m),
                     ],
                     const TodayCard(),
-                    const SizedBox(height: 16),
                     if (showTip) ...[
+                      const SizedBox(height: AppSpace.m),
                       const ReminderTipCard(),
-                      const SizedBox(height: 16),
                     ],
+                    const SizedBox(height: AppSpace.l),
                     SectionHeader(
                       title: l10n.navGoals,
                       actionLabel: l10n.dashboardSeeAll,
@@ -110,7 +116,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     goals.when(
                       loading: () => const Padding(
-                        padding: EdgeInsets.all(24),
+                        padding: EdgeInsets.all(AppSpace.xl),
                         child: LoadingView(),
                       ),
                       error: (error, _) => ErrorView(
@@ -135,7 +141,7 @@ class DashboardScreen extends ConsumerWidget {
                               ),
                             ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpace.l),
                     SectionHeader(
                       title: l10n.homeRecentActivity,
                       actionLabel: l10n.navHistory,
@@ -143,7 +149,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     activity.when(
                       loading: () => const Padding(
-                        padding: EdgeInsets.all(24),
+                        padding: EdgeInsets.all(AppSpace.xl),
                         child: LoadingView(),
                       ),
                       error: (error, _) => ErrorView(
@@ -151,7 +157,9 @@ class DashboardScreen extends ConsumerWidget {
                         onRetry: () => ref.invalidate(activityProvider),
                       ),
                       data: (list) => AppCard(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpace.l,
+                        ),
                         child: list.items.isEmpty
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -215,10 +223,10 @@ class _Header extends ConsumerWidget {
     return Container(
       color: AppColors.deepGreen,
       padding: EdgeInsets.fromLTRB(
-        20,
-        MediaQuery.paddingOf(context).top + 16,
-        12,
-        16,
+        AppSpace.l,
+        MediaQuery.paddingOf(context).top + AppSpace.l,
+        AppSpace.s,
+        AppSpace.l,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +244,7 @@ class _Header extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpace.m),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +267,7 @@ class _Header extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpace.xl),
           Text(
             l10n.dashboardTotalSaved,
             style: theme.textTheme.bodyMedium?.copyWith(
@@ -295,13 +303,13 @@ class _Header extends ConsumerWidget {
           ),
           if (summary != null && summary.unallocatedAmount > 0 && !hidden)
             Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 4),
+              padding: const EdgeInsets.symmetric(vertical: AppSpace.xs),
               child: Material(
                 color: Colors.white.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(AppRadius.pill),
                 child: InkWell(
                   // General savings can be moved into a goal or taken out.
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(AppRadius.pill),
                   onTap: () => _chooseAction(context),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -390,7 +398,7 @@ class _ActionsCard extends ConsumerWidget {
                   decoration: const BoxDecoration(
                     color: AppColors.deepGreen,
                     borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(28),
+                      bottom: Radius.circular(AppSpace.xl),
                     ),
                   ),
                 ),
@@ -400,11 +408,11 @@ class _ActionsCard extends ConsumerWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.l),
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: AppColors.card,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(AppRadius.card),
               boxShadow: const [
                 BoxShadow(
                   color: Color(0x1417251B),
@@ -414,7 +422,10 @@ class _ActionsCard extends ConsumerWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+              padding: const EdgeInsets.symmetric(
+                vertical: AppSpace.m,
+                horizontal: AppSpace.xs,
+              ),
               child: Row(
                 children: [
                   Expanded(
@@ -536,11 +547,11 @@ class _GoalRow extends StatelessWidget {
     return InkWell(
       onTap: () => context.push('/goals/${goal.id}'),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: AppSpace.m),
         child: Row(
           children: [
             SizedBox.square(
-              dimension: 44,
+              dimension: AppSize.ring,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -548,14 +559,13 @@ class _GoalRow extends StatelessWidget {
                   Text(
                     '${goal.progressPercent.floor()}%',
                     style: theme.textTheme.labelSmall?.copyWith(
-                      fontSize: 10,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpace.m),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -564,9 +574,7 @@ class _GoalRow extends StatelessWidget {
                     goal.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: theme.textTheme.titleSmall,
                   ),
                   Text(
                     l10n.goalSavedOf(
@@ -582,7 +590,7 @@ class _GoalRow extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpace.s),
             behind
                 ? StatusBadge(
                     label: l10n.goalBehind,
@@ -609,17 +617,12 @@ class _NoGoals extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     return AppCard(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(AppSpace.l),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            l10n.dashboardNoGoalsTitle,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
+          Text(l10n.dashboardNoGoalsTitle, style: theme.textTheme.titleMedium),
+          const SizedBox(height: AppSpace.m),
           FilledButton(
             onPressed: () => context.push('/goals/new'),
             child: Text(l10n.dashboardCreateGoal),
@@ -639,22 +642,20 @@ class _VerifyPhoneCard extends StatelessWidget {
     final l10n = context.l10n;
     return Material(
       color: AppColors.card,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(AppRadius.card),
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.card),
         onTap: () => context.push('/profile/verify-phone'),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSpace.l),
           child: Row(
             children: [
               const RowIcon(icon: Icons.sms_outlined),
-              const SizedBox(width: 12),
+              const SizedBox(width: AppSpace.m),
               Expanded(
                 child: Text(
                   l10n.verifyPhoneBannerTitle,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               const Icon(Icons.chevron_right, color: AppColors.muted),

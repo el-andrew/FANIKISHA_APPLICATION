@@ -3,13 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_tokens.dart';
 
 /// A white, rounded panel: the app's one card style.
 class AppCard extends StatelessWidget {
   const AppCard({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets.all(AppSpace.l),
   });
 
   final Widget child;
@@ -19,7 +20,7 @@ class AppCard extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
     decoration: const BoxDecoration(
       color: AppColors.card,
-      borderRadius: BorderRadius.all(Radius.circular(20)),
+      borderRadius: BorderRadius.all(Radius.circular(AppRadius.card)),
     ),
     child: Padding(padding: padding, child: child),
   );
@@ -42,7 +43,7 @@ class SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = actionLabel;
     return Padding(
-      padding: const EdgeInsets.only(left: 4),
+      padding: const EdgeInsets.only(left: AppSpace.xs),
       child: Row(
         children: [
           Expanded(
@@ -50,9 +51,7 @@ class SectionHeader extends StatelessWidget {
               header: true,
               child: Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontSize: 15),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
           ),
@@ -84,22 +83,26 @@ class ActionCircle extends StatelessWidget {
     excludeSemantics: true,
     child: InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppRadius.card),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: AppSpace.s),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 52,
-              height: 52,
+              width: AppSize.action,
+              height: AppSize.action,
               decoration: const BoxDecoration(
                 color: AppColors.tint,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: AppColors.deepGreen, size: 24),
+              child: Icon(
+                icon,
+                color: AppColors.deepGreen,
+                size: AppSize.actionIcon,
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpace.s),
             Text(
               label,
               textAlign: TextAlign.center,
@@ -122,7 +125,7 @@ class ProgressRing extends StatelessWidget {
   const ProgressRing({
     super.key,
     required this.value,
-    this.size = 44,
+    this.size = AppSize.ring,
     this.stroke = 5,
   });
 
@@ -250,17 +253,20 @@ class StatusBadge extends StatelessWidget {
     };
     final icon = this.icon;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.m - 2,
+        vertical: AppSpace.xs,
+      ),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppRadius.pill),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
             Icon(icon, size: 14, color: fg),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppSpace.xs),
           ],
           Text(
             label,
@@ -293,10 +299,10 @@ class RowIcon extends StatelessWidget {
       StatusTone.attention => (AppColors.attentionBg, AppColors.attention),
     };
     return Container(
-      width: 40,
-      height: 40,
+      width: AppSize.rowIcon,
+      height: AppSize.rowIcon,
       decoration: BoxDecoration(color: bg, shape: BoxShape.circle),
-      child: Icon(icon, size: 20, color: fg),
+      child: Icon(icon, size: AppSize.rowIconGlyph, color: fg),
     );
   }
 }

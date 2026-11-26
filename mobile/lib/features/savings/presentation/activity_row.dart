@@ -4,6 +4,7 @@ import '../../../core/format/dates.dart';
 import '../../../core/format/money.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/ui.dart';
 import '../data/savings_models.dart';
 
@@ -64,11 +65,11 @@ class ActivityRow extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: AppSpace.m),
         child: Row(
           children: [
             RowIcon(icon: icon, tone: tone),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpace.m),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,9 +78,7 @@ class ActivityRow extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: theme.textTheme.titleSmall,
                   ),
                   Text(
                     [when, if (detail.isNotEmpty) detail].join(' · '),
@@ -92,13 +91,10 @@ class ActivityRow extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSpace.s),
             Text(
               amount,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: amountColor,
-              ),
+              style: theme.textTheme.titleSmall?.copyWith(color: amountColor),
             ),
           ],
         ),

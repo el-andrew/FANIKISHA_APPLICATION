@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../core/widgets/async_views.dart';
 import '../../core/widgets/ui.dart';
 import 'reminders.dart';
@@ -89,17 +90,20 @@ class ReminderTipCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     return AppCard(
-      padding: const EdgeInsets.fromLTRB(16, 8, 4, 8),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.l,
+        AppSpace.s,
+        AppSpace.xs,
+        AppSpace.s,
+      ),
       child: Row(
         children: [
           const RowIcon(icon: Icons.notifications_active_outlined),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpace.m),
           Expanded(
             child: Text(
               l10n.remindersTipTitle,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           TextButton(

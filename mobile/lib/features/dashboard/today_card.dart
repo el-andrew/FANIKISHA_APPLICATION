@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/format/money.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../core/widgets/ui.dart';
 import '../savings/application/savings_providers.dart';
 import '../savings/data/savings_models.dart';
@@ -34,18 +35,18 @@ class _SetUpRule extends StatelessWidget {
     return Row(
       children: [
         const RowIcon(icon: Icons.percent),
-        const SizedBox(width: 12),
+        const SizedBox(width: AppSpace.m),
         Expanded(
           child: Text(
             l10n.ruleSetupTitle,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSpace.s),
         FilledButton.tonal(
-          style: FilledButton.styleFrom(minimumSize: const Size(0, 40)),
+          style: FilledButton.styleFrom(
+            minimumSize: const Size(0, AppSize.buttonCompact),
+          ),
           onPressed: () => context.push('/savings/rule'),
           child: Text(l10n.ruleSetupAction),
         ),
@@ -73,10 +74,10 @@ class _Target extends StatelessWidget {
     if (today.sales == 0) {
       body = [
         Text(l10n.todayNoSales, style: muted),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpace.m),
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            minimumSize: const Size.fromHeight(44),
+            minimumSize: const Size.fromHeight(AppSize.buttonCompact),
           ),
           onPressed: () => context.push('/business/new'),
           child: Text(l10n.todayRecordSales),
@@ -93,12 +94,10 @@ class _Target extends StatelessWidget {
           children: [
             Text(
               formatTzs(today.savedToday),
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+              style: theme.textTheme.headlineSmall,
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 3),
+              padding: const EdgeInsets.only(bottom: AppSpace.xs),
               child: Text(
                 // "TZS 45,000 of TZS 12,000" would read like a mistake.
                 reached
@@ -109,9 +108,9 @@ class _Target extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpace.s),
         ProgressBar(value: today.savedToday / today.target),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpace.m),
         if (reached)
           Align(
             alignment: Alignment.centerLeft,
@@ -135,31 +134,28 @@ class _Target extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Text(
-                l10n.todayTitle,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              child: Text(l10n.todayTitle, style: theme.textTheme.titleMedium),
             ),
             // The rule, as a chip that opens it for editing.
             Tooltip(
               message: l10n.ruleEdit,
               child: InkWell(
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(AppRadius.pill),
                 onTap: () => context.push('/savings/rule'),
                 child: Container(
                   constraints: const BoxConstraints(minHeight: 32),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpace.m - 2,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.ground,
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(chip, style: theme.textTheme.labelMedium),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: AppSpace.xs),
                       const Icon(Icons.tune, size: 14, color: AppColors.muted),
                     ],
                   ),
@@ -168,7 +164,7 @@ class _Target extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSpace.m),
         ...body,
       ],
     );
