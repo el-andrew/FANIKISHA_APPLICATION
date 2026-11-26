@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardTotalSaved => 'Total saved';
+  String get dashboardTotalSaved => 'Total savings';
 
   @override
   String dashboardGeneralSavings(String amount) {
@@ -896,4 +896,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashSlowStart => 'Starting up… this can take up to a minute.';
+
+  @override
+  String get navAccount => 'Account';
+
+  @override
+  String get balanceShow => 'Show balance';
+
+  @override
+  String get balanceHide => 'Hide balance';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionMove => 'Move';
+
+  @override
+  String get actionWithdraw => 'Withdraw';
+
+  @override
+  String get actionRecordSale => 'Record sale';
+
+  @override
+  String get homeRecentActivity => 'Recent activity';
+
+  @override
+  String get goalOnTrack => 'On track';
+
+  @override
+  String get goalBehind => 'Behind';
+
+  @override
+  String todayChipSales(String percent) {
+    return '$percent% of sales';
+  }
+
+  @override
+  String todayChipProfit(String percent) {
+    return '$percent% of profit';
+  }
+
+  @override
+  String todayOfTarget(String target) {
+    return 'of $target';
+  }
+
+  @override
+  String get chooseSourceMove => 'Move money from';
+
+  @override
+  String get chooseSourceWithdraw => 'Take money out of';
+
+  @override
+  String get nothingToMove => 'There\'s no saved money to move yet.';
+
+  @override
+  String get activitySaved => 'Saved';
+
+  @override
+  String todayTargetWas(String target) {
+    return 'target $target';
+  }
 }

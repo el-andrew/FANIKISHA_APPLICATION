@@ -903,4 +903,66 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get splashSlowStart =>
       'Inaanza… hii inaweza kuchukua hadi dakika moja.';
+
+  @override
+  String get navAccount => 'Akaunti';
+
+  @override
+  String get balanceShow => 'Onyesha salio';
+
+  @override
+  String get balanceHide => 'Ficha salio';
+
+  @override
+  String get actionSave => 'Weka akiba';
+
+  @override
+  String get actionMove => 'Hamisha';
+
+  @override
+  String get actionWithdraw => 'Toa';
+
+  @override
+  String get actionRecordSale => 'Rekodi mauzo';
+
+  @override
+  String get homeRecentActivity => 'Shughuli za karibuni';
+
+  @override
+  String get goalOnTrack => 'Linaenda vizuri';
+
+  @override
+  String get goalBehind => 'Liko nyuma';
+
+  @override
+  String todayChipSales(String percent) {
+    return '$percent% ya mauzo';
+  }
+
+  @override
+  String todayChipProfit(String percent) {
+    return '$percent% ya faida';
+  }
+
+  @override
+  String todayOfTarget(String target) {
+    return 'kati ya $target';
+  }
+
+  @override
+  String get chooseSourceMove => 'Hamisha pesa kutoka';
+
+  @override
+  String get chooseSourceWithdraw => 'Toa pesa kutoka';
+
+  @override
+  String get nothingToMove => 'Bado hakuna akiba ya kuhamisha.';
+
+  @override
+  String get activitySaved => 'Akiba imewekwa';
+
+  @override
+  String todayTargetWas(String target) {
+    return 'lengo $target';
+  }
 }

@@ -1,50 +1,111 @@
 import 'package:flutter/material.dart';
 
-/// Fanikisha's brand colours and Material 3 theme.
+import 'app_colors.dart';
+
+/// Fanikisha's Material 3 theme: light, calm, money first.
 abstract final class AppTheme {
-  static const brandGreen = Color(0xFF43AF2A);
-  static const deepGreen = Color(0xFF215732);
+  static const brandGreen = AppColors.brandGreen;
+  static const deepGreen = AppColors.deepGreen;
 
-  static ThemeData light() => _build(Brightness.light);
-  static ThemeData dark() => _build(Brightness.dark);
+  static const _radius = BorderRadius.all(Radius.circular(14));
 
-  static ThemeData _build(Brightness brightness) {
+  static ThemeData light() {
     final scheme = ColorScheme.fromSeed(
-      seedColor: brandGreen,
-      brightness: brightness,
-      primary: brightness == Brightness.light ? deepGreen : null,
+      seedColor: AppColors.brandGreen,
+      primary: AppColors.deepGreen,
+      onPrimary: Colors.white,
+      primaryContainer: AppColors.tint,
+      onPrimaryContainer: AppColors.deepGreen,
+      secondaryContainer: AppColors.tint,
+      onSecondaryContainer: AppColors.deepGreen,
+      surface: AppColors.ground,
+      onSurface: AppColors.ink,
+      onSurfaceVariant: AppColors.muted,
+      surfaceContainerLowest: AppColors.card,
+      surfaceContainerLow: AppColors.card,
+      surfaceContainer: AppColors.card,
+      outline: AppColors.border,
+      outlineVariant: AppColors.line,
     );
     final base = ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
+      scaffoldBackgroundColor: AppColors.ground,
       fontFamily: 'Poppins',
     );
-    const radius = BorderRadius.all(Radius.circular(12));
     return base.copyWith(
+      textTheme: base.textTheme.copyWith(
+        headlineMedium: base.textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.5,
+        ),
+        titleLarge: base.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+        titleMedium: base.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      appBarTheme: const AppBarTheme(
+        centerTitle: false,
+        backgroundColor: AppColors.ground,
+        surfaceTintColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+      ),
+      cardTheme: const CardThemeData(
+        color: AppColors.card,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+      ),
       inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: radius),
+        filled: true,
+        fillColor: AppColors.card,
+        border: OutlineInputBorder(borderRadius: _radius),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: _radius,
+          borderSide: BorderSide(color: AppColors.border),
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: const RoundedRectangleBorder(borderRadius: radius),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          shape: const RoundedRectangleBorder(borderRadius: _radius),
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          shape: const RoundedRectangleBorder(borderRadius: radius),
+          backgroundColor: AppColors.card,
+          foregroundColor: AppColors.ink,
+          side: const BorderSide(color: AppColors.border),
+          shape: const RoundedRectangleBorder(borderRadius: _radius),
         ),
       ),
-      cardTheme: const CardThemeData(
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: AppColors.card,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: AppColors.tint,
         elevation: 0,
-        margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
+        height: 68,
       ),
-      appBarTheme: const AppBarTheme(centerTitle: false),
+      dividerTheme: const DividerThemeData(color: AppColors.line, space: 1),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.card,
+        surfaceTintColor: Colors.transparent,
+        showDragHandle: true,
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 }

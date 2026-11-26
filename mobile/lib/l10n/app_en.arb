@@ -51,7 +51,7 @@
       }
     }
   },
-  "dashboardTotalSaved": "Total saved",
+  "dashboardTotalSaved": "Total savings",
   "dashboardGeneralSavings": "General savings: {amount}",
   "@dashboardGeneralSavings": {
     "placeholders": {
@@ -561,5 +561,52 @@
       }
     }
   },
-  "splashSlowStart": "Starting up… this can take up to a minute."
+  "splashSlowStart": "Starting up… this can take up to a minute.",
+  "navAccount": "Account",
+  "balanceShow": "Show balance",
+  "balanceHide": "Hide balance",
+  "actionSave": "Save",
+  "actionMove": "Move",
+  "actionWithdraw": "Withdraw",
+  "actionRecordSale": "Record sale",
+  "homeRecentActivity": "Recent activity",
+  "goalOnTrack": "On track",
+  "goalBehind": "Behind",
+  "todayChipSales": "{percent}% of sales",
+  "@todayChipSales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "todayChipProfit": "{percent}% of profit",
+  "@todayChipProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "todayOfTarget": "of {target}",
+  "@todayOfTarget": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseSourceMove": "Move money from",
+  "chooseSourceWithdraw": "Take money out of",
+  "nothingToMove": "There's no saved money to move yet.",
+  "activitySaved": "Saved",
+  "todayTargetWas": "target {target}",
+  "@todayTargetWas": {
+    "description": "After today's target is reached: the target, next to what was saved.",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  }
 }

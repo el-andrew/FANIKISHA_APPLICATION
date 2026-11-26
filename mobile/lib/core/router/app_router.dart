@@ -71,22 +71,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
-              GoRoute(
-                path: '/business',
-                builder: (_, _) => const BusinessScreen(),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
               GoRoute(path: '/goals', builder: (_, _) => const GoalsScreen()),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/history',
-                builder: (_, _) => const HistoryScreen(),
+                path: '/business',
+                builder: (_, _) => const BusinessScreen(),
               ),
             ],
           ),
@@ -101,6 +93,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       // Full-screen pages, shown above the tabs.
+      GoRoute(path: '/history', builder: (_, _) => const HistoryScreen()),
       GoRoute(
         path: '/save',
         builder: (_, state) => DepositScreen(

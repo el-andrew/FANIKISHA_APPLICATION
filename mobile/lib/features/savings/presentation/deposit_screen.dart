@@ -141,8 +141,11 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
     return showModalBottomSheet<void>(
       context: context,
       isDismissible: false,
+      // It's closed with Done, not by dragging.
+      showDragHandle: false,
       builder: (context) => SafeArea(
-        child: Padding(
+        // A long split, or a short screen, scrolls instead of overflowing.
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
