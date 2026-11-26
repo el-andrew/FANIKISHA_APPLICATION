@@ -8,9 +8,12 @@ import 'package:uuid/uuid.dart';
 import '../../../core/format/money.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/providers.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/validators.dart';
 import '../../../core/widgets/button_spinner.dart';
 import '../../../core/widgets/form_error.dart';
+import '../../../core/widgets/ui.dart';
 import '../application/savings_providers.dart';
 import '../data/savings_models.dart';
 import 'split_list.dart';
@@ -181,82 +184,186 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
     );
   }
 
+  /// Round amounts offered with one tap, after what today's rule asks for.
+  static const _quickAmounts = [5000, 10000, 20000, 50000];
+
+  void _setAmount(int value) {
+    final text = formatGrouped(value);
+    _amount.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+    _onAmountChanged(text);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final amount = parseAmount(_amount.text);
+    final today = ref.watch(todaySavingsProvider).value;
+    final ruleAmount = today?.rule != null && (today?.remaining ?? 0) > 0
+        ? today!.remaining
+        : null;
+    final quick = {?ruleAmount, ..._quickAmounts}.toList();
+    const noBorder = InputBorder.none;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.depositTitle)),
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
+        // The button sits under the list, so it stays above the keyboard.
+        child: Column(
           children: [
-            TextFormField(
-              controller: _amount,
-              autofocus: true,
-              keyboardType: TextInputType.number,
-              inputFormatters: [AmountInputFormatter()],
-              onChanged: _onAmountChanged,
-              validator: (v) => validateAmount(v, l10n),
-              style: theme.textTheme.headlineSmall,
-              decoration: InputDecoration(
-                labelText: l10n.depositAmountLabel,
-                prefixText: 'TZS ',
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _note,
-              maxLength: 200,
-              textCapitalization: TextCapitalization.sentences,
-              decoration: InputDecoration(
-                labelText: l10n.depositNoteLabel,
-                hintText: l10n.depositNoteHint,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Card(
-              color: theme.colorScheme.surfaceContainerLow,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.l,
+                  AppSpace.s,
+                  AppSpace.l,
+                  AppSpace.l,
+                ),
+                children: [
+                  AppCard(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpace.l,
+                      AppSpace.l,
+                      AppSpace.l,
+                      AppSpace.l + AppSpace.xs,
+                    ),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Text(
-                            l10n.depositPreviewTitle,
-                            style: theme.textTheme.titleSmall,
+                        TextFormField(
+                          controller: _amount,
+                          autofocus: true,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [AmountInputFormatter()],
+                          onChanged: _onAmountChanged,
+                          validator: (v) => validateAmount(v, l10n),
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineMedium,
+                          decoration: InputDecoration(
+                            labelText: l10n.depositAmountLabel,
+                            floatingLabelAlignment:
+                                FloatingLabelAlignment.center,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: '0',
+                            prefixText: 'TZS ',
+                            prefixStyle: theme.textTheme.titleMedium?.copyWith(
+                              color: AppColors.muted,
+                            ),
+                            filled: false,
+                            border: noBorder,
+                            enabledBorder: noBorder,
+                            focusedBorder: noBorder,
+                            errorBorder: noBorder,
+                            focusedErrorBorder: noBorder,
                           ),
                         ),
-                        if (_previewLoading)
-                          const SizedBox.square(
-                            dimension: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        const SizedBox(height: AppSpace.m),
+                        Semantics(
+                          label: l10n.depositQuickAmounts,
+                          container: true,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: AppSpace.s,
+                            runSpacing: AppSpace.s,
+                            children: [
+                              for (final value in quick)
+                                ChoiceChip(
+                                  label: Text(formatGrouped(value)),
+                                  selected: amount == value,
+                                  showCheckmark: false,
+                                  selectedColor: AppColors.deepGreen,
+                                  backgroundColor: AppColors.card,
+                                  labelStyle: theme.textTheme.labelLarge
+                                      ?.copyWith(
+                                        fontSize: 14,
+                                        color: amount == value
+                                            ? Colors.white
+                                            : AppColors.ink,
+                                      ),
+                                  side: BorderSide(
+                                    color: amount == value
+                                        ? AppColors.deepGreen
+                                        : AppColors.border,
+                                  ),
+                                  shape: const StadiumBorder(),
+                                  onSelected: (_) => _setAmount(value),
+                                ),
+                            ],
                           ),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    _previewBody(l10n, theme),
+                  ),
+                  const SizedBox(height: AppSpace.m),
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                l10n.depositPreviewTitle,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                            ),
+                            if (_previewLoading)
+                              const SizedBox.square(
+                                dimension: AppSpace.l,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpace.m),
+                        _previewBody(l10n, theme),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpace.l),
+                  TextFormField(
+                    controller: _note,
+                    maxLength: 200,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      labelText: l10n.depositNoteLabel,
+                      hintText: l10n.depositNoteHint,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.l,
+                  AppSpace.s,
+                  AppSpace.l,
+                  AppSpace.l,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FormError(_error),
+                    FilledButton(
+                      onPressed: _submitting ? null : _submit,
+                      child: _submitting
+                          ? const ButtonSpinner()
+                          : Text(
+                              amount != null && amount > 0
+                                  ? l10n.depositSubmit(formatTzs(amount))
+                                  : l10n.depositTitle,
+                            ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 24),
-            FormError(_error),
-            FilledButton(
-              onPressed: _submitting ? null : _submit,
-              child: _submitting
-                  ? const ButtonSpinner()
-                  : Text(
-                      amount != null && amount > 0
-                          ? l10n.depositSubmit(formatTzs(amount))
-                          : l10n.depositTitle,
-                    ),
             ),
           ],
         ),
@@ -266,19 +373,35 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
 
   Widget _previewBody(AppLocalizations l10n, ThemeData theme) {
     final preview = _preview;
-    final muted = theme.textTheme.bodyMedium?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final muted = theme.textTheme.bodyMedium?.copyWith(color: AppColors.muted);
     if (preview == null) return Text(l10n.depositPreviewEmpty, style: muted);
+    final rows = [
+      for (final a in preview.allocations) (a.goalName, a.amount),
+      if (preview.unallocatedAmount > 0)
+        (l10n.generalSavings, preview.unallocatedAmount),
+    ];
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (preview.allocations.isEmpty)
           Padding(
-            padding: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.only(bottom: AppSpace.s),
             child: Text(l10n.depositPreviewNoGoals, style: muted),
           ),
-        SplitList(split: preview),
+        for (final (i, (name, share)) in rows.indexed) ...[
+          if (i > 0) const SizedBox(height: AppSpace.m),
+          Row(
+            children: [
+              Expanded(child: Text(name, style: theme.textTheme.titleSmall)),
+              Text(formatTzs(share), style: theme.textTheme.titleSmall),
+            ],
+          ),
+          const SizedBox(height: AppSpace.xs),
+          ProgressBar(
+            value: preview.amount == 0 ? 0 : share / preview.amount,
+            height: 6,
+          ),
+        ],
       ],
     );
   }

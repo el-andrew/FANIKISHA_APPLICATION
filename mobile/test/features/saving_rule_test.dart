@@ -106,7 +106,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Save money'), findsOneWidget);
-    expect(find.text('7,000'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, '7,000'), findsOneWidget);
+    // And offered as the first quick amount, already chosen.
+    expect(
+      tester
+          .widget<ChoiceChip>(find.widgetWithText(ChoiceChip, '7,000'))
+          .selected,
+      isTrue,
+    );
     expect(api.requestsTo('POST', '/v1/savings/deposits/preview').single.data, {
       'amount': 7000,
     });

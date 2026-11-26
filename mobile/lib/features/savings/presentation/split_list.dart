@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/format/money.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../data/savings_models.dart';
 
 /// Rows showing how a deposit is shared: one per goal, then general savings.
@@ -24,22 +26,19 @@ class SplitList extends StatelessWidget {
       children: [
         for (final (name, amount, general) in rows)
           Padding(
-            padding: EdgeInsets.symmetric(vertical: dense ? 4 : 8),
+            padding: EdgeInsets.symmetric(
+              vertical: dense ? AppSpace.xs : AppSpace.s,
+            ),
             child: Row(
               children: [
                 Icon(
-                  general ? Icons.savings_outlined : Icons.flag_outlined,
-                  size: 20,
-                  color: theme.colorScheme.primary,
+                  general ? Icons.savings_outlined : Icons.track_changes,
+                  size: AppSize.rowIconGlyph,
+                  color: AppColors.deepGreen,
                 ),
-                const SizedBox(width: 12),
-                Expanded(child: Text(name)),
-                Text(
-                  formatTzs(amount),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                const SizedBox(width: AppSpace.m),
+                Expanded(child: Text(name, style: theme.textTheme.bodyMedium)),
+                Text(formatTzs(amount), style: theme.textTheme.titleSmall),
               ],
             ),
           ),
