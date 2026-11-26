@@ -109,7 +109,7 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
       locale: locale,
     );
-    await tester.tap(find.byIcon(Icons.storefront_outlined));
+    await tester.tap(find.byIcon(Icons.bar_chart_outlined));
     await tester.pumpAndSettle();
   }
 

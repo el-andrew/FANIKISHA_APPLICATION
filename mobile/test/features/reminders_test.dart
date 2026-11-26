@@ -118,7 +118,7 @@ void main() {
   }
 
   Future<void> openProfile(WidgetTester tester) async {
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
   }
 
@@ -213,6 +213,8 @@ void main() {
   testWidgets('turning them on from the dashboard', (tester) async {
     await start(tester);
 
+    await tester.ensureVisible(find.text('Turn on'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Turn on'));
     await tester.pumpAndSettle();
 

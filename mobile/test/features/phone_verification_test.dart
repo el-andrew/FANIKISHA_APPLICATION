@@ -153,7 +153,7 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
     expect(find.text('Verify your phone number'), findsNothing);
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     expect(find.text('Verified'), findsOneWidget);
     expect(find.text('Verify phone number'), findsNothing);

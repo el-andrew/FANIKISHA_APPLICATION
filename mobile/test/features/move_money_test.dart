@@ -111,7 +111,8 @@ void main() {
     await open(tester);
     await tester.tap(find.text('General savings: TZS 20,000'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Withdraw'));
+    // In the sheet, not Home's Withdraw action behind it.
+    await tester.tap(find.text('Withdraw').last);
     await tester.pumpAndSettle();
 
     expect(
@@ -156,6 +157,9 @@ void main() {
       },
     ];
     await open(tester);
+    // Home's link to the full history.
+    await tester.ensureVisible(find.text('History'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('History'));
     await tester.pumpAndSettle();
 

@@ -43,7 +43,8 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    await tester.tap(find.text('Save money'));
+    // Home's "Save" action.
+    await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
   }
 
