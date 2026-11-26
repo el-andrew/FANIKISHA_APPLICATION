@@ -241,11 +241,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get goalsFilterArchived => 'Yaliyohifadhiwa';
 
   @override
-  String get goalsEmptyActive => 'Huna malengo yanayoendelea.';
+  String get goalsEmptyActive => 'Hakuna malengo yanayoendelea.';
 
   @override
-  String get goalsEmptyCompleted =>
-      'Bado hakuna lengo lililokamilika. Endelea kuweka akiba!';
+  String get goalsEmptyCompleted => 'Bado hakuna lengo lililokamilika.';
 
   @override
   String get goalsEmptyArchived => 'Hakuna malengo yaliyohifadhiwa.';

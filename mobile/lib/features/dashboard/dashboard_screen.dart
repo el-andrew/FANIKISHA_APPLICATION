@@ -13,7 +13,7 @@ import '../../core/widgets/ui.dart';
 import '../auth/application/auth_controller.dart';
 import '../goals/application/goals_providers.dart';
 import '../goals/data/goal.dart';
-import '../goals/data/goal_pace.dart';
+import '../goals/presentation/goal_row.dart';
 import '../reminders/reminder_widgets.dart';
 import '../reminders/reminders.dart';
 import '../savings/application/savings_providers.dart';
@@ -135,7 +135,7 @@ class DashboardScreen extends ConsumerWidget {
                                   for (final (i, goal)
                                       in items.take(_goalsShown).indexed) ...[
                                     if (i > 0) const Divider(),
-                                    _GoalRow(goal: goal, today: today),
+                                    GoalRow(goal: goal, today: today),
                                   ],
                                 ],
                               ),
@@ -527,82 +527,6 @@ class _ActionsCard extends ConsumerWidget {
                 ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GoalRow extends StatelessWidget {
-  const _GoalRow({required this.goal, required this.today});
-
-  final Goal goal;
-  final DateTime today;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final behind = shortfallOn(goal, today) != null;
-    return InkWell(
-      onTap: () => context.push('/goals/${goal.id}'),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpace.m),
-        child: Row(
-          children: [
-            SizedBox.square(
-              dimension: AppSize.ring,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ProgressRing(value: goal.progress),
-                  Text(
-                    '${goal.progressPercent.floor()}%',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppSpace.m),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    goal.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  Text(
-                    l10n.goalSavedOf(
-                      formatTzs(goal.savedAmount),
-                      formatTzs(goal.targetAmount),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.muted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppSpace.s),
-            behind
-                ? StatusBadge(
-                    label: l10n.goalBehind,
-                    tone: StatusTone.attention,
-                    icon: Icons.schedule,
-                  )
-                : StatusBadge(
-                    label: l10n.goalOnTrack,
-                    tone: StatusTone.positive,
-                    icon: Icons.check,
-                  ),
-          ],
         ),
       ),
     );

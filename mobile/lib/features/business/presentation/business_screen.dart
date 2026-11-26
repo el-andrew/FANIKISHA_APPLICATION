@@ -58,8 +58,13 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
                     AppSpace.l,
                   ),
                   children: [
-                    _PeriodSwitch(
-                      period: _period,
+                    SegmentedSwitch(
+                      options: [
+                        (BusinessPeriod.today, l10n.periodToday),
+                        (BusinessPeriod.week, l10n.period7Days),
+                        (BusinessPeriod.month, l10n.period30Days),
+                      ],
+                      selected: _period,
                       onChanged: (p) => setState(() => _period = p),
                     ),
                     const SizedBox(height: AppSpace.m),
@@ -156,81 +161,6 @@ class _BusinessScreenState extends ConsumerState<BusinessScreen> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Today, 7 days or 30 days, as a segmented switch.
-class _PeriodSwitch extends StatelessWidget {
-  const _PeriodSwitch({required this.period, required this.onChanged});
-
-  final BusinessPeriod period;
-  final ValueChanged<BusinessPeriod> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final options = [
-      (BusinessPeriod.today, l10n.periodToday),
-      (BusinessPeriod.week, l10n.period7Days),
-      (BusinessPeriod.month, l10n.period30Days),
-    ];
-    return Container(
-      padding: const EdgeInsets.all(AppSpace.xs),
-      decoration: BoxDecoration(
-        color: AppColors.line,
-        borderRadius: BorderRadius.circular(AppRadius.control),
-      ),
-      child: Row(
-        children: [
-          for (final (value, label) in options)
-            Expanded(
-              child: Semantics(
-                button: true,
-                selected: value == period,
-                excludeSemantics: true,
-                label: label,
-                child: GestureDetector(
-                  onTap: () => onChanged(value),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    height: AppSpace.xxl + AppSpace.s,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: value == period
-                          ? AppColors.card
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(
-                        AppRadius.control - AppSpace.xs,
-                      ),
-                      boxShadow: value == period
-                          ? const [
-                              BoxShadow(
-                                color: Color(0x1F17251B),
-                                blurRadius: 3,
-                                offset: Offset(0, 1),
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: Text(
-                      label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: value == period
-                            ? AppColors.ink
-                            : AppColors.muted,
-                        fontWeight: value == period
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );

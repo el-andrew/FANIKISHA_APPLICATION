@@ -240,10 +240,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalsFilterArchived => 'Archived';
 
   @override
-  String get goalsEmptyActive => 'You have no active goals.';
+  String get goalsEmptyActive => 'No active goals.';
 
   @override
-  String get goalsEmptyCompleted => 'No completed goals yet. Keep saving!';
+  String get goalsEmptyCompleted => 'No completed goals yet.';
 
   @override
   String get goalsEmptyArchived => 'No archived goals.';

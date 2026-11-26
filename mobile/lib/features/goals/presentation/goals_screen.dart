@@ -3,10 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/async_views.dart';
+import '../../../core/widgets/ui.dart';
+import '../../reminders/reminders.dart';
 import '../application/goals_providers.dart';
 import '../data/goal.dart';
-import 'goal_card.dart';
+import 'goal_row.dart';
 
 class GoalsScreen extends ConsumerStatefulWidget {
   const GoalsScreen({super.key});
@@ -22,40 +26,27 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final goals = ref.watch(goalsProvider(_status));
+    final today = ref.watch(clockProvider)();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.goalsTitle)),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'new-goal',
-        onPressed: () => context.push('/goals/new'),
-        icon: const Icon(Icons.add),
-        label: Text(l10n.goalsNew),
-      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: SizedBox(
-              width: double.infinity,
-              child: SegmentedButton<GoalStatus>(
-                showSelectedIcon: false,
-                segments: [
-                  ButtonSegment(
-                    value: GoalStatus.active,
-                    label: Text(l10n.goalsFilterActive),
-                  ),
-                  ButtonSegment(
-                    value: GoalStatus.completed,
-                    label: Text(l10n.goalsFilterCompleted),
-                  ),
-                  ButtonSegment(
-                    value: GoalStatus.archived,
-                    label: Text(l10n.goalsFilterArchived),
-                  ),
-                ],
-                selected: {_status},
-                onSelectionChanged: (s) => setState(() => _status = s.first),
-              ),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.l,
+              AppSpace.xs,
+              AppSpace.l,
+              AppSpace.m,
+            ),
+            child: SegmentedSwitch(
+              options: [
+                (GoalStatus.active, l10n.goalsFilterActive),
+                (GoalStatus.completed, l10n.goalsFilterCompleted),
+                (GoalStatus.archived, l10n.goalsFilterArchived),
+              ],
+              selected: _status,
+              onChanged: (s) => setState(() => _status = s),
             ),
           ),
           Expanded(
@@ -67,26 +58,60 @@ class _GoalsScreenState extends ConsumerState<GoalsScreen> {
               ),
               data: (items) => RefreshIndicator(
                 onRefresh: () => ref.refresh(goalsProvider(_status).future),
-                child: items.isEmpty
-                    ? ListView(
-                        children: [
-                          EmptyView(
-                            icon: Icons.flag_outlined,
-                            message: switch (_status) {
-                              GoalStatus.active => l10n.goalsEmptyActive,
-                              GoalStatus.completed => l10n.goalsEmptyCompleted,
-                              GoalStatus.archived => l10n.goalsEmptyArchived,
-                            },
-                          ),
-                        ],
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
-                        itemCount: items.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: 12),
-                        itemBuilder: (_, i) => GoalCard(goal: items[i]),
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpace.l,
+                    0,
+                    AppSpace.l,
+                    AppSpace.l,
+                  ),
+                  children: [
+                    AppCard(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpace.l,
                       ),
+                      child: items.isEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: AppSpace.l,
+                              ),
+                              child: Text(
+                                switch (_status) {
+                                  GoalStatus.active => l10n.goalsEmptyActive,
+                                  GoalStatus.completed =>
+                                    l10n.goalsEmptyCompleted,
+                                  GoalStatus.archived =>
+                                    l10n.goalsEmptyArchived,
+                                },
+                                style: const TextStyle(color: AppColors.muted),
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                for (final (i, goal) in items.indexed) ...[
+                                  if (i > 0) const Divider(),
+                                  GoalRow(goal: goal, today: today),
+                                ],
+                              ],
+                            ),
+                    ),
+                  ],
+                ),
               ),
+            ),
+          ),
+          Container(
+            color: AppColors.ground,
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.l,
+              AppSpace.s,
+              AppSpace.l,
+              AppSpace.m,
+            ),
+            child: FilledButton.icon(
+              onPressed: () => context.push('/goals/new'),
+              icon: const Icon(Icons.add, size: 20),
+              label: Text(l10n.goalsNew),
             ),
           ),
         ],

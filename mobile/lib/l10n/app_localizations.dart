@@ -503,13 +503,13 @@ abstract class AppLocalizations {
   /// No description provided for @goalsEmptyActive.
   ///
   /// In en, this message translates to:
-  /// **'You have no active goals.'**
+  /// **'No active goals.'**
   String get goalsEmptyActive;
 
   /// No description provided for @goalsEmptyCompleted.
   ///
   /// In en, this message translates to:
-  /// **'No completed goals yet. Keep saving!'**
+  /// **'No completed goals yet.'**
   String get goalsEmptyCompleted;
 
   /// No description provided for @goalsEmptyArchived.

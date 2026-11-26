@@ -306,3 +306,80 @@ class RowIcon extends StatelessWidget {
     );
   }
 }
+
+/// A row of options where one is chosen: Business's period, Goals' status.
+class SegmentedSwitch<T> extends StatelessWidget {
+  const SegmentedSwitch({
+    super.key,
+    required this.options,
+    required this.selected,
+    required this.onChanged,
+  });
+
+  final List<(T, String)> options;
+  final T selected;
+  final ValueChanged<T> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(AppSpace.xs),
+      decoration: BoxDecoration(
+        color: AppColors.line,
+        borderRadius: BorderRadius.circular(AppRadius.control),
+      ),
+      child: Row(
+        children: [
+          for (final (value, label) in options)
+            Expanded(
+              child: Semantics(
+                button: true,
+                selected: value == selected,
+                excludeSemantics: true,
+                label: label,
+                child: GestureDetector(
+                  onTap: () => onChanged(value),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    height: AppSize.buttonCompact,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: value == selected
+                          ? AppColors.card
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(
+                        AppRadius.control - AppSpace.xs,
+                      ),
+                      boxShadow: value == selected
+                          ? const [
+                              BoxShadow(
+                                color: Color(0x1F17251B),
+                                blurRadius: 3,
+                                offset: Offset(0, 1),
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: value == selected
+                            ? AppColors.ink
+                            : AppColors.muted,
+                        fontWeight: value == selected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
