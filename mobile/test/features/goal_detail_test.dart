@@ -67,6 +67,15 @@ void main() {
     expect(find.textContaining('behind pace'), findsNothing);
   });
 
+  testWidgets('a goal started today has no pace marker yet', (tester) async {
+    goal = {...goalJson(saved: 0), 'startDate': '2026-11-26'};
+    await openGoal(tester);
+
+    expect(find.text('0% saved'), findsOneWidget);
+    expect(find.textContaining('Should be'), findsNothing);
+    expect(find.text('On track'), findsOneWidget);
+  });
+
   testWidgets('a completed goal has no pace or Save', (tester) async {
     goal = goalJson(saved: 1200000, status: 'COMPLETED');
     await openGoal(tester);

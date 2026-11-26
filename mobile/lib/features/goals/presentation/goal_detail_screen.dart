@@ -220,7 +220,9 @@ class _ProgressCard extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final active = goal.status == GoalStatus.active;
-    final expected = active ? expectedProgressOn(goal, today) : null;
+    // On its first day an even pace hasn't asked for anything yet.
+    final pace = active ? expectedProgressOn(goal, today) : 0.0;
+    final expected = pace > 0 ? pace : null;
     final caption = theme.textTheme.bodySmall?.copyWith(color: AppColors.muted);
     final behind = shortfall;
 

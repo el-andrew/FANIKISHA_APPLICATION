@@ -242,23 +242,20 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
                           validator: (v) => validateAmount(v, l10n),
                           textAlign: TextAlign.center,
                           style: theme.textTheme.headlineMedium,
-                          decoration: InputDecoration(
-                            labelText: l10n.depositAmountLabel,
+                          // The currency is in the label, so the number
+                          // stays centred on its own.
+                          decoration: const InputDecoration(
                             floatingLabelAlignment:
                                 FloatingLabelAlignment.center,
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             hintText: '0',
-                            prefixText: 'TZS ',
-                            prefixStyle: theme.textTheme.titleMedium?.copyWith(
-                              color: AppColors.muted,
-                            ),
                             filled: false,
                             border: noBorder,
                             enabledBorder: noBorder,
                             focusedBorder: noBorder,
                             errorBorder: noBorder,
                             focusedErrorBorder: noBorder,
-                          ),
+                          ).copyWith(labelText: l10n.depositAmountTzs),
                         ),
                         const SizedBox(height: AppSpace.m),
                         Semantics(
@@ -289,6 +286,10 @@ class _DepositScreenState extends ConsumerState<DepositScreen> {
                                         : AppColors.border,
                                   ),
                                   shape: const StadiumBorder(),
+                                  // Tighter, so four fit on one row.
+                                  labelPadding: const EdgeInsets.symmetric(
+                                    horizontal: AppSpace.xs,
+                                  ),
                                   onSelected: (_) => _setAmount(value),
                                 ),
                             ],

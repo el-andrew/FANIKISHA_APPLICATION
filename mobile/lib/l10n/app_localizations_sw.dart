@@ -1011,4 +1011,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get historyYesterday => 'Jana';
+
+  @override
+  String get depositAmountTzs => 'Kiasi kwa TZS';
 }

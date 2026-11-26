@@ -654,5 +654,6 @@
   "actionMore": "More options",
   "depositQuickAmounts": "Quick amounts",
   "businessEachDay": "Each day",
-  "historyYesterday": "Yesterday"
+  "historyYesterday": "Yesterday",
+  "depositAmountTzs": "Amount in TZS"
 }

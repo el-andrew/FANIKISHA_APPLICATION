@@ -1005,4 +1005,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyYesterday => 'Yesterday';
+
+  @override
+  String get depositAmountTzs => 'Amount in TZS';
 }

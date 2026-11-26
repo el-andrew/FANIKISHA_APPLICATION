@@ -1801,6 +1801,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get historyYesterday;
+
+  /// No description provided for @depositAmountTzs.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount in TZS'**
+  String get depositAmountTzs;
 }
 
 class _AppLocalizationsDelegate

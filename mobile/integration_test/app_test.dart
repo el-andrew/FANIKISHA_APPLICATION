@@ -178,7 +178,7 @@ void main() {
     await tapText(tester, 'Create goal');
 
     // Its detail page, then back to the dashboard.
-    await waitFor(tester, find.text('TZS 450,000'));
+    await waitFor(tester, find.text('of TZS 450,000'));
     await capture(tester, '05-goal-detail');
     await tester.pageBack();
     await waitFor(tester, find.text('Blender'));
@@ -207,6 +207,9 @@ void main() {
     await tester.tap(find.text('+ TZS 45,000'));
     await tester.pumpAndSettle();
     await capture(tester, '09-history');
+    // Close the deposit's sheet (tap above it), then leave History.
+    await tester.tapAt(const Offset(200, 100));
+    await tester.pumpAndSettle();
     await tester.pageBack();
     await waitFor(tester, find.text('Hello, Neema'));
 
@@ -256,5 +259,12 @@ void main() {
     await waitFor(tester, find.widgetWithText(AppBar, 'History'));
     await waitFor(tester, find.text('− TZS 5,000'));
     await capture(tester, '12-history-activity');
+
+    // The Account tab.
+    await tester.pageBack();
+    await waitFor(tester, find.text('Hello, Neema'));
+    await tapText(tester, 'Account');
+    await waitFor(tester, find.text('Log out'));
+    await capture(tester, '13-account');
   });
 }
