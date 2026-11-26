@@ -174,7 +174,7 @@
   "businessLoss": "Hasara",
   "businessTopExpenses": "Matumizi makubwa",
   "businessRecent": "Rekodi za karibuni",
-  "businessEmpty": "Bado hakuna mauzo wala matumizi. Yarekodi kila siku ili kuona faida yako.",
+  "businessEmpty": "Bado hakuna kumbukumbu.",
   "businessAdd": "Ongeza rekodi",
   "entryNewTitle": "Rekodi mpya",
   "entryEditTitle": "Badilisha rekodi",
@@ -281,5 +281,6 @@
   "goalPerDay": "{amount} kwa siku",
   "goalDaysLeftLabel": "{count, plural, =1{siku imebaki} other{siku zimebaki}}",
   "actionMore": "Chaguo zaidi",
-  "depositQuickAmounts": "Viwango vya haraka"
+  "depositQuickAmounts": "Viwango vya haraka",
+  "businessEachDay": "Kila siku"
 }

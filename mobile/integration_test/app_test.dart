@@ -212,16 +212,15 @@ void main() {
 
     // Record the day's sales and a stock purchase; see the profit.
     await tapText(tester, 'Business');
-    await waitFor(tester, find.text('Add entry'));
-    await tapText(tester, 'Add entry');
+    await waitFor(tester, find.text('Sale'));
+    await tapText(tester, 'Sale');
     await waitFor(tester, find.text('New entry'));
     await fillForm(tester, {find.byType(TextFormField).first: '120000'});
     await tapText(tester, 'Save');
     await waitFor(tester, find.text('+ TZS 120,000'));
 
-    await tapText(tester, 'Add entry');
-    await waitFor(tester, find.text('New entry'));
     await tapText(tester, 'Expense');
+    await waitFor(tester, find.text('New entry'));
     await fillForm(tester, {find.byType(TextFormField).first: '35000'});
     await tapText(tester, 'Stock');
     await tapText(tester, 'Save');

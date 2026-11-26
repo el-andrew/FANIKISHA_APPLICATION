@@ -8,6 +8,7 @@ import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/business/data/business_models.dart';
 import '../../features/business/presentation/business_screen.dart';
 import '../../features/business/presentation/entry_form_screen.dart';
 import '../../features/dashboard/dashboard_screen.dart';
@@ -117,7 +118,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/business/new',
-        builder: (_, _) => const EntryFormScreen(),
+        builder: (_, state) => EntryFormScreen(
+          initialType: state.uri.queryParameters['type'] == 'expense'
+              ? EntryType.expense
+              : EntryType.sale,
+        ),
       ),
       GoRoute(
         path: '/business/:id/edit',

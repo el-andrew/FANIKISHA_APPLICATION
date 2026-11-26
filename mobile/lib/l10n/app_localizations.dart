@@ -1145,7 +1145,7 @@ abstract class AppLocalizations {
   /// No description provided for @businessEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No sales or expenses yet. Record them each day to see your profit.'**
+  /// **'No entries yet.'**
   String get businessEmpty;
 
   /// No description provided for @businessAdd.
@@ -1789,6 +1789,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quick amounts'**
   String get depositQuickAmounts;
+
+  /// No description provided for @businessEachDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Each day'**
+  String get businessEachDay;
 }
 
 class _AppLocalizationsDelegate

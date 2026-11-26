@@ -296,7 +296,7 @@
   "businessLoss": "Loss",
   "businessTopExpenses": "Biggest expenses",
   "businessRecent": "Recent entries",
-  "businessEmpty": "No sales or expenses yet. Record them each day to see your profit.",
+  "businessEmpty": "No entries yet.",
   "businessAdd": "Add entry",
   "entryNewTitle": "New entry",
   "entryEditTitle": "Edit entry",
@@ -652,5 +652,6 @@
     }
   },
   "actionMore": "More options",
-  "depositQuickAmounts": "Quick amounts"
+  "depositQuickAmounts": "Quick amounts",
+  "businessEachDay": "Each day"
 }

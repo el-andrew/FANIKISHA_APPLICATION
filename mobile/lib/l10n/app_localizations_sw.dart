@@ -605,8 +605,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get businessRecent => 'Rekodi za karibuni';
 
   @override
-  String get businessEmpty =>
-      'Bado hakuna mauzo wala matumizi. Yarekodi kila siku ili kuona faida yako.';
+  String get businessEmpty => 'Bado hakuna kumbukumbu.';
 
   @override
   String get businessAdd => 'Ongeza rekodi';
@@ -1007,4 +1006,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get depositQuickAmounts => 'Viwango vya haraka';
+
+  @override
+  String get businessEachDay => 'Kila siku';
 }

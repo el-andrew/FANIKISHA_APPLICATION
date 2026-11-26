@@ -600,8 +600,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get businessRecent => 'Recent entries';
 
   @override
-  String get businessEmpty =>
-      'No sales or expenses yet. Record them each day to see your profit.';
+  String get businessEmpty => 'No entries yet.';
 
   @override
   String get businessAdd => 'Add entry';
@@ -1000,4 +999,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get depositQuickAmounts => 'Quick amounts';
+
+  @override
+  String get businessEachDay => 'Each day';
 }

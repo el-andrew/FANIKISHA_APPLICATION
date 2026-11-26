@@ -42,6 +42,10 @@ abstract final class AppColors {
   static const attentionBg = Color(0xFFEEF5D6);
   static const attention = Color(0xFF4D5F0F);
 
+  /// Expense bars in charts, beside deep-green sales: clearly lighter, and
+  /// 3:1 against white.
+  static const chartExpense = Color(0xFF4E9D42);
+
   /// On the deep-green header.
   static const onHeader = Color(0xFFFFFFFF);
   static const onHeaderMuted = Color(0xFFCFE3D2);
