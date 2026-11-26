@@ -154,7 +154,7 @@
   "depositNoteLabel": "Note (optional)",
   "depositNoteHint": "e.g. Monday's sales",
   "depositPreviewTitle": "How it will be shared",
-  "depositPreviewEmpty": "Enter an amount to see how it will be shared between your goals.",
+  "depositPreviewEmpty": "Enter an amount to see the split.",
   "depositPreviewNoGoals": "You have no active goals, so this will go to general savings.",
   "generalSavings": "General savings",
   "depositSubmit": "Save {amount}",
@@ -609,5 +609,48 @@
       }
     }
   },
-  "homeNoActivity": "Nothing yet"
+  "homeNoActivity": "Nothing yet",
+  "goalBehindBy": "{amount} behind pace",
+  "@goalBehindBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalPercentSaved": "{percent}% saved",
+  "@goalPercentSaved": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "goalShouldBe": "Should be {percent}% by today",
+  "@goalShouldBe": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "goalToFinish": "To finish on time, save",
+  "goalPerDay": "{amount} a day",
+  "@goalPerDay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalDaysLeftLabel": "{count, plural, =1{day left} other{days left}}",
+  "@goalDaysLeftLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionMore": "More options",
+  "depositQuickAmounts": "Quick amounts"
 }

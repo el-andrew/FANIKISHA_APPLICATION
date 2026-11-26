@@ -350,8 +350,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get depositPreviewTitle => 'Itakavyogawanywa';
 
   @override
-  String get depositPreviewEmpty =>
-      'Weka kiasi ili kuona kitakavyogawanywa kati ya malengo yako.';
+  String get depositPreviewEmpty => 'Weka kiasi uone mgawanyo.';
 
   @override
   String get depositPreviewNoGoals =>
@@ -968,4 +967,44 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get homeNoActivity => 'Bado hakuna kitu';
+
+  @override
+  String goalBehindBy(String amount) {
+    return 'Nyuma kwa $amount';
+  }
+
+  @override
+  String goalPercentSaved(String percent) {
+    return '$percent% imewekwa';
+  }
+
+  @override
+  String goalShouldBe(String percent) {
+    return 'Inapaswa kuwa $percent% leo';
+  }
+
+  @override
+  String get goalToFinish => 'Ili kumaliza kwa wakati, weka';
+
+  @override
+  String goalPerDay(String amount) {
+    return '$amount kwa siku';
+  }
+
+  @override
+  String goalDaysLeftLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'siku zimebaki',
+      one: 'siku imebaki',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get actionMore => 'Chaguo zaidi';
+
+  @override
+  String get depositQuickAmounts => 'Viwango vya haraka';
 }

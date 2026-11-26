@@ -292,7 +292,7 @@ void main() {
     scheduler.tapped.add('/goals/goal-1');
     await tester.pumpAndSettle();
 
-    expect(find.text('TZS 1,200,000'), findsWidgets);
+    expect(find.text('of TZS 1,200,000'), findsOneWidget);
     expect(find.text('Withdraw'), findsOneWidget);
   });
 

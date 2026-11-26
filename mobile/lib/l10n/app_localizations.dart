@@ -713,7 +713,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositPreviewEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Enter an amount to see how it will be shared between your goals.'**
+  /// **'Enter an amount to see the split.'**
   String get depositPreviewEmpty;
 
   /// No description provided for @depositPreviewNoGoals.
@@ -1741,6 +1741,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing yet'**
   String get homeNoActivity;
+
+  /// No description provided for @goalBehindBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} behind pace'**
+  String goalBehindBy(String amount);
+
+  /// No description provided for @goalPercentSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% saved'**
+  String goalPercentSaved(String percent);
+
+  /// No description provided for @goalShouldBe.
+  ///
+  /// In en, this message translates to:
+  /// **'Should be {percent}% by today'**
+  String goalShouldBe(String percent);
+
+  /// No description provided for @goalToFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'To finish on time, save'**
+  String get goalToFinish;
+
+  /// No description provided for @goalPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a day'**
+  String goalPerDay(String amount);
+
+  /// No description provided for @goalDaysLeftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{day left} other{days left}}'**
+  String goalDaysLeftLabel(int count);
+
+  /// No description provided for @actionMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get actionMore;
+
+  /// No description provided for @depositQuickAmounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick amounts'**
+  String get depositQuickAmounts;
 }
 
 class _AppLocalizationsDelegate

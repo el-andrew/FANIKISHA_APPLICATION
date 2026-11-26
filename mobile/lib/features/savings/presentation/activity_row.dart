@@ -10,10 +10,19 @@ import '../data/savings_models.dart';
 
 /// One line of savings activity: a deposit, a transfer or a withdrawal.
 class ActivityRow extends StatelessWidget {
-  const ActivityRow({super.key, required this.activity, this.onTap});
+  const ActivityRow({
+    super.key,
+    required this.activity,
+    this.onTap,
+    this.forGoalId,
+  });
 
   final Activity activity;
   final VoidCallback? onTap;
+
+  /// On a goal's page: a deposit shows only the part that went into this
+  /// goal.
+  final String? forGoalId;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +38,14 @@ class ActivityRow extends StatelessWidget {
       String amount,
       Color amountColor,
     ) = switch (activity) {
+      DepositActivity(:final deposit) when forGoalId != null => (
+        Icons.add,
+        StatusTone.positive,
+        l10n.activitySaved,
+        '',
+        '+ ${formatTzs(deposit.allocations.where((a) => a.goalId == forGoalId).fold(0, (sum, a) => sum + a.amount))}',
+        AppColors.moneyIn,
+      ),
       DepositActivity(:final deposit) => (
         Icons.add,
         StatusTone.positive,

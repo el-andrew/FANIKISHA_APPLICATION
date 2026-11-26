@@ -348,8 +348,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get depositPreviewTitle => 'How it will be shared';
 
   @override
-  String get depositPreviewEmpty =>
-      'Enter an amount to see how it will be shared between your goals.';
+  String get depositPreviewEmpty => 'Enter an amount to see the split.';
 
   @override
   String get depositPreviewNoGoals =>
@@ -961,4 +960,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeNoActivity => 'Nothing yet';
+
+  @override
+  String goalBehindBy(String amount) {
+    return '$amount behind pace';
+  }
+
+  @override
+  String goalPercentSaved(String percent) {
+    return '$percent% saved';
+  }
+
+  @override
+  String goalShouldBe(String percent) {
+    return 'Should be $percent% by today';
+  }
+
+  @override
+  String get goalToFinish => 'To finish on time, save';
+
+  @override
+  String goalPerDay(String amount) {
+    return '$amount a day';
+  }
+
+  @override
+  String goalDaysLeftLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'days left',
+      one: 'day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get actionMore => 'More options';
+
+  @override
+  String get depositQuickAmounts => 'Quick amounts';
 }

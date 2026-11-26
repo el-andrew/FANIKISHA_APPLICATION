@@ -67,7 +67,7 @@ void main() {
     await open(tester);
     await tester.tap(find.text('New fridge'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Move money'));
+    await tester.tap(find.text('Move'));
     await tester.pumpAndSettle();
 
     expect(find.text('From New fridge: TZS 300,000 available'), findsOneWidget);
@@ -87,7 +87,7 @@ void main() {
     await open(tester);
     await tester.tap(find.text('New fridge'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Move money'));
+    await tester.tap(find.text('Move'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextFormField), '400000');

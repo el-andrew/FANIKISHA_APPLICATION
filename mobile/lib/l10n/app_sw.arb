@@ -102,7 +102,7 @@
   "depositNoteLabel": "Maelezo (si lazima)",
   "depositNoteHint": "mfano Mauzo ya Jumatatu",
   "depositPreviewTitle": "Itakavyogawanywa",
-  "depositPreviewEmpty": "Weka kiasi ili kuona kitakavyogawanywa kati ya malengo yako.",
+  "depositPreviewEmpty": "Weka kiasi uone mgawanyo.",
   "depositPreviewNoGoals": "Huna malengo yanayoendelea, kwa hiyo kiasi hiki kitaenda kwenye akiba ya jumla.",
   "generalSavings": "Akiba ya jumla",
   "depositSubmit": "Weka {amount}",
@@ -273,5 +273,13 @@
   "nothingToMove": "Bado hakuna akiba ya kuhamisha.",
   "activitySaved": "Akiba imewekwa",
   "todayTargetWas": "lengo {target}",
-  "homeNoActivity": "Bado hakuna kitu"
+  "homeNoActivity": "Bado hakuna kitu",
+  "goalBehindBy": "Nyuma kwa {amount}",
+  "goalPercentSaved": "{percent}% imewekwa",
+  "goalShouldBe": "Inapaswa kuwa {percent}% leo",
+  "goalToFinish": "Ili kumaliza kwa wakati, weka",
+  "goalPerDay": "{amount} kwa siku",
+  "goalDaysLeftLabel": "{count, plural, =1{siku imebaki} other{siku zimebaki}}",
+  "actionMore": "Chaguo zaidi",
+  "depositQuickAmounts": "Viwango vya haraka"
 }
