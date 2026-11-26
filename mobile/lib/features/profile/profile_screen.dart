@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../core/l10n/l10n.dart';
 import '../../core/legal_links.dart';
 import '../../core/locale_controller.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
+import '../../core/widgets/ui.dart';
 import '../auth/application/auth_controller.dart';
 import '../reminders/reminder_widgets.dart';
 
@@ -19,126 +22,140 @@ class ProfileScreen extends ConsumerWidget {
     final locale = ref.watch(localeControllerProvider);
     if (auth is! SignedIn) return const SizedBox.shrink();
     final user = auth.user;
+    const gap = SizedBox(height: AppSpace.m);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.profileTitle)),
+      appBar: AppBar(title: Text(l10n.navAccount)),
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpace.l,
+          AppSpace.xs,
+          AppSpace.l,
+          AppSpace.xl,
+        ),
         children: [
-          const SizedBox(height: 16),
-          Center(
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: theme.colorScheme.primaryContainer,
-              child: Text(
-                user.firstName.characters.first.toUpperCase(),
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  color: theme.colorScheme.onPrimaryContainer,
+          AppCard(
+            child: Row(
+              children: [
+                ExcludeSemantics(
+                  child: CircleAvatar(
+                    radius: AppSize.touch / 2,
+                    backgroundColor: AppColors.brandGreen,
+                    foregroundColor: Colors.white,
+                    child: Text(
+                      user.firstName.characters.first.toUpperCase(),
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            user.fullName,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.titleLarge,
-          ),
-          if (user.businessName != null)
-            Text(
-              user.businessName!,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge,
-            ),
-          const SizedBox(height: 4),
-          Text(
-            [user.email, ?user.phone].join(' · '),
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          if (user.phoneVerified)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.verified,
-                    size: 18,
-                    color: theme.colorScheme.primary,
+                const SizedBox(width: AppSpace.m),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(user.fullName, style: theme.textTheme.titleMedium),
+                      if (user.businessName != null)
+                        Text(
+                          user.businessName!,
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      Text(
+                        [user.email, ?user.phone].join(' · '),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.muted,
+                        ),
+                      ),
+                      if (user.phoneVerified)
+                        Padding(
+                          padding: const EdgeInsets.only(top: AppSpace.s),
+                          child: StatusBadge(
+                            label: l10n.phoneVerified,
+                            tone: StatusTone.positive,
+                            icon: Icons.verified_outlined,
+                          ),
+                        ),
+                    ],
                   ),
-                  const SizedBox(width: 4),
-                  Text(
-                    l10n.phoneVerified,
-                    style: TextStyle(color: theme.colorScheme.primary),
+                ),
+              ],
+            ),
+          ),
+          gap,
+          _Group(
+            children: [
+              if (user.needsPhoneVerification)
+                ListTile(
+                  leading: const Icon(Icons.sms_outlined),
+                  title: Text(l10n.verifyPhoneTitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/profile/verify-phone'),
+                ),
+              ListTile(
+                leading: const Icon(Icons.edit_outlined),
+                title: Text(l10n.profileEdit),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/profile/edit'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.lock_outline),
+                title: Text(l10n.profileChangePassword),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/profile/password'),
+              ),
+            ],
+          ),
+          gap,
+          _Group(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: Text(l10n.profileLanguage),
+                trailing: Text(
+                  _languageName(locale, l10n),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.muted,
                   ),
-                ],
+                ),
+                onTap: () => _chooseLanguage(context, ref, locale),
               ),
-            ),
-          const SizedBox(height: 24),
-          const Divider(),
-          if (user.needsPhoneVerification)
-            ListTile(
-              leading: Icon(
-                Icons.sms_outlined,
-                color: theme.colorScheme.tertiary,
+              const ReminderSettingsTiles(),
+            ],
+          ),
+          gap,
+          _Group(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined),
+                title: Text(l10n.legalPrivacy),
+                trailing: const Icon(Icons.open_in_new, size: 20),
+                onTap: () => openLegalPage(context, ref, LegalPage.privacy),
               ),
-              title: Text(l10n.verifyPhoneTitle),
-              subtitle: Text(l10n.verifyPhoneBannerBody),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push('/profile/verify-phone'),
-            ),
-          ListTile(
-            leading: const Icon(Icons.edit_outlined),
-            title: Text(l10n.profileEdit),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/profile/edit'),
+              ListTile(
+                leading: const Icon(Icons.description_outlined),
+                title: Text(l10n.legalTerms),
+                trailing: const Icon(Icons.open_in_new, size: 20),
+                onTap: () => openLegalPage(context, ref, LegalPage.terms),
+              ),
+            ],
           ),
-          ListTile(
-            leading: const Icon(Icons.lock_outline),
-            title: Text(l10n.profileChangePassword),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/profile/password'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: Text(l10n.profileLanguage),
-            subtitle: Text(_languageName(locale, l10n)),
-            onTap: () => _chooseLanguage(context, ref, locale),
-          ),
-          const ReminderSettingsTiles(),
-          ListTile(
-            leading: const Icon(Icons.privacy_tip_outlined),
-            title: Text(l10n.legalPrivacy),
-            trailing: const Icon(Icons.open_in_new),
-            onTap: () => openLegalPage(context, ref, LegalPage.privacy),
-          ),
-          ListTile(
-            leading: const Icon(Icons.description_outlined),
-            title: Text(l10n.legalTerms),
-            trailing: const Icon(Icons.open_in_new),
-            onTap: () => openLegalPage(context, ref, LegalPage.terms),
-          ),
-          const Divider(),
-          ListTile(
-            leading: Icon(Icons.logout, color: theme.colorScheme.error),
-            title: Text(
-              l10n.actionLogOut,
-              style: TextStyle(color: theme.colorScheme.error),
-            ),
-            onTap: () => _logOut(context, ref),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.delete_forever_outlined,
-              color: theme.colorScheme.error,
-            ),
-            title: Text(
-              l10n.deleteAccount,
-              style: TextStyle(color: theme.colorScheme.error),
-            ),
-            onTap: () => context.push('/profile/delete'),
+          gap,
+          _Group(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: Text(l10n.actionLogOut),
+                onTap: () => _logOut(context, ref),
+              ),
+              ListTile(
+                iconColor: AppColors.attention,
+                textColor: AppColors.attention,
+                leading: const Icon(Icons.delete_forever_outlined),
+                title: Text(l10n.deleteAccount),
+                onTap: () => context.push('/profile/delete'),
+              ),
+            ],
           ),
         ],
       ),
@@ -207,4 +224,34 @@ class ProfileScreen extends ConsumerWidget {
       await ref.read(authControllerProvider.notifier).logout();
     }
   }
+}
+
+/// Settings rows in one white card, divided by thin lines.
+class _Group extends StatelessWidget {
+  const _Group({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: BorderRadius.circular(AppRadius.card),
+    child: Material(
+      color: AppColors.card,
+      child: ListTileTheme(
+        data: ListTileThemeData(
+          iconColor: AppColors.muted,
+          titleTextStyle: Theme.of(context).textTheme.titleSmall,
+          contentPadding: const EdgeInsets.symmetric(horizontal: AppSpace.l),
+        ),
+        child: Column(
+          children: [
+            for (final (i, child) in children.indexed) ...[
+              if (i > 0) const Divider(indent: AppSpace.l + 40),
+              child,
+            ],
+          ],
+        ),
+      ),
+    ),
+  );
 }
