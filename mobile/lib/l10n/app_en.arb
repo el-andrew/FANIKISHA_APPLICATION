@@ -653,5 +653,6 @@
   },
   "actionMore": "More options",
   "depositQuickAmounts": "Quick amounts",
-  "businessEachDay": "Each day"
+  "businessEachDay": "Each day",
+  "historyYesterday": "Yesterday"
 }

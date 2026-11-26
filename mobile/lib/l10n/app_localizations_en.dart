@@ -1002,4 +1002,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get businessEachDay => 'Each day';
+
+  @override
+  String get historyYesterday => 'Yesterday';
 }

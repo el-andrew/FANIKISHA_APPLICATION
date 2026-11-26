@@ -1795,6 +1795,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Each day'**
   String get businessEachDay;
+
+  /// No description provided for @historyYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get historyYesterday;
 }
 
 class _AppLocalizationsDelegate

@@ -164,10 +164,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('− TZS 40,000'), findsOneWidget);
-    expect(
-      find.textContaining('Taken out of Blender · Bought it'),
-      findsOneWidget,
-    );
+    expect(find.text('Taken out of Blender'), findsOneWidget);
+    expect(find.textContaining('Bought it'), findsOneWidget);
     expect(find.text('TZS 5,000'), findsOneWidget);
     expect(
       find.textContaining('Moved from General savings to Van'),

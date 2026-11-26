@@ -282,5 +282,6 @@
   "goalDaysLeftLabel": "{count, plural, =1{siku imebaki} other{siku zimebaki}}",
   "actionMore": "Chaguo zaidi",
   "depositQuickAmounts": "Viwango vya haraka",
-  "businessEachDay": "Kila siku"
+  "businessEachDay": "Kila siku",
+  "historyYesterday": "Jana"
 }
