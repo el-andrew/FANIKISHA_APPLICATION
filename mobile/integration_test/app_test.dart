@@ -178,13 +178,13 @@ void main() {
     await tapText(tester, 'Create goal');
 
     // Its detail page, then back to the dashboard.
-    await waitFor(tester, find.text('TZS 450,000'));
+    await waitFor(tester, find.text('of TZS 450,000'));
     await capture(tester, '05-goal-detail');
     await tester.pageBack();
     await waitFor(tester, find.text('Blender'));
 
-    // Save money and check the split.
-    await tapText(tester, 'Save money');
+    // Save money (Home's Save action) and check the split.
+    await tapText(tester, 'Save');
     await waitFor(tester, find.text('How it will be shared'));
     await fillForm(tester, {find.byType(TextFormField).first: '45000'});
     await waitFor(tester, find.text('Save TZS 45,000'));
@@ -200,25 +200,30 @@ void main() {
     await waitFor(tester, find.text('10%'));
     await capture(tester, '08-dashboard');
 
-    // So does the history tab.
+    // So does the full history, opened from Home.
     await tapText(tester, 'History');
+    await waitFor(tester, find.widgetWithText(AppBar, 'History'));
     await waitFor(tester, find.text('+ TZS 45,000'));
     await tester.tap(find.text('+ TZS 45,000'));
     await tester.pumpAndSettle();
     await capture(tester, '09-history');
+    // Close the deposit's sheet (tap above it), then leave History.
+    await tester.tapAt(const Offset(200, 100));
+    await tester.pumpAndSettle();
+    await tester.pageBack();
+    await waitFor(tester, find.text('Hello, Neema'));
 
     // Record the day's sales and a stock purchase; see the profit.
     await tapText(tester, 'Business');
-    await waitFor(tester, find.text('Add entry'));
-    await tapText(tester, 'Add entry');
+    await waitFor(tester, find.text('Sale'));
+    await tapText(tester, 'Sale');
     await waitFor(tester, find.text('New entry'));
     await fillForm(tester, {find.byType(TextFormField).first: '120000'});
     await tapText(tester, 'Save');
     await waitFor(tester, find.text('+ TZS 120,000'));
 
-    await tapText(tester, 'Add entry');
-    await waitFor(tester, find.text('New entry'));
     await tapText(tester, 'Expense');
+    await waitFor(tester, find.text('New entry'));
     await fillForm(tester, {find.byType(TextFormField).first: '35000'});
     await tapText(tester, 'Stock');
     await tapText(tester, 'Save');
@@ -235,7 +240,7 @@ void main() {
     await tapText(tester, 'Set a rule');
     await waitFor(tester, find.text('Save rule'));
     await tapText(tester, 'Save rule');
-    await waitFor(tester, find.text("10% of today's sales (TZS 120,000)"));
+    await waitFor(tester, find.text('10% of sales'));
     await waitFor(tester, find.text("Today's target reached. Well done!"));
     await capture(tester, '11-dashboard-rule');
 
@@ -251,7 +256,15 @@ void main() {
     await tester.pageBack();
     await waitFor(tester, find.text('Hello, Neema'));
     await tapText(tester, 'History');
+    await waitFor(tester, find.widgetWithText(AppBar, 'History'));
     await waitFor(tester, find.text('− TZS 5,000'));
     await capture(tester, '12-history-activity');
+
+    // The Account tab.
+    await tester.pageBack();
+    await waitFor(tester, find.text('Hello, Neema'));
+    await tapText(tester, 'Account');
+    await waitFor(tester, find.text('Log out'));
+    await capture(tester, '13-account');
   });
 }

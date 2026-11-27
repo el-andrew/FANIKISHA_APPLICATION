@@ -28,6 +28,13 @@ void main() {
         (_) => whenOnline(FakeResponse(200, [goalJson()])),
       )
       ..on(
+        'GET',
+        '/v1/savings/activity',
+        (_) => whenOnline(
+          const FakeResponse(200, {'items': [], 'nextCursor': null}),
+        ),
+      )
+      ..on(
         'POST',
         '/v1/auth/logout',
         (_) => whenOnline(const FakeResponse(204)),
@@ -70,7 +77,7 @@ void main() {
     final prefs = await SharedPreferences.getInstance();
     expect(prefs.getKeys().where((k) => k.startsWith('cache:')), isNotEmpty);
 
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     final logOut = find.text('Log out');
     await tester.scrollUntilVisible(

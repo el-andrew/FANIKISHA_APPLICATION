@@ -19,6 +19,15 @@ typedef FakeHandler = FutureOr<FakeResponse> Function(RequestOptions request);
 /// Stands in for the Fanikisha API: answers by `METHOD /path` and records
 /// every request so tests can inspect headers and bodies.
 class FakeApi implements HttpClientAdapter {
+  FakeApi() {
+    // Home shows recent activity; tests that don't care see none.
+    on(
+      'GET',
+      '/v1/savings/activity',
+      (_) => const FakeResponse(200, {'items': [], 'nextCursor': null}),
+    );
+  }
+
   final requests = <RequestOptions>[];
   final _handlers = <String, FakeHandler>{};
 

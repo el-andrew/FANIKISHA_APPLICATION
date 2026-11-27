@@ -4,12 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/format/dates.dart';
 import '../../../core/format/money.dart';
 import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/async_views.dart';
+import '../../../core/widgets/ui.dart';
+import '../../reminders/reminders.dart';
 import '../application/savings_providers.dart';
 import '../data/savings_models.dart';
+import 'activity_row.dart';
 import 'split_list.dart';
 
-/// Every deposit, withdrawal and transfer, newest first.
+/// Every deposit, withdrawal and transfer, newest first, grouped by day.
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
 
@@ -17,6 +22,7 @@ class HistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final activity = ref.watch(activityProvider);
+    final now = ref.watch(clockProvider)();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.historyTitle)),
@@ -26,110 +32,150 @@ class HistoryScreen extends ConsumerWidget {
           error: error,
           onRetry: () => ref.invalidate(activityProvider),
         ),
-        data: (list) => RefreshIndicator(
-          onRefresh: () => ref.refresh(activityProvider.future),
-          child: list.items.isEmpty
-              ? ListView(
-                  children: [
-                    EmptyView(
-                      icon: Icons.receipt_long_outlined,
-                      message: l10n.historyEmpty,
+        data: (list) {
+          final days = _byDay(list.items);
+          return RefreshIndicator(
+            onRefresh: () => ref.refresh(activityProvider.future),
+            child: NotificationListener<ScrollNotification>(
+              // Load the next page when the list is nearly scrolled through.
+              onNotification: (n) {
+                if (n.metrics.extentAfter < 300) {
+                  ref.read(activityProvider.notifier).loadMore();
+                }
+                return false;
+              },
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.l,
+                  AppSpace.xs,
+                  AppSpace.l,
+                  AppSpace.xl,
+                ),
+                children: [
+                  if (days.isEmpty)
+                    AppCard(
+                      child: Text(
+                        l10n.homeNoActivity,
+                        style: const TextStyle(color: AppColors.muted),
+                      ),
+                    ),
+                  for (final (i, (day, items)) in days.indexed) ...[
+                    if (i > 0) const SizedBox(height: AppSpace.l),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpace.xs,
+                        0,
+                        AppSpace.xs,
+                        AppSpace.s,
+                      ),
+                      child: Semantics(
+                        header: true,
+                        child: Text(
+                          _dayLabel(day, now, l10n, context.localeName),
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(color: AppColors.muted),
+                        ),
+                      ),
+                    ),
+                    AppCard(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpace.l,
+                      ),
+                      child: Column(
+                        children: [
+                          for (final (j, item) in items.indexed) ...[
+                            if (j > 0) const Divider(),
+                            ActivityRow(
+                              activity: item,
+                              onTap: item is DepositActivity
+                                  ? () => _showSplit(context, item.deposit)
+                                  : null,
+                            ),
+                          ],
+                        ],
+                      ),
                     ),
                   ],
-                )
-              : NotificationListener<ScrollNotification>(
-                  // Load the next page when the list is nearly scrolled through.
-                  onNotification: (n) {
-                    if (n.metrics.extentAfter < 300) {
-                      ref.read(activityProvider.notifier).loadMore();
-                    }
-                    return false;
-                  },
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    itemCount: list.items.length + 1,
-                    itemBuilder: (context, i) {
-                      if (i == list.items.length) return _Footer(list: list);
-                      return switch (list.items[i]) {
-                        DepositActivity(:final deposit) => _DepositTile(
-                          deposit: deposit,
-                        ),
-                        final MovementActivity movement => _MovementTile(
-                          movement: movement,
-                        ),
-                      };
-                    },
-                  ),
+                  _Footer(list: list),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// Items grouped by their local calendar day, keeping the newest-first
+  /// order.
+  static List<(DateTime, List<Activity>)> _byDay(List<Activity> items) {
+    final days = <(DateTime, List<Activity>)>[];
+    for (final item in items) {
+      final at = switch (item) {
+        DepositActivity(:final deposit) => deposit.createdAt,
+        final MovementActivity m => m.createdAt,
+      }.toLocal();
+      final day = DateTime(at.year, at.month, at.day);
+      if (days.isEmpty || days.last.$1 != day) {
+        days.add((day, [item]));
+      } else {
+        days.last.$2.add(item);
+      }
+    }
+    return days;
+  }
+
+  static String _dayLabel(
+    DateTime day,
+    DateTime now,
+    AppLocalizations l10n,
+    String locale,
+  ) {
+    final today = DateTime(now.year, now.month, now.day);
+    final age = today.difference(day).inDays;
+    return switch (age) {
+      0 => l10n.periodToday,
+      1 => l10n.historyYesterday,
+      _ => formatDate(day, locale),
+    };
+  }
+
+  /// How a deposit was shared between goals.
+  static Future<void> _showSplit(BuildContext context, Deposit deposit) =>
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (sheet) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.l,
+              0,
+              AppSpace.l,
+              AppSpace.l,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  '+ ${formatTzs(deposit.amount)}',
+                  style: Theme.of(sheet).textTheme.headlineSmall,
                 ),
+                Text(
+                  [
+                    formatDateTime(deposit.createdAt, sheet.localeName),
+                    ?deposit.note,
+                  ].join(' · '),
+                  style: Theme.of(
+                    sheet,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+                ),
+                const SizedBox(height: AppSpace.m),
+                SplitList(split: deposit),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class _DepositTile extends StatelessWidget {
-  const _DepositTile({required this.deposit});
-
-  final Deposit deposit;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final when = formatDateTime(deposit.createdAt, context.localeName);
-    return ExpansionTile(
-      leading: CircleAvatar(
-        backgroundColor: theme.colorScheme.primaryContainer,
-        child: Icon(
-          Icons.savings_outlined,
-          color: theme.colorScheme.onPrimaryContainer,
-        ),
-      ),
-      title: Text(
-        '+ ${formatTzs(deposit.amount)}',
-        style: theme.textTheme.titleMedium,
-      ),
-      subtitle: Text(deposit.note == null ? when : '$when · ${deposit.note}'),
-      childrenPadding: const EdgeInsets.fromLTRB(72, 0, 16, 12),
-      children: [SplitList(split: deposit, dense: true)],
-    );
-  }
-}
-
-class _MovementTile extends StatelessWidget {
-  const _MovementTile({required this.movement});
-
-  final MovementActivity movement;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    String name(MoneyPlace place) => place.goalName ?? l10n.generalSavings;
-    final what = movement.isTransfer
-        ? l10n.activityTransfer(name(movement.from), name(movement.to!))
-        : l10n.activityWithdrawal(name(movement.from));
-    final when = formatDateTime(movement.createdAt, context.localeName);
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: theme.colorScheme.surfaceContainerHighest,
-        child: Icon(
-          movement.isTransfer ? Icons.swap_horiz : Icons.outbox_outlined,
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
-      title: Text(
-        movement.isTransfer
-            ? formatTzs(movement.amount)
-            : '− ${formatTzs(movement.amount)}',
-        style: theme.textTheme.titleMedium,
-      ),
-      subtitle: Text(
-        [what, ?movement.note, when].join(' · '),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
+      );
 }
 
 class _Footer extends ConsumerWidget {
@@ -149,7 +195,7 @@ class _Footer extends ConsumerWidget {
     }
     if (list.loadingMore) {
       return const Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppSpace.l),
         child: Center(child: CircularProgressIndicator()),
       );
     }

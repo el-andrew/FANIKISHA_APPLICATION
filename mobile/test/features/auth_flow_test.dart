@@ -116,6 +116,10 @@ void main() {
     await fill('Email', 'asha@example.com');
     await fill('Password', 'a strong password');
     await fill('Confirm password', 'a strong password');
+    // Done typing, as the keyboard's Done key would: a focused field is
+    // scrolled back into view, which would push the button off again.
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpAndSettle();
     final submit = find.widgetWithText(FilledButton, 'Create account');
     await tester.scrollUntilVisible(submit, 100, scrollable: page);
     await tester.ensureVisible(submit);

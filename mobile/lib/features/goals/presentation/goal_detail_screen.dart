@@ -6,18 +6,28 @@ import '../../../core/format/dates.dart';
 import '../../../core/format/money.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/providers.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/async_views.dart';
+import '../../../core/widgets/ui.dart';
+import '../../reminders/reminders.dart';
 import '../../savings/application/savings_providers.dart';
+import '../../savings/data/savings_models.dart';
+import '../../savings/presentation/activity_row.dart';
 import '../application/goals_providers.dart';
 import '../data/goal.dart';
+import '../data/goal_pace.dart';
 
 class GoalDetailScreen extends ConsumerWidget {
   const GoalDetailScreen({super.key, required this.goalId});
 
   final String goalId;
 
+  static const _activityShown = 5;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final goal = ref.watch(goalProvider(goalId));
     final loaded = goal.value;
 
@@ -27,14 +37,19 @@ class GoalDetailScreen extends ConsumerWidget {
         actions: [
           if (loaded != null && loaded.status != GoalStatus.archived) ...[
             IconButton(
-              tooltip: context.l10n.goalEdit,
+              tooltip: l10n.goalEdit,
               icon: const Icon(Icons.edit_outlined),
               onPressed: () => context.push('/goals/$goalId/edit'),
             ),
-            IconButton(
-              tooltip: context.l10n.goalArchive,
-              icon: const Icon(Icons.archive_outlined),
-              onPressed: () => _archive(context, ref, loaded),
+            // Archiving is rare: kept out of reach of a stray tap.
+            PopupMenuButton<void>(
+              tooltip: l10n.actionMore,
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  onTap: () => _archive(context, ref, loaded),
+                  child: Text(l10n.goalArchive),
+                ),
+              ],
             ),
           ],
         ],
@@ -45,10 +60,28 @@ class GoalDetailScreen extends ConsumerWidget {
           error: error,
           onRetry: () => ref.invalidate(goalProvider(goalId)),
         ),
-        data: (goal) => _GoalDetails(goal: goal),
+        data: (goal) {
+          final activity = ref.watch(activityProvider).value?.items ?? [];
+          return _GoalDetails(
+            goal: goal,
+            today: ref.watch(clockProvider)(),
+            activity: activity
+                .where((a) => _involves(a, goal.id))
+                .take(_activityShown)
+                .toList(),
+          );
+        },
       ),
     );
   }
+
+  static bool _involves(Activity activity, String goalId) => switch (activity) {
+    DepositActivity(:final deposit) => deposit.allocations.any(
+      (a) => a.goalId == goalId,
+    ),
+    final MovementActivity m =>
+      m.from.goalId == goalId || m.to?.goalId == goalId,
+  };
 
   Future<void> _archive(BuildContext context, WidgetRef ref, Goal goal) async {
     final l10n = context.l10n;
@@ -63,7 +96,9 @@ class GoalDetailScreen extends ConsumerWidget {
             child: Text(l10n.actionCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(minimumSize: const Size(0, 44)),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size(0, AppSize.buttonCompact),
+            ),
             onPressed: () => Navigator.pop(context, true),
             child: Text(l10n.goalArchiveConfirmButton),
           ),
@@ -82,7 +117,219 @@ class GoalDetailScreen extends ConsumerWidget {
 }
 
 class _GoalDetails extends StatelessWidget {
-  const _GoalDetails({required this.goal});
+  const _GoalDetails({
+    required this.goal,
+    required this.today,
+    required this.activity,
+  });
+
+  final Goal goal;
+  final DateTime today;
+  final List<Activity> activity;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final active = goal.status == GoalStatus.active;
+    final shortfall = active ? shortfallOn(goal, today) : null;
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.l,
+        AppSpace.s,
+        AppSpace.l,
+        AppSpace.xl,
+      ),
+      children: [
+        _ProgressCard(goal: goal, today: today, shortfall: shortfall),
+        if (active) ...[
+          const SizedBox(height: AppSpace.m),
+          _PaceCard(goal: goal),
+        ],
+        const SizedBox(height: AppSpace.m),
+        _Actions(goal: goal),
+        if (activity.isNotEmpty) ...[
+          const SizedBox(height: AppSpace.l),
+          SectionHeader(title: l10n.homeRecentActivity),
+          AppCard(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpace.l),
+            child: Column(
+              children: [
+                for (final (i, item) in activity.indexed) ...[
+                  if (i > 0) const Divider(),
+                  ActivityRow(activity: item, forGoalId: goal.id),
+                ],
+              ],
+            ),
+          ),
+        ],
+        const SizedBox(height: AppSpace.l),
+        AppCard(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpace.l),
+          child: Column(
+            children: [
+              _DetailRow(
+                l10n.goalDetailTargetDate,
+                formatDate(goal.targetDate, context.localeName),
+              ),
+              const Divider(),
+              _DetailRow(
+                l10n.goalDetailPriority,
+                priorityLabel(goal.priority, l10n),
+              ),
+              if (goal.category != null) ...[
+                const Divider(),
+                _DetailRow(l10n.goalDetailCategory, goal.category!),
+              ],
+            ],
+          ),
+        ),
+        if (!active && goal.savedAmount > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpace.m),
+            child: Text(
+              l10n.goalLeft(formatTzs(goal.savedAmount)),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.muted,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Saved so far, against the target and against an even pace.
+class _ProgressCard extends StatelessWidget {
+  const _ProgressCard({
+    required this.goal,
+    required this.today,
+    required this.shortfall,
+  });
+
+  final Goal goal;
+  final DateTime today;
+
+  /// How far behind an even pace, or null when on track (or not active).
+  final int? shortfall;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final active = goal.status == GoalStatus.active;
+    // On its first day an even pace hasn't asked for anything yet.
+    final pace = active ? expectedProgressOn(goal, today) : 0.0;
+    final expected = pace > 0 ? pace : null;
+    final caption = theme.textTheme.bodySmall?.copyWith(color: AppColors.muted);
+    final behind = shortfall;
+
+    final badge = switch (goal.status) {
+      GoalStatus.completed => StatusBadge(
+        label: l10n.goalStatusCompleted,
+        tone: StatusTone.positive,
+        icon: Icons.check,
+      ),
+      GoalStatus.archived => StatusBadge(
+        label: l10n.goalStatusArchived,
+        tone: StatusTone.attention,
+        icon: Icons.archive_outlined,
+      ),
+      GoalStatus.active when behind != null => StatusBadge(
+        label: l10n.goalBehind,
+        tone: StatusTone.attention,
+        icon: Icons.schedule,
+      ),
+      GoalStatus.active => StatusBadge(
+        label: l10n.goalOnTrack,
+        tone: StatusTone.positive,
+        icon: Icons.check,
+      ),
+    };
+
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpace.l + AppSpace.xs),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.goalDetailSaved,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.muted,
+                      ),
+                    ),
+                    Text(
+                      formatTzs(goal.savedAmount),
+                      style: theme.textTheme.headlineMedium,
+                    ),
+                    Text(
+                      l10n.todayOfTarget(formatTzs(goal.targetAmount)),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              badge,
+            ],
+          ),
+          const SizedBox(height: AppSpace.l),
+          ProgressBar(value: goal.progress, marker: expected, height: 10),
+          const SizedBox(height: AppSpace.xs),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.goalPercentSaved('${goal.progressPercent.floor()}'),
+                  style: caption,
+                ),
+              ),
+              if (expected != null)
+                Text(
+                  l10n.goalShouldBe('${(expected * 100).floor()}'),
+                  style: caption,
+                ),
+            ],
+          ),
+          if (behind != null) ...[
+            const SizedBox(height: AppSpace.m),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpace.m,
+                vertical: AppSpace.s,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.attentionBg,
+                borderRadius: BorderRadius.circular(AppRadius.control),
+              ),
+              child: Text(
+                l10n.goalBehindBy(formatTzs(behind)),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.attention,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// What it takes to finish on time.
+class _PaceCard extends StatelessWidget {
+  const _PaceCard({required this.goal});
 
   final Goal goal;
 
@@ -90,142 +337,110 @@ class _GoalDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Center(
-          child: SizedBox.square(
-            dimension: 180,
-            child: Stack(
-              fit: StackFit.expand,
+    final caption = theme.textTheme.bodySmall?.copyWith(color: AppColors.muted);
+    return AppCard(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircularProgressIndicator(
-                  value: goal.progress,
-                  strokeWidth: 14,
-                  backgroundColor: scheme.surfaceContainerHighest,
-                  strokeCap: StrokeCap.round,
-                ),
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${goal.progressPercent.toStringAsFixed(0)}%',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: scheme.primary,
-                        ),
-                      ),
-                      if (goal.status != GoalStatus.active)
-                        Text(
-                          goal.status == GoalStatus.completed
-                              ? l10n.goalStatusCompleted
-                              : l10n.goalStatusArchived,
-                        ),
-                    ],
-                  ),
+                Text(l10n.goalToFinish, style: caption),
+                Text(
+                  l10n.goalPerDay(formatTzs(goal.dailyTargetAmount)),
+                  style: theme.textTheme.titleMedium,
                 ),
               ],
             ),
           ),
-        ),
-        if (goal.status == GoalStatus.completed)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              l10n.goalLeft(formatTzs(goal.savedAmount)),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        if (goal.savedAmount > 0) ...[
-          const SizedBox(height: 16),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () =>
-                      context.push('/savings/move?from=${goal.id}'),
-                  icon: const Icon(Icons.swap_horiz),
-                  label: Text(l10n.moveMoney),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () =>
-                      context.push('/savings/withdraw?from=${goal.id}'),
-                  icon: const Icon(Icons.outbox_outlined),
-                  label: Text(l10n.withdrawMoney),
-                ),
-              ),
+              Text('${goal.daysLeft}', style: theme.textTheme.titleMedium),
+              Text(l10n.goalDaysLeftLabel(goal.daysLeft), style: caption),
             ],
           ),
         ],
-        const SizedBox(height: 24),
-        Card(
-          color: scheme.surfaceContainerLow,
-          child: Column(
-            children: [
-              _Row(l10n.goalDetailSaved, formatTzs(goal.savedAmount)),
-              _Row(l10n.goalDetailTarget, formatTzs(goal.targetAmount)),
-              _Row(l10n.goalDetailRemaining, formatTzs(goal.remainingAmount)),
-              if (goal.status == GoalStatus.active)
-                _Row(
-                  l10n.goalDetailDailyTarget,
-                  formatTzs(goal.dailyTargetAmount),
-                ),
-            ],
-          ),
+      ),
+    );
+  }
+}
+
+class _Actions extends StatelessWidget {
+  const _Actions({required this.goal});
+
+  final Goal goal;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final hasMoney = goal.savedAmount > 0;
+    const compact = Size(0, AppSize.button);
+    // Three buttons share one row: less side padding leaves room for words.
+    const padding = EdgeInsets.symmetric(horizontal: AppSpace.s);
+    final buttons = <Widget>[
+      if (goal.status == GoalStatus.active)
+        FilledButton.icon(
+          style: FilledButton.styleFrom(minimumSize: compact, padding: padding),
+          onPressed: () => context.push('/save'),
+          icon: const Icon(Icons.add, size: 20),
+          label: Text(l10n.actionSave),
         ),
-        const SizedBox(height: 12),
-        Card(
-          color: scheme.surfaceContainerLow,
-          child: Column(
-            children: [
-              _Row(
-                l10n.goalDetailTargetDate,
-                formatDate(goal.targetDate, context.localeName),
-                trailing: goal.status == GoalStatus.active
-                    ? l10n.goalDaysLeft(goal.daysLeft)
-                    : null,
-              ),
-              _Row(l10n.goalDetailPriority, priorityLabel(goal.priority, l10n)),
-              if (goal.category != null)
-                _Row(l10n.goalDetailCategory, goal.category!),
-            ],
+      if (hasMoney) ...[
+        OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            minimumSize: compact,
+            padding: padding,
           ),
+          onPressed: () => context.push('/savings/move?from=${goal.id}'),
+          icon: const Icon(Icons.swap_horiz, size: 20),
+          label: Text(l10n.actionMove),
         ),
+        OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            minimumSize: compact,
+            padding: padding,
+          ),
+          onPressed: () => context.push('/savings/withdraw?from=${goal.id}'),
+          icon: const Icon(Icons.north_east, size: 20),
+          label: Text(l10n.actionWithdraw),
+        ),
+      ],
+    ];
+    if (buttons.isEmpty) return const SizedBox.shrink();
+    return Row(
+      children: [
+        for (final (i, button) in buttons.indexed) ...[
+          if (i > 0) const SizedBox(width: AppSpace.s),
+          Expanded(child: button),
+        ],
       ],
     );
   }
 }
 
-class _Row extends StatelessWidget {
-  const _Row(this.label, this.value, {this.trailing});
+class _DetailRow extends StatelessWidget {
+  const _DetailRow(this.label, this.value);
 
   final String label;
   final String value;
-  final String? trailing;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ListTile(
-      title: Text(
-        label,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpace.m + 2),
+      child: Row(
         children: [
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.muted,
+              ),
+            ),
+          ),
           Text(value, style: theme.textTheme.titleSmall),
-          if (trailing != null)
-            Text(trailing!, style: theme.textTheme.bodySmall),
         ],
       ),
     );

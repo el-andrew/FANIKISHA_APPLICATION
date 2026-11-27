@@ -365,7 +365,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardTotalSaved.
   ///
   /// In en, this message translates to:
-  /// **'Total saved'**
+  /// **'Total savings'**
   String get dashboardTotalSaved;
 
   /// No description provided for @dashboardGeneralSavings.
@@ -503,13 +503,13 @@ abstract class AppLocalizations {
   /// No description provided for @goalsEmptyActive.
   ///
   /// In en, this message translates to:
-  /// **'You have no active goals.'**
+  /// **'No active goals.'**
   String get goalsEmptyActive;
 
   /// No description provided for @goalsEmptyCompleted.
   ///
   /// In en, this message translates to:
-  /// **'No completed goals yet. Keep saving!'**
+  /// **'No completed goals yet.'**
   String get goalsEmptyCompleted;
 
   /// No description provided for @goalsEmptyArchived.
@@ -713,7 +713,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositPreviewEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Enter an amount to see how it will be shared between your goals.'**
+  /// **'Enter an amount to see the split.'**
   String get depositPreviewEmpty;
 
   /// No description provided for @depositPreviewNoGoals.
@@ -899,7 +899,7 @@ abstract class AppLocalizations {
   /// No description provided for @verifyPhoneBannerTitle.
   ///
   /// In en, this message translates to:
-  /// **'Verify your phone number'**
+  /// **'Verify your phone'**
   String get verifyPhoneBannerTitle;
 
   /// No description provided for @verifyPhoneBannerBody.
@@ -1145,7 +1145,7 @@ abstract class AppLocalizations {
   /// No description provided for @businessEmpty.
   ///
   /// In en, this message translates to:
-  /// **'No sales or expenses yet. Record them each day to see your profit.'**
+  /// **'No entries yet.'**
   String get businessEmpty;
 
   /// No description provided for @businessAdd.
@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayTitle.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s saving target'**
+  /// **'Today'**
   String get todayTitle;
 
   /// No description provided for @todayRuleSales.
@@ -1313,7 +1313,7 @@ abstract class AppLocalizations {
   /// No description provided for @ruleSetupTitle.
   ///
   /// In en, this message translates to:
-  /// **'Save a share of each day\'s sales'**
+  /// **'Save a share of daily sales'**
   String get ruleSetupTitle;
 
   /// No description provided for @ruleSetupBody.
@@ -1523,7 +1523,7 @@ abstract class AppLocalizations {
   /// No description provided for @remindersTipTitle.
   ///
   /// In en, this message translates to:
-  /// **'Stay on track'**
+  /// **'Evening reminders'**
   String get remindersTipTitle;
 
   /// No description provided for @remindersTipBody.
@@ -1627,6 +1627,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Starting up… this can take up to a minute.'**
   String get splashSlowStart;
+
+  /// No description provided for @navAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get navAccount;
+
+  /// No description provided for @balanceShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show balance'**
+  String get balanceShow;
+
+  /// No description provided for @balanceHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide balance'**
+  String get balanceHide;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionSave;
+
+  /// No description provided for @actionMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Move'**
+  String get actionMove;
+
+  /// No description provided for @actionWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get actionWithdraw;
+
+  /// No description provided for @actionRecordSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Record sale'**
+  String get actionRecordSale;
+
+  /// No description provided for @homeRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get homeRecentActivity;
+
+  /// No description provided for @goalOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get goalOnTrack;
+
+  /// No description provided for @goalBehind.
+  ///
+  /// In en, this message translates to:
+  /// **'Behind'**
+  String get goalBehind;
+
+  /// No description provided for @todayChipSales.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of sales'**
+  String todayChipSales(String percent);
+
+  /// No description provided for @todayChipProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of profit'**
+  String todayChipProfit(String percent);
+
+  /// No description provided for @todayOfTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'of {target}'**
+  String todayOfTarget(String target);
+
+  /// No description provided for @chooseSourceMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Move money from'**
+  String get chooseSourceMove;
+
+  /// No description provided for @chooseSourceWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Take money out of'**
+  String get chooseSourceWithdraw;
+
+  /// No description provided for @nothingToMove.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no saved money to move yet.'**
+  String get nothingToMove;
+
+  /// No description provided for @activitySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get activitySaved;
+
+  /// After today's target is reached: the target, next to what was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'target {target}'**
+  String todayTargetWas(String target);
+
+  /// No description provided for @homeNoActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get homeNoActivity;
+
+  /// No description provided for @goalBehindBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} behind pace'**
+  String goalBehindBy(String amount);
+
+  /// No description provided for @goalPercentSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% saved'**
+  String goalPercentSaved(String percent);
+
+  /// No description provided for @goalShouldBe.
+  ///
+  /// In en, this message translates to:
+  /// **'Should be {percent}% by today'**
+  String goalShouldBe(String percent);
+
+  /// No description provided for @goalToFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'To finish on time, save'**
+  String get goalToFinish;
+
+  /// No description provided for @goalPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a day'**
+  String goalPerDay(String amount);
+
+  /// No description provided for @goalDaysLeftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{day left} other{days left}}'**
+  String goalDaysLeftLabel(int count);
+
+  /// No description provided for @actionMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get actionMore;
+
+  /// No description provided for @depositQuickAmounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick amounts'**
+  String get depositQuickAmounts;
+
+  /// No description provided for @businessEachDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Each day'**
+  String get businessEachDay;
+
+  /// No description provided for @historyYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get historyYesterday;
+
+  /// No description provided for @depositAmountTzs.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount in TZS'**
+  String get depositAmountTzs;
 }
 
 class _AppLocalizationsDelegate

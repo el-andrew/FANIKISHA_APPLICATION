@@ -68,7 +68,7 @@ void main() {
   testWidgets('sets a rule from the dashboard', (tester) async {
     sales = 120000;
     await openDashboard(tester);
-    expect(find.text("Save a share of each day's sales"), findsOneWidget);
+    expect(find.text('Save a share of daily sales'), findsOneWidget);
 
     await tester.tap(find.text('Set a rule'));
     await tester.pumpAndSettle();
@@ -87,9 +87,10 @@ void main() {
       'percent': 15,
     });
     // Back on the dashboard, with today's target.
-    expect(find.text("Today's saving target"), findsOneWidget);
-    expect(find.text("15% of today's sales (TZS 120,000)"), findsOneWidget);
-    expect(find.text('TZS 18,000'), findsOneWidget);
+    expect(find.text('Today'), findsOneWidget);
+    expect(find.text('15% of sales'), findsOneWidget);
+    expect(find.text('of TZS 18,000'), findsOneWidget);
+    expect(find.text('Save TZS 18,000'), findsOneWidget);
   });
 
   testWidgets('saves the rest of the target in one tap', (tester) async {
@@ -98,14 +99,21 @@ void main() {
     savedToday = 5000;
     await openDashboard(tester);
 
-    expect(find.text('TZS 12,000'), findsOneWidget);
-    expect(find.text('Saved today: TZS 5,000 of TZS 12,000'), findsOneWidget);
+    expect(find.text('TZS 5,000'), findsOneWidget);
+    expect(find.text('of TZS 12,000'), findsOneWidget);
     await tester.tap(find.text('Save TZS 7,000'));
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pumpAndSettle();
 
     expect(find.text('Save money'), findsOneWidget);
-    expect(find.text('7,000'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, '7,000'), findsOneWidget);
+    // And offered as the first quick amount, already chosen.
+    expect(
+      tester
+          .widget<ChoiceChip>(find.widgetWithText(ChoiceChip, '7,000'))
+          .selected,
+      isTrue,
+    );
     expect(api.requestsTo('POST', '/v1/savings/deposits/preview').single.data, {
       'amount': 7000,
     });
@@ -129,6 +137,9 @@ void main() {
     savedToday = 6000;
     await openDashboard(tester);
     expect(find.text("Today's target reached. Well done!"), findsOneWidget);
+    // Saved more than asked: not "of", which would read like a mistake.
+    expect(find.text('target TZS 5,000'), findsOneWidget);
+    expect(find.text('of TZS 5,000'), findsNothing);
     expect(find.textContaining('Save TZS'), findsNothing);
   });
 
@@ -149,6 +160,6 @@ void main() {
     await tester.tap(find.text('Remove rule'));
     await tester.pumpAndSettle();
     expect(api.requestsTo('DELETE', '/v1/savings/rule'), hasLength(1));
-    expect(find.text("Save a share of each day's sales"), findsOneWidget);
+    expect(find.text('Save a share of daily sales'), findsOneWidget);
   });
 }

@@ -33,7 +33,7 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
 
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Edit profile'));
     await tester.pumpAndSettle();

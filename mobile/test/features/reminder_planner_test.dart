@@ -1,4 +1,5 @@
 import 'package:fanikisha/features/goals/data/goal.dart';
+import 'package:fanikisha/features/goals/data/goal_pace.dart';
 import 'package:fanikisha/features/reminders/reminder_planner.dart';
 import 'package:fanikisha/features/reminders/reminders.dart';
 import 'package:fanikisha/features/savings/data/savings_models.dart';

@@ -11,7 +11,8 @@ enum ApiErrorKind {
   /// holds the server's explanation.
   rejected,
 
-  /// 5xx or an unreadable response.
+  /// 5xx or an unreadable response. [ApiException.errorCode] still says
+  /// why, when the API gives a reason (e.g. `sms_failed`).
   server,
 }
 
@@ -30,10 +31,17 @@ class ApiException implements Exception {
       return const ApiException(ApiErrorKind.network);
     }
     final status = response.statusCode ?? 0;
-    if (status >= 500) {
-      return ApiException(ApiErrorKind.server, statusCode: status);
-    }
     final body = response.data;
+    if (status >= 500) {
+      // The server's own words aren't shown for a 5xx, but its reason code
+      // is kept, so a screen can explain e.g. an SMS that couldn't be sent.
+      return ApiException(
+        ApiErrorKind.server,
+        statusCode: status,
+        errorCode: body is Map ? body['code'] as String? : null,
+        details: body is Map ? Map<String, Object?>.from(body) : const {},
+      );
+    }
     return ApiException(
       ApiErrorKind.rejected,
       statusCode: status,

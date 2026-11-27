@@ -13,10 +13,15 @@ export interface BeemOptions {
   timeoutMs?: number;
 }
 
-interface BeemResponse {
+interface BeemResult {
   successful?: boolean;
   code?: number;
   message?: string;
+}
+
+/** Beem's answer. Errors may come wrapped in `data`. */
+interface BeemResponse extends BeemResult {
+  data?: BeemResult;
 }
 
 /**
@@ -61,15 +66,32 @@ export class BeemSmsSender implements SmsSender {
       throw new SmsDeliveryError('Beem could not be reached', { cause: error });
     }
 
-    const body = (await response.json().catch(() => ({}))) as BeemResponse;
+    const text = await response.text().catch(() => '');
+    let body: BeemResponse = {};
+    try {
+      body = JSON.parse(text) as BeemResponse;
+    } catch {
+      // Not JSON: reported below with the raw text.
+    }
     // Beem answers 200 with code 100 when the message was accepted.
     if (!response.ok || body.successful !== true || body.code !== 100) {
+      const code = body.code ?? body.data?.code;
+      const reason = body.message ?? body.data?.message;
       BeemSmsSender.logger.error(
-        `Beem refused an SMS: HTTP ${response.status}, code ${body.code}: ${body.message}`,
+        `Beem refused an SMS: HTTP ${response.status}` +
+          (code !== undefined || reason !== undefined
+            ? `, code ${code}: ${reason}`
+            : `, answer: ${redact(text, phone)}`),
       );
       throw new SmsDeliveryError(
-        `Beem refused the message (code ${body.code ?? response.status})`,
+        `Beem refused the message (code ${code ?? response.status})`,
       );
     }
   }
+}
+
+/** [text] for the log: shortened, without the recipient's number. */
+function redact(text: string, phone: string): string {
+  const digits = phone.replace(/^\+/, '');
+  return (text.split(digits).join('[phone]') || '(empty)').slice(0, 500);
 }

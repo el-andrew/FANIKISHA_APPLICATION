@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import '../goals/data/goal.dart';
+import '../goals/data/goal_pace.dart';
 import '../savings/data/savings_models.dart';
 
 /// What a reminder says. Turned into text in the app's language by
@@ -186,36 +187,13 @@ GoalBehind? _mostBehind(List<Goal> goals, DateTime day) {
   if (found == null) return null;
   final goal = found.goal;
   final remaining = goal.targetAmount - goal.savedAmount;
-  final daysLeft = max(1, _daysBetween(day, goal.targetDate));
+  final daysLeft = max(1, daysBetween(day, goal.targetDate));
   return GoalBehind(
     goalId: goal.id,
     goalName: goal.name,
     dailyAmount: (remaining / daysLeft).ceil(),
     remaining: remaining,
     targetDate: goal.targetDate,
-    overdue: _daysBetween(day, goal.targetDate) < 0,
+    overdue: daysBetween(day, goal.targetDate) < 0,
   );
 }
-
-/// How far [goal] is behind on [day], or null if it's on track.
-///
-/// On track means saving at an even pace from the start date to the target
-/// date. A goal only counts as behind once it's more than a day's saving
-/// short, so being a few shillings under doesn't set off a reminder.
-int? shortfallOn(Goal goal, DateTime day) {
-  final remaining = goal.targetAmount - goal.savedAmount;
-  if (remaining <= 0) return null;
-  final totalDays = max(1, _daysBetween(goal.startDate, goal.targetDate));
-  final elapsed = _daysBetween(goal.startDate, day).clamp(0, totalDays);
-  final expected = goal.targetAmount * elapsed ~/ totalDays;
-  final shortfall = expected - goal.savedAmount;
-  final perDay = (goal.targetAmount / totalDays).ceil();
-  return shortfall > perDay ? shortfall : null;
-}
-
-/// Whole calendar days from [from] to [to] (negative if [to] is earlier).
-int _daysBetween(DateTime from, DateTime to) => DateTime.utc(
-  to.year,
-  to.month,
-  to.day,
-).difference(DateTime.utc(from.year, from.month, from.day)).inDays;

@@ -1,8 +1,10 @@
 import 'package:fanikisha/core/api/token_storage.dart';
 import 'package:fanikisha/core/format/dates.dart';
+import 'package:fanikisha/features/business/data/business_models.dart';
 import 'package:fanikisha/features/business/presentation/daily_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/intl.dart';
 
 import '../helpers/fake_api.dart';
 import '../helpers/test_app.dart';
@@ -109,7 +111,7 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
       locale: locale,
     );
-    await tester.tap(find.byIcon(Icons.storefront_outlined));
+    await tester.tap(find.byIcon(Icons.bar_chart_outlined));
     await tester.pumpAndSettle();
   }
 
@@ -140,17 +142,12 @@ void main() {
 
   testWidgets('records an expense with a suggested category', (tester) async {
     await openBusiness(tester);
-    expect(
-      find.text(
-        'No sales or expenses yet. Record them each day to see your profit.',
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('No entries yet.'), findsOneWidget);
 
-    await tester.tap(find.text('Add entry'));
-    await tester.pumpAndSettle();
+    // The Expense button opens the form already set to an expense.
     await tester.tap(find.text('Expense'));
     await tester.pumpAndSettle();
+    expect(find.text('New entry'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).first, '12000');
     await tester.tap(find.widgetWithText(ActionChip, 'Transport'));
     await tester.pumpAndSettle();
@@ -170,7 +167,8 @@ void main() {
     });
     // Back on the tab, which reloaded.
     expect(find.text('Loss'), findsOneWidget);
-    expect(find.text('− TZS 12,000'), findsOneWidget);
+    // The loss, and the entry itself.
+    expect(find.text('− TZS 12,000'), findsNWidgets(2));
   });
 
   testWidgets('corrects and deletes an entry', (tester) async {
@@ -196,6 +194,40 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('+ TZS 11,000'), findsNothing);
     expect(business.entries, isEmpty);
+  });
+
+  testWidgets('Sale and Expense open the form already set', (tester) async {
+    await openBusiness(tester);
+    EntryType chosen() => tester
+        .widget<SegmentedButton<EntryType>>(
+          find.byType(SegmentedButton<EntryType>),
+        )
+        .selected
+        .single;
+
+    await tester.tap(find.text('Sale'));
+    await tester.pumpAndSettle();
+    expect(chosen(), EntryType.sale);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Expense'));
+    await tester.pumpAndSettle();
+    expect(chosen(), EntryType.expense);
+  });
+
+  testWidgets('a week shows each day under the chart', (tester) async {
+    await openBusiness(tester);
+    expect(find.text('Each day'), findsNothing); // one day: no chart
+
+    await tester.tap(find.text('7 days'));
+    await tester.pumpAndSettle();
+    expect(find.text('Each day'), findsOneWidget);
+    // Weekday names under the bars, today's among them.
+    expect(
+      find.text(DateFormat.E('en_GB').format(DateTime.now())),
+      findsOneWidget,
+    );
   });
 
   testWidgets('speaks Kiswahili', (tester) async {

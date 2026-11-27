@@ -241,11 +241,10 @@ class AppLocalizationsSw extends AppLocalizations {
   String get goalsFilterArchived => 'Yaliyohifadhiwa';
 
   @override
-  String get goalsEmptyActive => 'Huna malengo yanayoendelea.';
+  String get goalsEmptyActive => 'Hakuna malengo yanayoendelea.';
 
   @override
-  String get goalsEmptyCompleted =>
-      'Bado hakuna lengo lililokamilika. Endelea kuweka akiba!';
+  String get goalsEmptyCompleted => 'Bado hakuna lengo lililokamilika.';
 
   @override
   String get goalsEmptyArchived => 'Hakuna malengo yaliyohifadhiwa.';
@@ -350,8 +349,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get depositPreviewTitle => 'Itakavyogawanywa';
 
   @override
-  String get depositPreviewEmpty =>
-      'Weka kiasi ili kuona kitakavyogawanywa kati ya malengo yako.';
+  String get depositPreviewEmpty => 'Weka kiasi uone mgawanyo.';
 
   @override
   String get depositPreviewNoGoals =>
@@ -457,7 +455,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get phoneVerified => 'Imethibitishwa';
 
   @override
-  String get verifyPhoneBannerTitle => 'Thibitisha namba yako ya simu';
+  String get verifyPhoneBannerTitle => 'Thibitisha simu yako';
 
   @override
   String get verifyPhoneBannerBody =>
@@ -606,8 +604,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get businessRecent => 'Rekodi za karibuni';
 
   @override
-  String get businessEmpty =>
-      'Bado hakuna mauzo wala matumizi. Yarekodi kila siku ili kuona faida yako.';
+  String get businessEmpty => 'Bado hakuna kumbukumbu.';
 
   @override
   String get businessAdd => 'Ongeza rekodi';
@@ -667,7 +664,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get categoryUtilities => 'Umeme na maji';
 
   @override
-  String get todayTitle => 'Lengo la akiba la leo';
+  String get todayTitle => 'Leo';
 
   @override
   String todayRuleSales(int percent, String amount) {
@@ -699,7 +696,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get todayRecordSales => 'Rekodi mauzo';
 
   @override
-  String get ruleSetupTitle => 'Weka akiba sehemu ya mauzo ya kila siku';
+  String get ruleSetupTitle => 'Weka sehemu ya mauzo ya kila siku';
 
   @override
   String get ruleSetupBody =>
@@ -828,7 +825,7 @@ class AppLocalizationsSw extends AppLocalizations {
       'Arifa za Fanikisha zimezuiwa. Ziruhusu kwenye mipangilio ya simu yako, kisha jaribu tena.';
 
   @override
-  String get remindersTipTitle => 'Usibaki nyuma';
+  String get remindersTipTitle => 'Vikumbusho vya jioni';
 
   @override
   String get remindersTipBody =>
@@ -903,4 +900,118 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get splashSlowStart =>
       'Inaanza… hii inaweza kuchukua hadi dakika moja.';
+
+  @override
+  String get navAccount => 'Akaunti';
+
+  @override
+  String get balanceShow => 'Onyesha salio';
+
+  @override
+  String get balanceHide => 'Ficha salio';
+
+  @override
+  String get actionSave => 'Weka akiba';
+
+  @override
+  String get actionMove => 'Hamisha';
+
+  @override
+  String get actionWithdraw => 'Toa';
+
+  @override
+  String get actionRecordSale => 'Rekodi mauzo';
+
+  @override
+  String get homeRecentActivity => 'Shughuli za karibuni';
+
+  @override
+  String get goalOnTrack => 'Linaenda vizuri';
+
+  @override
+  String get goalBehind => 'Liko nyuma';
+
+  @override
+  String todayChipSales(String percent) {
+    return '$percent% ya mauzo';
+  }
+
+  @override
+  String todayChipProfit(String percent) {
+    return '$percent% ya faida';
+  }
+
+  @override
+  String todayOfTarget(String target) {
+    return 'kati ya $target';
+  }
+
+  @override
+  String get chooseSourceMove => 'Hamisha pesa kutoka';
+
+  @override
+  String get chooseSourceWithdraw => 'Toa pesa kutoka';
+
+  @override
+  String get nothingToMove => 'Bado hakuna akiba ya kuhamisha.';
+
+  @override
+  String get activitySaved => 'Akiba imewekwa';
+
+  @override
+  String todayTargetWas(String target) {
+    return 'lengo $target';
+  }
+
+  @override
+  String get homeNoActivity => 'Bado hakuna kitu';
+
+  @override
+  String goalBehindBy(String amount) {
+    return 'Nyuma kwa $amount';
+  }
+
+  @override
+  String goalPercentSaved(String percent) {
+    return '$percent% imewekwa';
+  }
+
+  @override
+  String goalShouldBe(String percent) {
+    return 'Inapaswa kuwa $percent% leo';
+  }
+
+  @override
+  String get goalToFinish => 'Ili kumaliza kwa wakati, weka';
+
+  @override
+  String goalPerDay(String amount) {
+    return '$amount kwa siku';
+  }
+
+  @override
+  String goalDaysLeftLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'siku zimebaki',
+      one: 'siku imebaki',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get actionMore => 'Chaguo zaidi';
+
+  @override
+  String get depositQuickAmounts => 'Viwango vya haraka';
+
+  @override
+  String get businessEachDay => 'Kila siku';
+
+  @override
+  String get historyYesterday => 'Jana';
+
+  @override
+  String get depositAmountTzs => 'Kiasi kwa TZS';
 }

@@ -147,7 +147,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardTotalSaved => 'Total saved';
+  String get dashboardTotalSaved => 'Total savings';
 
   @override
   String dashboardGeneralSavings(String amount) {
@@ -240,10 +240,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalsFilterArchived => 'Archived';
 
   @override
-  String get goalsEmptyActive => 'You have no active goals.';
+  String get goalsEmptyActive => 'No active goals.';
 
   @override
-  String get goalsEmptyCompleted => 'No completed goals yet. Keep saving!';
+  String get goalsEmptyCompleted => 'No completed goals yet.';
 
   @override
   String get goalsEmptyArchived => 'No archived goals.';
@@ -348,8 +348,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get depositPreviewTitle => 'How it will be shared';
 
   @override
-  String get depositPreviewEmpty =>
-      'Enter an amount to see how it will be shared between your goals.';
+  String get depositPreviewEmpty => 'Enter an amount to see the split.';
 
   @override
   String get depositPreviewNoGoals =>
@@ -454,7 +453,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneVerified => 'Verified';
 
   @override
-  String get verifyPhoneBannerTitle => 'Verify your phone number';
+  String get verifyPhoneBannerTitle => 'Verify your phone';
 
   @override
   String get verifyPhoneBannerBody =>
@@ -601,8 +600,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get businessRecent => 'Recent entries';
 
   @override
-  String get businessEmpty =>
-      'No sales or expenses yet. Record them each day to see your profit.';
+  String get businessEmpty => 'No entries yet.';
 
   @override
   String get businessAdd => 'Add entry';
@@ -662,7 +660,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryUtilities => 'Electricity & water';
 
   @override
-  String get todayTitle => 'Today\'s saving target';
+  String get todayTitle => 'Today';
 
   @override
   String todayRuleSales(int percent, String amount) {
@@ -693,7 +691,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todayRecordSales => 'Record sales';
 
   @override
-  String get ruleSetupTitle => 'Save a share of each day\'s sales';
+  String get ruleSetupTitle => 'Save a share of daily sales';
 
   @override
   String get ruleSetupBody =>
@@ -822,7 +820,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notifications are blocked for Fanikisha. Allow them in your phone\'s settings, then try again.';
 
   @override
-  String get remindersTipTitle => 'Stay on track';
+  String get remindersTipTitle => 'Evening reminders';
 
   @override
   String get remindersTipBody =>
@@ -896,4 +894,118 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashSlowStart => 'Starting up… this can take up to a minute.';
+
+  @override
+  String get navAccount => 'Account';
+
+  @override
+  String get balanceShow => 'Show balance';
+
+  @override
+  String get balanceHide => 'Hide balance';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionMove => 'Move';
+
+  @override
+  String get actionWithdraw => 'Withdraw';
+
+  @override
+  String get actionRecordSale => 'Record sale';
+
+  @override
+  String get homeRecentActivity => 'Recent activity';
+
+  @override
+  String get goalOnTrack => 'On track';
+
+  @override
+  String get goalBehind => 'Behind';
+
+  @override
+  String todayChipSales(String percent) {
+    return '$percent% of sales';
+  }
+
+  @override
+  String todayChipProfit(String percent) {
+    return '$percent% of profit';
+  }
+
+  @override
+  String todayOfTarget(String target) {
+    return 'of $target';
+  }
+
+  @override
+  String get chooseSourceMove => 'Move money from';
+
+  @override
+  String get chooseSourceWithdraw => 'Take money out of';
+
+  @override
+  String get nothingToMove => 'There\'s no saved money to move yet.';
+
+  @override
+  String get activitySaved => 'Saved';
+
+  @override
+  String todayTargetWas(String target) {
+    return 'target $target';
+  }
+
+  @override
+  String get homeNoActivity => 'Nothing yet';
+
+  @override
+  String goalBehindBy(String amount) {
+    return '$amount behind pace';
+  }
+
+  @override
+  String goalPercentSaved(String percent) {
+    return '$percent% saved';
+  }
+
+  @override
+  String goalShouldBe(String percent) {
+    return 'Should be $percent% by today';
+  }
+
+  @override
+  String get goalToFinish => 'To finish on time, save';
+
+  @override
+  String goalPerDay(String amount) {
+    return '$amount a day';
+  }
+
+  @override
+  String goalDaysLeftLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'days left',
+      one: 'day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get actionMore => 'More options';
+
+  @override
+  String get depositQuickAmounts => 'Quick amounts';
+
+  @override
+  String get businessEachDay => 'Each day';
+
+  @override
+  String get historyYesterday => 'Yesterday';
+
+  @override
+  String get depositAmountTzs => 'Amount in TZS';
 }

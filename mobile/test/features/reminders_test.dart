@@ -118,7 +118,7 @@ void main() {
   }
 
   Future<void> openProfile(WidgetTester tester) async {
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
   }
 
@@ -202,21 +202,23 @@ void main() {
     tester,
   ) async {
     await start(tester);
-    expect(find.text('Stay on track'), findsOneWidget);
+    expect(find.text('Evening reminders'), findsOneWidget);
 
-    await tester.tap(find.text('Not now'));
+    await tester.tap(find.byTooltip('Not now'));
     await tester.pumpAndSettle();
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
     expect(scheduler.permissionRequests, 0);
   });
 
   testWidgets('turning them on from the dashboard', (tester) async {
     await start(tester);
 
+    await tester.ensureVisible(find.text('Turn on'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Turn on'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
     expect(find.text('Reminders on: evenings around 19:00'), findsOneWidget);
     expect(scheduler.scheduled, hasLength(7));
   });
@@ -227,7 +229,7 @@ void main() {
     api.on('GET', '/v1/goals', (_) => const FakeResponse(200, []));
     await start(tester);
 
-    expect(find.text('Stay on track'), findsNothing);
+    expect(find.text('Evening reminders'), findsNothing);
   });
 
   testWidgets('a goal back on track drops its reminders', (tester) async {
@@ -290,7 +292,7 @@ void main() {
     scheduler.tapped.add('/goals/goal-1');
     await tester.pumpAndSettle();
 
-    expect(find.text('TZS 1,200,000'), findsWidgets);
+    expect(find.text('of TZS 1,200,000'), findsOneWidget);
     expect(find.text('Withdraw'), findsOneWidget);
   });
 

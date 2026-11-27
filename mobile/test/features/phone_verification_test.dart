@@ -61,7 +61,8 @@ void main() {
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
       locale: locale,
     );
-    await tester.tap(find.byType(TextButton).first); // "Verify now" on the card
+    // The card on Home (by its icon, so it works in either language).
+    await tester.tap(find.byIcon(Icons.sms_outlined));
     await tester.pumpAndSettle();
   }
 
@@ -71,9 +72,9 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    expect(find.text('Verify your phone number'), findsOneWidget);
+    expect(find.text('Verify your phone'), findsOneWidget);
 
-    await tester.tap(find.text('Verify now'));
+    await tester.tap(find.text('Verify your phone'));
     await tester.pumpAndSettle();
     expect(languages, ['en']);
     expect(
@@ -93,7 +94,33 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Phone number verified'), findsOneWidget);
     expect(find.text('Hello, Asha'), findsOneWidget);
-    expect(find.text('Verify your phone number'), findsNothing);
+    expect(find.text('Verify your phone'), findsNothing);
+  });
+
+  testWidgets('says when the SMS could not be sent', (tester) async {
+    // What the API answers when Beem refuses the message.
+    api.on(
+      'POST',
+      '/v1/me/phone/verification',
+      (_) => const FakeResponse(503, {
+        'statusCode': 503,
+        'message': 'We could not send the SMS. Please try again later',
+        'code': 'sms_failed',
+      }),
+    );
+    await openVerification(tester);
+
+    expect(
+      find.text("We couldn't send the SMS. Please try again later."),
+      findsOneWidget,
+    );
+    // Not the general server error (errorServer).
+    expect(
+      find.text(
+        'Something went wrong on our side. Please try again in a moment.',
+      ),
+      findsNothing,
+    );
   });
 
   testWidgets('asks for the SMS and shows errors in Kiswahili', (tester) async {
@@ -126,8 +153,8 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    expect(find.text('Verify your phone number'), findsNothing);
-    await tester.tap(find.text('Profile'));
+    expect(find.text('Verify your phone'), findsNothing);
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     expect(find.text('Verified'), findsOneWidget);
     expect(find.text('Verify phone number'), findsNothing);

@@ -43,7 +43,8 @@ void main() {
       api,
       tokens: const TokenPair(accessToken: 'a', refreshToken: 'r'),
     );
-    await tester.tap(find.text('Save money'));
+    // Home's "Save" action.
+    await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
   }
 
@@ -65,7 +66,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField).first, '50000');
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pumpAndSettle();
-    expect(find.text('50,000'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, '50,000'), findsOneWidget);
     expect(find.text('TZS 50,000'), findsOneWidget); // the preview row
 
     await tester.tap(find.text('Save TZS 50,000'));
@@ -83,6 +84,22 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Hello, Asha'), findsOneWidget);
     expect(find.text('TZS 350,000'), findsWidgets);
+  });
+
+  testWidgets('a quick amount fills in the amount and the split', (
+    tester,
+  ) async {
+    await openDepositScreen(tester);
+
+    await tester.tap(find.widgetWithText(ChoiceChip, '20,000'));
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpAndSettle();
+
+    expect(find.widgetWithText(TextFormField, '20,000'), findsOneWidget);
+    expect(find.text('Save TZS 20,000'), findsOneWidget);
+    expect(api.requestsTo('POST', '/v1/savings/deposits/preview').last.data, {
+      'amount': 20000,
+    });
   });
 
   testWidgets('a retry after a lost connection reuses the idempotency key', (

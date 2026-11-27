@@ -139,4 +139,26 @@ void main() {
       expect(error.messages, hasLength(2));
     }
   });
+
+  test('keeps the reason code of a server error, not its message', () async {
+    api.on(
+      'POST',
+      '/v1/me/phone/verification',
+      (_) => const FakeResponse(503, {
+        'statusCode': 503,
+        'message': 'We could not send the SMS. Please try again later',
+        'code': 'sms_failed',
+      }),
+    );
+
+    try {
+      await client.postMap('/v1/me/phone/verification', body: {});
+      fail('expected an ApiException');
+    } on ApiException catch (error) {
+      expect(error.kind, ApiErrorKind.server);
+      expect(error.statusCode, 503);
+      expect(error.errorCode, 'sms_failed');
+      expect(error.messages, isEmpty);
+    }
+  });
 }

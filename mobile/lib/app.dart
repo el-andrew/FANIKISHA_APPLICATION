@@ -18,8 +18,9 @@ class FanikishaApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'Fanikisha',
       debugShowCheckedModeBanner: false,
+      // Light only, for now: the design is made for it.
       theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.light,
       locale: ref.watch(localeControllerProvider),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [

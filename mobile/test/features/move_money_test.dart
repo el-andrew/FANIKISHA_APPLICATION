@@ -67,7 +67,7 @@ void main() {
     await open(tester);
     await tester.tap(find.text('New fridge'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Move money'));
+    await tester.tap(find.text('Move'));
     await tester.pumpAndSettle();
 
     expect(find.text('From New fridge: TZS 300,000 available'), findsOneWidget);
@@ -87,7 +87,7 @@ void main() {
     await open(tester);
     await tester.tap(find.text('New fridge'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Move money'));
+    await tester.tap(find.text('Move'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextFormField), '400000');
@@ -111,7 +111,8 @@ void main() {
     await open(tester);
     await tester.tap(find.text('General savings: TZS 20,000'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Withdraw'));
+    // In the sheet, not Home's Withdraw action behind it.
+    await tester.tap(find.text('Withdraw').last);
     await tester.pumpAndSettle();
 
     expect(
@@ -156,14 +157,15 @@ void main() {
       },
     ];
     await open(tester);
+    // Home's link to the full history.
+    await tester.ensureVisible(find.text('History'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('History'));
     await tester.pumpAndSettle();
 
     expect(find.text('− TZS 40,000'), findsOneWidget);
-    expect(
-      find.textContaining('Taken out of Blender · Bought it'),
-      findsOneWidget,
-    );
+    expect(find.text('Taken out of Blender'), findsOneWidget);
+    expect(find.textContaining('Bought it'), findsOneWidget);
     expect(find.text('TZS 5,000'), findsOneWidget);
     expect(
       find.textContaining('Moved from General savings to Van'),

@@ -15,9 +15,12 @@ import '../data/business_models.dart';
 
 /// Records a sale or expense, or edits one when [entryId] is given.
 class EntryFormScreen extends ConsumerWidget {
-  const EntryFormScreen({super.key, this.entryId});
+  const EntryFormScreen({super.key, this.entryId, this.initialType});
 
   final String? entryId;
+
+  /// What a new entry starts as: the Sale and Expense buttons choose it.
+  final EntryType? initialType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +29,7 @@ class EntryFormScreen extends ConsumerWidget {
     if (id == null) {
       return Scaffold(
         appBar: AppBar(title: Text(l10n.entryNewTitle)),
-        body: const _EntryForm(),
+        body: _EntryForm(initialType: initialType),
       );
     }
     final entry = ref.watch(entryProvider(id));
@@ -83,9 +86,10 @@ class EntryFormScreen extends ConsumerWidget {
 }
 
 class _EntryForm extends ConsumerStatefulWidget {
-  const _EntryForm({this.existing});
+  const _EntryForm({this.existing, this.initialType});
 
   final BusinessEntry? existing;
+  final EntryType? initialType;
 
   @override
   ConsumerState<_EntryForm> createState() => _EntryFormState();
@@ -93,7 +97,8 @@ class _EntryForm extends ConsumerStatefulWidget {
 
 class _EntryFormState extends ConsumerState<_EntryForm> {
   final _formKey = GlobalKey<FormState>();
-  late EntryType _type = widget.existing?.type ?? EntryType.sale;
+  late EntryType _type =
+      widget.existing?.type ?? widget.initialType ?? EntryType.sale;
   late final _amount = TextEditingController(
     text: widget.existing == null
         ? null

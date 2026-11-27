@@ -51,7 +51,7 @@
       }
     }
   },
-  "dashboardTotalSaved": "Total saved",
+  "dashboardTotalSaved": "Total savings",
   "dashboardGeneralSavings": "General savings: {amount}",
   "@dashboardGeneralSavings": {
     "placeholders": {
@@ -112,8 +112,8 @@
   "goalsFilterActive": "Active",
   "goalsFilterCompleted": "Completed",
   "goalsFilterArchived": "Archived",
-  "goalsEmptyActive": "You have no active goals.",
-  "goalsEmptyCompleted": "No completed goals yet. Keep saving!",
+  "goalsEmptyActive": "No active goals.",
+  "goalsEmptyCompleted": "No completed goals yet.",
   "goalsEmptyArchived": "No archived goals.",
   "goalsNew": "New goal",
   "goalDetailSaved": "Saved",
@@ -154,7 +154,7 @@
   "depositNoteLabel": "Note (optional)",
   "depositNoteHint": "e.g. Monday's sales",
   "depositPreviewTitle": "How it will be shared",
-  "depositPreviewEmpty": "Enter an amount to see how it will be shared between your goals.",
+  "depositPreviewEmpty": "Enter an amount to see the split.",
   "depositPreviewNoGoals": "You have no active goals, so this will go to general savings.",
   "generalSavings": "General savings",
   "depositSubmit": "Save {amount}",
@@ -220,7 +220,7 @@
   },
   "verifyPhoneDone": "Phone number verified",
   "phoneVerified": "Verified",
-  "verifyPhoneBannerTitle": "Verify your phone number",
+  "verifyPhoneBannerTitle": "Verify your phone",
   "verifyPhoneBannerBody": "You'll need it to save with mobile money.",
   "verifyPhoneAction": "Verify now",
   "phoneErrorNoPhone": "Add a phone number to your profile first.",
@@ -296,7 +296,7 @@
   "businessLoss": "Loss",
   "businessTopExpenses": "Biggest expenses",
   "businessRecent": "Recent entries",
-  "businessEmpty": "No sales or expenses yet. Record them each day to see your profit.",
+  "businessEmpty": "No entries yet.",
   "businessAdd": "Add entry",
   "entryNewTitle": "New entry",
   "entryEditTitle": "Edit entry",
@@ -316,7 +316,7 @@
   "categoryTransport": "Transport",
   "categoryWages": "Wages",
   "categoryUtilities": "Electricity & water",
-  "todayTitle": "Today's saving target",
+  "todayTitle": "Today",
   "todayRuleSales": "{percent}% of today's sales ({amount})",
   "@todayRuleSales": {
     "placeholders": {
@@ -354,7 +354,7 @@
   "todayNoSales": "Record today's sales to see how much to save.",
   "todayNoProfit": "No profit yet today, so nothing to save from it.",
   "todayRecordSales": "Record sales",
-  "ruleSetupTitle": "Save a share of each day's sales",
+  "ruleSetupTitle": "Save a share of daily sales",
   "ruleSetupBody": "Set a rule, such as 10% of each day's sales, and Fanikisha will tell you how much to save every day.",
   "ruleSetupAction": "Set a rule",
   "ruleTitle": "Saving rule",
@@ -471,7 +471,7 @@
   "remindersOffSubtitle": "Off",
   "remindersTime": "Reminder time",
   "remindersBlocked": "Notifications are blocked for Fanikisha. Allow them in your phone's settings, then try again.",
-  "remindersTipTitle": "Stay on track",
+  "remindersTipTitle": "Evening reminders",
   "remindersTipBody": "Get an evening reminder when a goal falls behind or today's saving is still to do.",
   "remindersTurnOn": "Turn on",
   "remindersOnMessage": "Reminders on: evenings around {time}",
@@ -561,5 +561,99 @@
       }
     }
   },
-  "splashSlowStart": "Starting up… this can take up to a minute."
+  "splashSlowStart": "Starting up… this can take up to a minute.",
+  "navAccount": "Account",
+  "balanceShow": "Show balance",
+  "balanceHide": "Hide balance",
+  "actionSave": "Save",
+  "actionMove": "Move",
+  "actionWithdraw": "Withdraw",
+  "actionRecordSale": "Record sale",
+  "homeRecentActivity": "Recent activity",
+  "goalOnTrack": "On track",
+  "goalBehind": "Behind",
+  "todayChipSales": "{percent}% of sales",
+  "@todayChipSales": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "todayChipProfit": "{percent}% of profit",
+  "@todayChipProfit": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "todayOfTarget": "of {target}",
+  "@todayOfTarget": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseSourceMove": "Move money from",
+  "chooseSourceWithdraw": "Take money out of",
+  "nothingToMove": "There's no saved money to move yet.",
+  "activitySaved": "Saved",
+  "todayTargetWas": "target {target}",
+  "@todayTargetWas": {
+    "description": "After today's target is reached: the target, next to what was saved.",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "homeNoActivity": "Nothing yet",
+  "goalBehindBy": "{amount} behind pace",
+  "@goalBehindBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalPercentSaved": "{percent}% saved",
+  "@goalPercentSaved": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "goalShouldBe": "Should be {percent}% by today",
+  "@goalShouldBe": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "goalToFinish": "To finish on time, save",
+  "goalPerDay": "{amount} a day",
+  "@goalPerDay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalDaysLeftLabel": "{count, plural, =1{day left} other{days left}}",
+  "@goalDaysLeftLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionMore": "More options",
+  "depositQuickAmounts": "Quick amounts",
+  "businessEachDay": "Each day",
+  "historyYesterday": "Yesterday",
+  "depositAmountTzs": "Amount in TZS"
 }
