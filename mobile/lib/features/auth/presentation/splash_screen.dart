@@ -22,7 +22,12 @@ class SplashScreen extends ConsumerWidget {
           ? _RestoreFailed(error: auth.error)
           : const Stack(
               children: [
-                Center(child: FanikishaLogo(width: FanikishaLogo.splashWidth)),
+                Center(
+                  child: FanikishaMark(
+                    height: FanikishaMark.splashHeight,
+                    semanticLabel: 'Fanikisha',
+                  ),
+                ),
                 Align(
                   alignment: Alignment(0, 0.6),
                   child: CircularProgressIndicator(),
@@ -97,7 +102,7 @@ class _RestoreFailed extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const FanikishaLogo(width: FanikishaLogo.splashWidth),
+              const FanikishaMark(height: 96),
               const SizedBox(height: 32),
               Text(
                 l10n.splashRestoreFailed,

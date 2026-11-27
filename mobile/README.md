@@ -137,7 +137,8 @@ a non-HTTPS `API_BASE_URL` or `PUBLIC_SITE_URL` refuses to start. Without
 
 ## Icon and splash screen
 
-Made from the Fanikisha logo; the source images are in `assets/branding/`.
+Made from the Fanikisha mark, `assets/branding/mark.svg`; the images made
+from it are beside it in `assets/branding/`, plus `assets/images/mark.png`.
 After changing them, regenerate the platform files:
 
 ```bash

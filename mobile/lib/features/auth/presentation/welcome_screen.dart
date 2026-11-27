@@ -24,7 +24,7 @@ class WelcomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 24),
-                  const Center(child: FanikishaLogo(width: 200)),
+                  const Center(child: FanikishaWordmark()),
                   const SizedBox(height: 16),
                   Text(
                     l10n.tagline,
