@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import type { MockInstance } from 'vitest';
 import { BeemSmsSender } from './beem-sms.sender.js';
 import { SmsDeliveryError } from './sms-sender.js';
 
@@ -61,13 +62,11 @@ describe('BeemSmsSender', () => {
   });
 
   describe('logs why Beem refused', () => {
-    const logged = () =>
-      vi
-        .mocked(Logger.prototype.error)
-        .mock.calls.map((call) => String(call[0]));
+    let error: MockInstance<Logger['error']>;
+    const logged = () => error.mock.calls.map((call) => String(call[0]));
 
     beforeEach(() => {
-      vi.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+      error = vi.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
     });
 
     afterEach(() => {
